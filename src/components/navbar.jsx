@@ -9,6 +9,12 @@ class NavBar extends Component {
     isLoggedIn: false,
   };
   render() {
+    let notifications, profile;
+    if (this.state.isLoggedIn) {
+      notifications = <Nav.Link href="#notifications">Notifications</Nav.Link>;
+      profile = <Nav.Link href="#profile">Profile</Nav.Link>;
+    }
+
     return (
       <Navbar collapseOnSelect expand="lg" bg="light" variant="light">
         <Container>
@@ -24,9 +30,11 @@ class NavBar extends Component {
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="ms-auto">
-              <Nav.Link href="#notifications">Notifications</Nav.Link>
-              <Nav.Link href="#profile">Profile</Nav.Link>
-              <Nav.Link href="#logout">Logout</Nav.Link>
+              {notifications}
+              {profile}
+              <Nav.Link href="#logout">
+                {this.state.isLoggedIn ? "Logout" : "Login"}
+              </Nav.Link>
             </Nav>
           </Navbar.Collapse>
         </Container>
