@@ -8,6 +8,7 @@ import ReadComplete from "./views/readcomplete";
 import LetterChange from "./views/letterchange";
 import SentenceShuffle from "./views/sentenceshuffle";
 import GroupWords from "./views/groupwords";
+import Profile from "./views/profile";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Route path="letterchange" element={<LetterChange />} />
         <Route path="sentenceshuffle" element={<SentenceShuffle />} />
         <Route path="groupwords" element={<GroupWords />} />
+        <Route path="profile" element={<Profile />} />
       </Routes>
     </BrowserRouter>
   );
