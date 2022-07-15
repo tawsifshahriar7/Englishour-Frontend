@@ -1,0 +1,31 @@
+.icon-vocabulary{
+    background-image : url(../../img/vocab.png);
+    background-size: cover;
+    display: inline-block;
+    height: 15px;
+    width: 15px;
+  }
+
+.icon-sentence{
+  background-image : url(../../img/sentence.png);
+  background-size: cover;
+  display: inline-block;
+  height: 15px;
+  width: 15px;
+}
+
+.button {
+  width: 250px;
+  padding: 15px 25px;
+  font-size: 24px;
+  text-align: center;
+  cursor: pointer;
+  transition-duration: 0.4s;
+  border-radius: 15px;
+}
+
+.button:hover {
+  background-color: #4CAF50;
+  transform: scale(1.5);
+  color: white;
+}
