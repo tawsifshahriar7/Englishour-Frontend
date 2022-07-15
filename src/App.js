@@ -9,6 +9,7 @@ import LetterChange from "./views/letterchange";
 import SentenceShuffle from "./views/sentenceshuffle";
 import GroupWords from "./views/groupwords";
 import Profile from "./views/profile";
+import Selection from "./views/profileSelection";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
         <Route path="sentenceshuffle" element={<SentenceShuffle />} />
         <Route path="groupwords" element={<GroupWords />} />
         <Route path="profile" element={<Profile />} />
+        <Route path="selection" element={<Selection />} />
       </Routes>
     </BrowserRouter>
   );
