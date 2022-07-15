@@ -1,11 +1,12 @@
 import React, { Component } from "react";
+import LandingPage from "../components/LandingPage/landingPage";
 
 class Landing extends Component {
   state = {};
   render() {
     return (
       <React.Fragment>
-        <h1>Welcome to Englishour</h1>
+        <LandingPage />
       </React.Fragment>
     );
   }
