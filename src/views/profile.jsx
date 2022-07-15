@@ -89,7 +89,7 @@ class Profile extends Component {
                                         <br/>
 
                                         <label>Password</label>
-                                        <input type="text" name="password" defaultValue={this.state.info.password || ""} onChange={e => this.handleChange(e)} />
+                                        <input type="password" name="password" defaultValue={this.state.info.password || ""} onChange={e => this.handleChange(e)} />
                                         <br/>
 
                                         <label>Profile Image</label>
