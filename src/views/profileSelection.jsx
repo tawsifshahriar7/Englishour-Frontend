@@ -24,6 +24,9 @@ class Selection extends Component {
                 { listItems }
             </div>
         </div>
+        <div style={{display:'flex',alignItems:'center',justifyContent:'center'}}>
+          <button type="button" class="btn btn-secondary">Create Profile</button>
+        </div>
       </React.Fragment>
     );
   }
