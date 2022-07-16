@@ -1,11 +1,43 @@
 import React, { Component } from "react";
 import "../styles/loginStyle.css";
+import axios from "axios";
+import { Navigate } from "react-router-dom";
 
 class Login extends Component {
-  state = {};
+  state = { loggedIn: false, error: null };
+  handleSubmit = (e) => {
+    e.preventDefault();
+    const { username, password } = this.state;
+    const body = {
+      username: username,
+      password: password,
+    };
+    axios
+      .post("http://localhost:8248/user/login", body)
+      .then((res) => {
+        console.log(res);
+        console.log(res.data);
+        this.setState({ loggedIn: true });
+        this.props.setloginstate(true);
+        this.props.setuserstate(res.data.username);
+        localStorage.setItem("token", res.data.token);
+      })
+      .catch((err) => {
+        console.log(err);
+        this.setState({ error: err });
+      });
+  };
+  handleusernameChange = (e) => {
+    this.setState({ username: e.target.value });
+  };
+  handlepasswordChange = (e) => {
+    this.setState({ password: e.target.value });
+  };
   render() {
     return (
       <React.Fragment>
+        {this.state.error && <p>{this.state.error.message}</p>}
+        {this.state.loggedIn && <Navigate to="/home" replace={true} />}
         <div className="Auth-form-container">
           <form className="Auth-form">
             <div className="Auth-form-content">
@@ -16,6 +48,7 @@ class Login extends Component {
                   type="text"
                   className="form-control mt-1"
                   placeholder="Enter username"
+                  onChange={this.handleusernameChange}
                 />
               </div>
               <div className="form-group mt-3">
@@ -24,17 +57,22 @@ class Login extends Component {
                   type="password"
                   className="form-control mt-1"
                   placeholder="Enter password"
+                  onChange={this.handlepasswordChange}
                 />
               </div>
               <div className="d-grid gap-2 mt-3">
-                <button type="submit" className="btn btn-primary">
+                <button
+                  type="submit"
+                  className="btn btn-primary"
+                  onClick={this.handleSubmit}
+                >
                   Submit
                 </button>
               </div>
-              <p className="forgot-password text-right mt-2">
+              {/* <p className="forgot-password text-right mt-2">
                 Forgot <a href="#">password?</a>
               </p>
-              <br />
+              <br /> */}
               <p className="text-right mt-2">
                 Don't have an Account? <a href="/register">Sign Up</a>
               </p>

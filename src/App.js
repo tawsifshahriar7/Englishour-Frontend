@@ -1,4 +1,5 @@
 import "./App.css";
+import React, { Component } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Landing from "./views/landing";
 import Home from "./views/home";
@@ -12,25 +13,103 @@ import Selection from "./views/profileSelection";
 import Register from "./views/registration";
 import CreateProfile from "./views/profileCreation";
 
-function App() {
-  return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Landing />} />
-        <Route path="home" element={<Home />} />
-        <Route path="login" element={<Login />} />
-        <Route path="register" element={<Register />} />
-        <Route path="readcomplete" element={<ReadComplete />} />
-        <Route path="letterchange" element={<LetterChange />} />
-        <Route path="sentenceshuffle" element={<SentenceShuffle />} />
-        <Route path="groupwords" element={<GroupWords />} />
-        <Route path="profile" element={<Profile />} />
-        <Route path="selection" element={<Selection />} />
-        <Route path="registration" element={<Register />} />
-        <Route path="createprofile" element={<CreateProfile />} />
-      </Routes>
-    </BrowserRouter>
-  );
+class App extends Component {
+  state = { isLoggedIn: false, user: null };
+  setLogin = (isLoggedIn) => {
+    this.setState({ isLoggedIn });
+  };
+  setUser = (user) => {
+    this.setState({ user });
+  };
+  render() {
+    return (
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Landing />} />
+          <Route
+            path="home"
+            element={
+              <Home isLoggedIn={this.state.isLoggedIn} user={this.state.user} />
+            }
+          />
+          <Route
+            path="login"
+            element={
+              <Login
+                setloginstate={this.setLogin}
+                setuserstate={this.setUser}
+              />
+            }
+          />
+          <Route path="register" element={<Register />} />
+          <Route
+            path="readcomplete"
+            element={
+              <ReadComplete
+                isLoggedIn={this.state.isLoggedIn}
+                user={this.state.user}
+              />
+            }
+          />
+          <Route
+            path="letterchange"
+            element={
+              <LetterChange
+                isLoggedIn={this.state.isLoggedIn}
+                user={this.state.user}
+              />
+            }
+          />
+          <Route
+            path="sentenceshuffle"
+            element={
+              <SentenceShuffle
+                isLoggedIn={this.state.isLoggedIn}
+                user={this.state.user}
+              />
+            }
+          />
+          <Route
+            path="groupwords"
+            element={
+              <GroupWords
+                isLoggedIn={this.state.isLoggedIn}
+                user={this.state.user}
+              />
+            }
+          />
+          <Route
+            path="profile"
+            element={
+              <Profile
+                isLoggedIn={this.state.isLoggedIn}
+                user={this.state.user}
+              />
+            }
+          />
+          <Route
+            path="selection"
+            element={
+              <Selection
+                isLoggedIn={this.state.isLoggedIn}
+                user={this.state.user}
+              />
+            }
+          />
+          <Route path="logout" element={<Landing />} />
+          <Route
+            path="createprofile"
+            element={
+              <CreateProfile
+                isLoggedIn={this.state.isLoggedIn}
+                user={this.state.user}
+              />
+            }
+          />
+        </Routes>
+      </BrowserRouter>
+    );
+  }
 }
 
 export default App;

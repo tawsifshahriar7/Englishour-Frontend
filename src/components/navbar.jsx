@@ -5,20 +5,22 @@ import Navbar from "react-bootstrap/Navbar";
 import logo from "../logo.png";
 
 class NavBar extends Component {
-  state = {
-    isLoggedIn: false,
+  logout = () => {
+    localStorage.removeItem("token");
+    this.props.setloginstate(false);
+    this.props.setuserstate(null);
   };
   render() {
     let notifications, profile;
-    if (this.state.isLoggedIn) {
+    if (this.props.isLoggedIn) {
       notifications = <Nav.Link href="#notifications">Notifications</Nav.Link>;
-      profile = <Nav.Link href="#profile">Profile</Nav.Link>;
+      profile = <Nav.Link href="/profile">Profile</Nav.Link>;
     }
 
     return (
       <Navbar collapseOnSelect expand="lg" bg="light" variant="light">
         <Container>
-          <Navbar.Brand href={this.state.isLoggedIn ? "/home" : "/"}>
+          <Navbar.Brand href={this.props.isLoggedIn ? "/home" : "/"}>
             <img
               src={logo}
               width="90"
@@ -32,8 +34,8 @@ class NavBar extends Component {
             <Nav className="ms-auto">
               {notifications}
               {profile}
-              <Nav.Link href="#logout">
-                {this.state.isLoggedIn ? "Logout" : "Login"}
+              <Nav.Link href="/logout" onClick={this.logout}>
+                {this.props.isLoggedIn ? "Logout" : "Login"}
               </Nav.Link>
             </Nav>
           </Navbar.Collapse>
