@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import "../styles/profileSelection.css";
 import axios from "axios";
 import { Navigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 class Selection extends Component {
   state = { selectedProfile: null, list: [] };
@@ -32,14 +33,18 @@ class Selection extends Component {
 
   render() {
     const listItems = this.state.list.map((item, index) => (
-      <button
-        type="button"
-        class="btn btn-primary profile-btn"
-        id={item.profile_id}
-        onClick={this.handleSelection}
-      >
-        {item.first_name + " " + item.last_name}
-      </button>
+      <div className="profile-selection-container" key={index}>
+        <button
+          type="button"
+          class="btn btn-primary profile-btn"
+          id={item.profile_id}
+          onClick={this.handleSelection}
+        >
+          {item.first_name + " " + item.last_name}
+        </button>
+        <br />
+        <br />
+      </div>
     ));
 
     return (
@@ -67,9 +72,11 @@ class Selection extends Component {
             justifyContent: "center",
           }}
         >
-          <button type="button" class="btn btn-secondary">
-            Create Profile
-          </button>
+          <Link to="/createprofile">
+            <button type="button" class="btn btn-secondary">
+              Create Profile
+            </button>
+          </Link>
         </div>
       </React.Fragment>
     );
