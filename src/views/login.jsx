@@ -36,7 +36,7 @@ class Login extends Component {
               </p>
               <br />
               <p className="text-right mt-2">
-                Don't have an Account? <a href="#">Sign Up</a>
+                Don't have an Account? <a href="/register">Sign Up</a>
               </p>
             </div>
           </form>

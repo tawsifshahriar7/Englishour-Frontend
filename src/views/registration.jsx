@@ -1,29 +1,61 @@
 import React, { Component } from "react";
 import "../styles/loginStyle.css";
+import axios from "axios";
+import { Navigate } from "react-router-dom";
 
 class Register extends Component {
-  state = {};
+  state = { registered: false, error: null };
+  handleUsernameChange = (e) => {
+    this.setState({ username: e.target.value });
+  };
+  handleEmailChange = (e) => {
+    this.setState({ email: e.target.value });
+  };
+  handlePasswordChange = (e) => {
+    this.setState({ password: e.target.value });
+  };
+  handleConfirmPasswordChange = (e) => {
+    this.setState({ confirmPassword: e.target.value });
+  };
+  handleSubmit = (e) => {
+    e.preventDefault();
+    const { username, email, password, confirmPassword } = this.state;
+    const body = {
+      username: username,
+      email: email,
+      password: password,
+    };
+    if (password === confirmPassword) {
+      axios
+        .post("http://localhost:8248/user/register", body)
+        .then((res) => {
+          console.log(res);
+          console.log(res.data);
+          this.setState({ registered: true });
+        })
+        .catch((err) => {
+          console.log(err);
+          this.setState({ error: err });
+        });
+    }
+  };
   render() {
+    let { registered, error } = this.state;
     return (
       <React.Fragment>
+        {error && <p>{error.message}</p>}
+        {registered && <Navigate to="/login" replace={true} />}
         <div className="Auth-form-container">
           <form className="Auth-form">
             <div className="Auth-form-content">
               <h3 className="Auth-form-title">Sign Up</h3>
               <div className="form-group mt-3">
-                <label>First name</label>
+                <label>Username</label>
                 <input
                   type="text"
                   className="form-control mt-1"
-                  placeholder="First name"
-                />
-              </div>
-              <div className="form-group mt-3">
-                <label>Last name</label>
-                <input
-                  type="text"
-                  className="form-control mt-1"
-                  placeholder="Last name"
+                  placeholder="Username"
+                  onChange={this.handleUsernameChange}
                 />
               </div>
               <div className="form-group mt-3">
@@ -32,6 +64,7 @@ class Register extends Component {
                   type="email"
                   className="form-control mt-1"
                   placeholder="Enter email"
+                  onChange={this.handleEmailChange}
                 />
               </div>
               <div className="form-group mt-3">
@@ -40,6 +73,7 @@ class Register extends Component {
                   type="password"
                   className="form-control mt-1"
                   placeholder="Enter password"
+                  onChange={this.handlePasswordChange}
                 />
               </div>
               <div className="form-group mt-3">
@@ -48,10 +82,15 @@ class Register extends Component {
                   type="password"
                   className="form-control mt-1"
                   placeholder="Re-enter password"
+                  onChange={this.handleConfirmPasswordChange}
                 />
               </div>
               <div className="d-grid gap-2 mt-3">
-                <button type="submit" className="btn btn-primary">
+                <button
+                  type="submit"
+                  className="btn btn-primary"
+                  onClick={this.handleSubmit}
+                >
                   Register
                 </button>
               </div>
