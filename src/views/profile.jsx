@@ -3,7 +3,7 @@ import "../styles/profile.css";
 import NavBar from "../components/navbar";
 
 class Profile extends Component {
-  id = 1;
+  id = localStorage.getItem("profile");
 
   state = {
     info: {

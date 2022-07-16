@@ -22,11 +22,12 @@ class Selection extends Component {
     this.loadProfiles();
   }
 
-  handleSelection = (e, id) => {
+  handleSelection = (e) => {
     this.setState({
-      selectedProfile: id,
+      selectedProfile: e.target.id,
     });
-    localStorage.setItem("profile", id);
+    console.log(e.target.id);
+    localStorage.setItem("profile", e.target.id);
   };
 
   render() {
@@ -34,7 +35,8 @@ class Selection extends Component {
       <button
         type="button"
         class="btn btn-primary profile-btn"
-        onClick={this.handleSelection(item.profile_id)}
+        id={item.profile_id}
+        onClick={this.handleSelection}
       >
         {item.first_name + " " + item.last_name}
       </button>
