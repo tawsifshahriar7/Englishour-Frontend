@@ -6,16 +6,28 @@ class Profile extends Component {
   id = 1;
 
   state = { info: {
-    username: "DaiMaou",
-    first_name: "Zuhair",
-    last_name: "Zaki",
-    dateOfBirth: "11/11/1999",
-    institution: "Tokyo Metropolitan High School",
-    class: "8",
-    profile_pic: "https://i.pinimg.com/736x/77/47/4d/77474d655da2f1bae484210ecc1c7622.jpg",
-    current_level: 1,
-    password: "123#456%"
+    username: "",
+    first_name: "",
+    last_name: "",
+    dateOfBirth: "",
+    institution: "",
+    class: "",
+    profile_pic: "",
+    current_level: "",
   }};
+
+  componentDidMount() {
+    const getInfo = async (id) => {
+        await fetch(`http://localhost:8248/user/profile/profile_id?profile_id=`+id)
+        .then(res => res.json())
+        .then( data => {
+                this.setState({ info: data });
+            }
+        )
+        .catch(err => console.error(err));
+    }
+    getInfo(this.id);
+  }
 
     handleChange =  async (e) => {
         e.preventDefault();
@@ -66,7 +78,7 @@ class Profile extends Component {
                                 </div>
                                 <div className="popup__text">
                                 <form onSubmit={this.handleSubmit}>
-                                        <div className="form-inline popup-text-content" key={this.id}>
+                                        <div className="form-inline popup-text-content" key={id}>
                                         <label>Username: </label>
                                         <input type="text" name="username" defaultValue={this.state.info.username || ""}  onChange={e => this.handleChange(e)} />
                                         <br/>
@@ -86,10 +98,6 @@ class Profile extends Component {
 
                                         <label>Class</label>
                                         <input type="text" name="class" defaultValue={this.state.info.class || ""} onChange={e => this.handleChange(e)} />
-                                        <br/>
-
-                                        <label>Password</label>
-                                        <input type="password" name="password" defaultValue={this.state.info.password || ""} onChange={e => this.handleChange(e)} />
                                         <br/>
 
                                         <label>Profile Image</label>
