@@ -12,7 +12,12 @@ function Sentence(props) {
         <Row>
           <Col>{props.sentence}</Col>
           <Col>
-            <input type="text" name="input" onChange={props.handleChange} />
+            <input
+              type="text"
+              name="input"
+              id={props.id}
+              onChange={props.handleChange}
+            />
           </Col>
         </Row>
       </Container>

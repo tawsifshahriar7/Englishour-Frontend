@@ -4,17 +4,83 @@ import Sentence from "../components/letterchange/row";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import axios from "axios";
 
 class LetterChange extends Component {
-  state = {};
+  state = { exercise: [], input: [], result: null };
+
+  componentDidMount() {
+    axios
+      .get("http://localhost:8248/user/letterchange?exercise_id=1")
+      .then((res) => {
+        this.setState({
+          exercise: res.data,
+        });
+        const len = res.data.length;
+        for (let i = 0; i < len; i++) {
+          this.state.input.push("####");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
 
   handleInput = (e) => {
+    const id = e.target.id;
+    const value = e.target.value;
+    const input = this.state.input;
+    input[id - 1] = value;
     this.setState({
-      Input: e.target.value,
+      input: input,
     });
   };
 
+  handleSubmit = (e) => {
+    e.preventDefault();
+    const input = this.state.input;
+    const body = {
+      exercise_id: 1,
+      submitted_answer: input,
+    };
+    axios
+      .post("http://localhost:8248/user/submitExercise", body)
+      .then((res) => {
+        console.log(res);
+        const len = res.data.length;
+        let count = 0;
+        for (let i = 0; i < len; i++) {
+          if (res.data[i] == true) {
+            count++;
+          }
+        }
+        if (count == len) {
+          this.setState({
+            result: "correct",
+          });
+        } else {
+          this.setState({
+            result: "wrong",
+          });
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   render() {
+    const listItems = this.state.exercise.map((item, index) => (
+      <div key={index}>
+        <Sentence
+          id={item[0].item_id}
+          sentence={item[0].hint}
+          answer={item[0].answer}
+          handleChange={this.handleInput}
+        />
+        <br />
+      </div>
+    ));
     return (
       <React.Fragment>
         <NavBar />
@@ -25,23 +91,32 @@ class LetterChange extends Component {
           <h3>Change one Letter to make new words</h3>
           <br />
           <br />
-          <Container>
-            <Row>
-              <Col></Col>
-              <Col>First Clue</Col>
-            </Row>
-          </Container>
-          <br />
-          <Sentence sentence="An animal" handleChange={this.handleInput} />
-          <br />
-          <Sentence
-            sentence="Object to put on floor"
-            handleChange={this.handleInput}
-          />
+          {listItems}
         </div>
         <br />
-        <div style={{display:'flex',justifyContent:'center', alignItems:'center'}}>
-          <button>Submit</button>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <button onClick={this.handleSubmit}>Submit</button>
+        </div>
+        <br />
+        <br />
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          {this.state.result == "correct" ? (
+            <h3>Correct!</h3>
+          ) : this.state.result == "wrong" ? (
+            <h3>Wrong!</h3>
+          ) : null}
         </div>
       </React.Fragment>
     );
