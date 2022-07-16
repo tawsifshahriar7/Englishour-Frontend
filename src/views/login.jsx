@@ -15,12 +15,11 @@ class Login extends Component {
     axios
       .post("http://localhost:8248/user/login", body)
       .then((res) => {
-        console.log(res);
-        console.log(res.data);
         this.setState({ loggedIn: true });
         this.props.setloginstate(true);
         this.props.setuserstate(res.data.username);
         localStorage.setItem("token", res.data.token);
+        localStorage.setItem("user", res.data.username);
       })
       .catch((err) => {
         console.log(err);
@@ -37,7 +36,7 @@ class Login extends Component {
     return (
       <React.Fragment>
         {this.state.error && <p>{this.state.error.message}</p>}
-        {this.state.loggedIn && <Navigate to="/home" replace={true} />}
+        {this.state.loggedIn && <Navigate to="/selection" replace={true} />}
         <div className="Auth-form-container">
           <form className="Auth-form">
             <div className="Auth-form-content">

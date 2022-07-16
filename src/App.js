@@ -16,10 +16,10 @@ import CreateProfile from "./views/profileCreation";
 class App extends Component {
   state = { isLoggedIn: false, user: null };
   setLogin = (isLoggedIn) => {
-    this.setState({ isLoggedIn });
+    this.setState({ isLoggedIn: isLoggedIn });
   };
   setUser = (user) => {
-    this.setState({ user });
+    this.setState({ user: user });
   };
   render() {
     return (
