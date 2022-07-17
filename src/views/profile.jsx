@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import "../styles/profile.css";
 import NavBar from "../components/navbar";
+import Container from "react-bootstrap/esm/Container";
+import avatar from "../avatar.jpg";
+import { Link } from "react-router-dom";
 
 class Profile extends Component {
   id = localStorage.getItem("profile");
@@ -24,6 +27,14 @@ class Profile extends Component {
         .then((res) => res.json())
         .then((data) => {
           this.setState({ info: data });
+          console.log(this.state.info);
+          if (this.state.info.profile_pic == "") {
+            let new_info = this.state.info;
+            new_info.profile_pic = avatar;
+            this.setState({
+              info: new_info,
+            });
+          }
         })
         .catch((err) => console.error(err));
     };
@@ -52,146 +63,52 @@ class Profile extends Component {
     return (
       <React.Fragment>
         <NavBar isLoggedIn={this.props.isLoggedIn} />
-        <div className="container bootstrap snippets bootdey">
-          <div className="row">
-            <div className="profile-nav col-md-3">
-              <div className="panel">
-                <div className="user-heading round">
-                  <a href="#">
-                    <img src={this.state.info.profile_pic} alt="" />
-                  </a>
-                  <h1>{this.state.info.username}</h1>
-                  <p>
+        <Container>
+          <div className="profile-container">
+            <div className="profile-header">
+              <div className="profile-header-left">
+                <br />
+                <br />
+                <img
+                  src={avatar}
+                  alt="profile"
+                  className="profile-pic"
+                  height={100}
+                  width={100}
+                />
+                <div className="profile-info">
+                  <h2>
                     {this.state.info.first_name} {this.state.info.last_name}
-                  </p>
+                  </h2>
+                  <h6>Date of Birth: {this.state.info.dateOfBirth}</h6>
+                  <h6>Institution: {this.state.info.institution}</h6>
+                  <h6>Class: {this.state.info.class}</h6>
+                  <h6>Current Level: {this.state.info.current_level}</h6>
                 </div>
-
-                <ul className="nav nav-pills nav-stacked">
-                  <li className="active">
-                    <a href="#">
-                      {" "}
-                      <i className="fa fa-user"></i> Profile
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      {" "}
-                      <i className="fa fa-calendar"></i> Recent Activity{" "}
-                      <span className="label label-warning pull-right r-activity">
-                        9
-                      </span>
-                    </a>
-                  </li>
-                  <li>
-                    <a className="button" href="#popup">
-                      {" "}
-                      <i className="fa fa-edit"></i> Edit profile
-                    </a>
-                    <div className="popup" id="popup">
-                      <div className="popup-inner">
-                        <div className="popup-left">
-                          <div className="popup__photo">
-                            <img src={this.state.info.profile_pic} alt="" />
-                          </div>
-                          <div className="popup-img-btn">
-                            <button>CHANGE</button>
-                          </div>
-                        </div>
-                        <div className="popup__text">
-                          <form onSubmit={this.handleSubmit}>
-                            <div
-                              className="form-inline popup-text-content"
-                              key={this.id}
-                            >
-                              <label>Username: </label>
-                              <input
-                                type="text"
-                                name="username"
-                                defaultValue={this.state.info.username || ""}
-                                onChange={(e) => this.handleChange(e)}
-                              />
-                              <br />
-                              <label>First Name: </label>
-                              <input
-                                type="text"
-                                name="first_name"
-                                defaultValue={this.state.info.first_name || ""}
-                                onChange={(e) => this.handleChange(e)}
-                              />
-                              <br />
-                              <label>Last Name: </label>
-                              <input
-                                type="text"
-                                name="last_name"
-                                defaultValue={this.state.info.last_name || ""}
-                                onChange={(e) => this.handleChange(e)}
-                              />
-                              <br />
-                              <label>Date of Birth</label>
-                              <input
-                                type="text"
-                                name="dateOfBirth"
-                                defaultValue={this.state.info.dateOfBirth || ""}
-                                onChange={(e) => this.handleChange(e)}
-                              />
-                              <br />
-
-                              <label>Instituion</label>
-                              <input
-                                type="text"
-                                name="instituion"
-                                defaultValue={this.state.info.institution || ""}
-                                onChange={(e) => this.handleChange(e)}
-                              />
-                              <br />
-
-                              <label>Class</label>
-                              <input
-                                type="text"
-                                name="class"
-                                defaultValue={this.state.info.class || ""}
-                                onChange={(e) => this.handleChange(e)}
-                              />
-                              <br />
-
-                              <label>Profile Image</label>
-                              <input
-                                type="text"
-                                name="profile_pic"
-                                defaultValue={this.state.info.profile_pic || ""}
-                                onChange={(e) => this.handleChange(e)}
-                              />
-                              <br />
-                            </div>
-                            <div className="button-section">
-                              <button
-                                className="button cancel-btn"
-                                type="button"
-                                onClick={() => this.addFormFields()}
-                              >
-                                Cancel
-                              </button>
-                              <button
-                                className="button update-btn"
-                                type="submit"
-                                onClick={(e) => this.handleSubmit(e)}
-                              >
-                                Update
-                              </button>
-                            </div>
-                          </form>
-                        </div>
-                        <a className="popup__close" href="#">
-                          X
-                        </a>
-                      </div>
-                    </div>
-                  </li>
-                </ul>
               </div>
             </div>
+            <Link to="/editprofile">
+              <button>Edit Profile</button>
+            </Link>
           </div>
-        </div>
+          <br />
+          <br />
+          <div
+            style={{
+              background: "ghostwhite",
+              padding: "10px",
+              border: "1px solid lightgray",
+              margin: "10px",
+            }}
+          >
+            <h3>Achievements</h3>
+            <ul>
+              <li>
+                <h6>Created Profile</h6>
+              </li>
+            </ul>
+          </div>
+        </Container>
       </React.Fragment>
     );
   }
