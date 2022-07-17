@@ -13,7 +13,7 @@ class Profile extends Component {
       username: "",
       first_name: "",
       last_name: "",
-      dateOfBirth: "",
+      dateofBirth: "",
       institution: "",
       class: "",
       profile_pic: "",
@@ -28,7 +28,7 @@ class Profile extends Component {
         .then((data) => {
           this.setState({ info: data });
           console.log(this.state.info);
-          if (this.state.info.profile_pic == "") {
+          if (this.state.info.profile_pic === "") {
             let new_info = this.state.info;
             new_info.profile_pic = avatar;
             this.setState({
@@ -80,7 +80,10 @@ class Profile extends Component {
                   <h2>
                     {this.state.info.first_name} {this.state.info.last_name}
                   </h2>
-                  <h6>Date of Birth: {this.state.info.dateOfBirth}</h6>
+                  <h6>
+                    Date of Birth:{" "}
+                    {this.state.info.dateofBirth.substring(0, 10)}
+                  </h6>
                   <h6>Institution: {this.state.info.institution}</h6>
                   <h6>Class: {this.state.info.class}</h6>
                   <h6>Current Level: {this.state.info.current_level}</h6>

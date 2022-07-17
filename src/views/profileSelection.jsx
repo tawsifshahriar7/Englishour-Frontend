@@ -49,9 +49,7 @@ class Selection extends Component {
 
     return (
       <React.Fragment>
-        {this.state.selectedProfile && (
-          <Navigate to="/profile" replace={true} />
-        )}
+        {this.state.selectedProfile && <Navigate to="/home" replace={true} />}
         <br />
         <div
           style={{

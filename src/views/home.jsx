@@ -4,9 +4,13 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import TopicIcon from "../components/home/topic";
+import { Navigate } from "react-router-dom";
 
 class Home extends Component {
   state = {
+    selected: null,
+    isSelected: false,
+    link: "#",
     list: [
       { name: "Vocabulary-I", icon: "icon-vocabulary" },
       { name: "Sentence-I", icon: "icon-sentence" },
@@ -14,18 +18,36 @@ class Home extends Component {
       { name: "Sentence-II", icon: "icon-sentence" },
     ],
   };
-
+  handleSelect = (e) => {
+    let newlink = "";
+    if (e.target.id === 0) {
+      newlink = "/letterchange";
+    } else if (e.target.id === 1) {
+      newlink = "/sentenceshuffle";
+    }
+    this.setState({
+      selected: e.target.id,
+      isSelected: true,
+      link: newlink,
+    });
+  };
   render() {
     const listItems = this.state.list.map((item, index) => (
       <Row className="m-4">
         <Col className="d-flex justify-content-center">
-          <TopicIcon icon={item.icon} topicName={item.name} />
+          <TopicIcon
+            icon={item.icon}
+            topicName={item.name}
+            id={index}
+            handleClick={this.handleSelect}
+          />
         </Col>
       </Row>
     ));
-
+    const link = "/letterchange";
     return (
       <React.Fragment>
+        {this.state.isSelected && <Navigate to={link} replace={true} />}
         <NavBar isLoggedIn={this.props.isLoggedIn} />
         <Container>
           <Row>

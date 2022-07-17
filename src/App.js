@@ -12,6 +12,7 @@ import Profile from "./views/profile";
 import Selection from "./views/profileSelection";
 import Register from "./views/registration";
 import CreateProfile from "./views/profileCreation";
+import Logout from "./views/logout";
 
 class App extends Component {
   state = { isLoggedIn: false, user: null };
@@ -96,7 +97,7 @@ class App extends Component {
               />
             }
           />
-          <Route path="logout" element={<Landing />} />
+          <Route path="logout" element={<Logout />} />
           <Route
             path="createprofile"
             element={

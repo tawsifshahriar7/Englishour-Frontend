@@ -4,7 +4,9 @@ import "./topic.css";
 function TopicIcon(props) {
   return (
     <React.Fragment>
-        <button className="button"><i className={props.icon}></i> | {props.topicName}</button>
+      <button className="button" id={props.id} onClick={props.handleClick}>
+        <i className={props.icon}></i> | {props.topicName}
+      </button>
     </React.Fragment>
   );
 }
