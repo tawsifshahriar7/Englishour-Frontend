@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import NavBar from "../components/navbar";
 import Sentence from "../components/letterchange/row";
-import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
+// import Container from "react-bootstrap/Container";
+// import Row from "react-bootstrap/Row";
+// import Col from "react-bootstrap/Col";
 import axios from "axios";
 
 class LetterChange extends Component {
@@ -50,11 +50,11 @@ class LetterChange extends Component {
         const len = res.data.length;
         let count = 0;
         for (let i = 0; i < len; i++) {
-          if (res.data[i] == true) {
+          if (res.data[i] === true) {
             count++;
           }
         }
-        if (count == len) {
+        if (count === len) {
           this.setState({
             result: "correct",
           });
@@ -112,10 +112,18 @@ class LetterChange extends Component {
             alignItems: "center",
           }}
         >
-          {this.state.result == "correct" ? (
-            <h3>Correct!</h3>
-          ) : this.state.result == "wrong" ? (
-            <h3>Wrong!</h3>
+          {this.state.result === "correct" ? (
+            <div>
+              <h3>Correct!</h3>
+              <br />
+              <button>Next</button>
+            </div>
+          ) : this.state.result === "wrong" ? (
+            <div>
+              <h3>Wrong!</h3>
+              <br />
+              <button>Try Again</button>
+            </div>
           ) : null}
         </div>
       </React.Fragment>
