@@ -1,13 +1,19 @@
 import React, { Component } from "react";
 import NavBar from "../components/navbar";
 import Sentence from "../components/letterchange/row";
-// import Container from "react-bootstrap/Container";
-// import Row from "react-bootstrap/Row";
-// import Col from "react-bootstrap/Col";
+import SplitterLayout from "react-splitter-layout";
+import "react-splitter-layout/lib/index.css";
 import axios from "axios";
+import Tutorial from "./tutorial";
 
 class LetterChange extends Component {
-  state = { exercise: [], input: [], result: null };
+  state = {
+    exercise: [],
+    input: [],
+    result: null,
+    viewTutorial: false,
+    dragging: false,
+  };
 
   componentDidMount() {
     axios
@@ -69,6 +75,34 @@ class LetterChange extends Component {
       });
   };
 
+  handleTutorial = (e) => {
+    this.setState({
+      viewTutorial: !this.state.viewTutorial,
+    });
+  };
+
+  onDragStart = (e) => {
+    this.setState({ dragging: true });
+  };
+
+  onDragEnd = (e) => {
+    this.setState({ dragging: false });
+  };
+
+  renderSplitView = () => {
+    return (
+      <div className="my-iframe">
+        {this.state.dragging && <div className="my-iframe-overlay" />}
+        <p>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem
+          nostrum consectetur molestias voluptas beatae deleniti, fugit, iure
+          non architecto tempora deserunt, ipsa nulla impedit reiciendis
+          temporibus ab totam iste laborum.
+        </p>
+      </div>
+    );
+  };
+
   render() {
     const listItems = this.state.exercise.map((item, index) => (
       <div key={index}>
@@ -84,48 +118,62 @@ class LetterChange extends Component {
     return (
       <React.Fragment>
         <NavBar />
-        <div
-          className="container"
-          style={{ alignItems: "center", justifyContent: "center" }}
+        <SplitterLayout
+          onDragStart={this.onDragStart}
+          onDragEnd={this.onDragEnd}
         >
-          <h3>Change one Letter to make new words</h3>
-          <br />
-          <br />
-          {listItems}
-        </div>
-        <br />
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <button onClick={this.handleSubmit}>Submit</button>
-        </div>
-        <br />
-        <br />
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          {this.state.result === "correct" ? (
-            <div>
-              <h3>Correct!</h3>
+          <div className="my-pane">
+            <div
+              className="container"
+              style={{ alignItems: "center", justifyContent: "center" }}
+            >
+              <h3>Change one Letter to make new words</h3>
+              <button style={{ float: "right" }} onClick={this.handleTutorial}>
+                Tutorial
+              </button>
+              <div>
+                <Tutorial />
+              </div>
               <br />
-              <button>Next</button>
-            </div>
-          ) : this.state.result === "wrong" ? (
-            <div>
-              <h3>Wrong!</h3>
               <br />
-              <button>Try Again</button>
+              {listItems}
             </div>
-          ) : null}
-        </div>
+            <br />
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <button onClick={this.handleSubmit}>Submit</button>
+            </div>
+            <br />
+            <br />
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              {this.state.result === "correct" ? (
+                <div>
+                  <h3>Correct!</h3>
+                  <br />
+                  <button>Next</button>
+                </div>
+              ) : this.state.result === "wrong" ? (
+                <div>
+                  <h3>Wrong!</h3>
+                  <br />
+                  <button>Try Again</button>
+                </div>
+              ) : null}
+            </div>
+          </div>
+          {this.state.viewTutorial ? this.renderSplitView() : null}
+        </SplitterLayout>
       </React.Fragment>
     );
   }
