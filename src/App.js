@@ -15,98 +15,22 @@ import CreateProfile from "./views/profileCreation";
 import Logout from "./views/logout";
 
 class App extends Component {
-  state = { isLoggedIn: false, user: null };
-  setLogin = (isLoggedIn) => {
-    this.setState({ isLoggedIn: isLoggedIn });
-  };
-  setUser = (user) => {
-    this.setState({ user: user });
-  };
   render() {
     return (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Landing />} />
-          <Route
-            path="home"
-            element={
-              <Home isLoggedIn={this.state.isLoggedIn} user={this.state.user} />
-            }
-          />
-          <Route
-            path="login"
-            element={
-              <Login
-                setloginstate={this.setLogin}
-                setuserstate={this.setUser}
-              />
-            }
-          />
+          <Route path="home" element={<Home />} />
+          <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
-          <Route
-            path="readcomplete"
-            element={
-              <ReadComplete
-                isLoggedIn={this.state.isLoggedIn}
-                user={this.state.user}
-              />
-            }
-          />
-          <Route
-            path="letterchange"
-            element={
-              <LetterChange
-                isLoggedIn={this.state.isLoggedIn}
-                user={this.state.user}
-              />
-            }
-          />
-          <Route
-            path="sentenceshuffle"
-            element={
-              <SentenceShuffle
-                isLoggedIn={this.state.isLoggedIn}
-                user={this.state.user}
-              />
-            }
-          />
-          <Route
-            path="groupwords"
-            element={
-              <GroupWords
-                isLoggedIn={this.state.isLoggedIn}
-                user={this.state.user}
-              />
-            }
-          />
-          <Route
-            path="profile"
-            element={
-              <Profile
-                isLoggedIn={this.state.isLoggedIn}
-                user={this.state.user}
-              />
-            }
-          />
-          <Route
-            path="selection"
-            element={
-              <Selection
-                isLoggedIn={this.state.isLoggedIn}
-                user={this.state.user}
-              />
-            }
-          />
+          <Route path="readcomplete" element={<ReadComplete />} />
+          <Route path="letterchange" element={<LetterChange />} />
+          <Route path="sentenceshuffle" element={<SentenceShuffle />} />
+          <Route path="groupwords" element={<GroupWords />} />
+          <Route path="profile" element={<Profile />} />
+          <Route path="selection" element={<Selection />} />
           <Route path="logout" element={<Logout />} />
-          <Route
-            path="createprofile"
-            element={
-              <CreateProfile
-                isLoggedIn={this.state.isLoggedIn}
-                user={this.state.user}
-              />
-            }
-          />
+          <Route path="createprofile" element={<CreateProfile />} />
         </Routes>
       </BrowserRouter>
     );

@@ -3,19 +3,13 @@ import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import logo from "../logo.png";
+import Cookie from "universal-cookie";
 
 class NavBar extends Component {
   state = { isLoggedIn: false };
-  logout = () => {
-    // localStorage.removeItem("token");
-    // localStorage.removeItem("profile");
-    this.setState({ isLoggedIn: false });
-    localStorage.clear();
-    this.props.setloginstate(false);
-    this.props.setuserstate(null);
-  };
   componentDidMount() {
-    if (localStorage.getItem("token")) {
+    var cookie = new Cookie();
+    if (cookie.get("x-access-token")) {
       this.setState({ isLoggedIn: true });
     }
   }

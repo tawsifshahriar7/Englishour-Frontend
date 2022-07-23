@@ -4,6 +4,7 @@ import NavBar from "../components/navbar";
 import Container from "react-bootstrap/esm/Container";
 import avatar from "../avatar.jpg";
 import { Link } from "react-router-dom";
+import Cookie from "universal-cookie";
 
 class Profile extends Component {
   id = localStorage.getItem("profile");
@@ -23,7 +24,13 @@ class Profile extends Component {
 
   componentDidMount() {
     const getInfo = async (id) => {
-      await fetch(`http://localhost:8248/user/profile?profile_id=` + id)
+      var cookie = new Cookie();
+      await fetch(`http://localhost:8248/user/profile`, {
+        headers: {
+          "x-access-token": cookie.get("x-access-token"),
+          "profile-access-token": cookie.get("profile-access-token"),
+        },
+      })
         .then((res) => res.json())
         .then((data) => {
           this.setState({ info: data });

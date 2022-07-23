@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import "../styles/loginStyle.css";
 import axios from "axios";
 import { Navigate } from "react-router-dom";
+import Cookie from "universal-cookie";
 
 class Login extends Component {
   state = { loggedIn: false, error: null };
@@ -16,10 +17,8 @@ class Login extends Component {
       .post("http://localhost:8248/user/login", body)
       .then((res) => {
         this.setState({ loggedIn: true });
-        this.props.setloginstate(true);
-        this.props.setuserstate(res.data.username);
-        localStorage.setItem("token", res.data.token);
-        localStorage.setItem("user", res.data.username);
+        const cookie = new Cookie();
+        cookie.set("x-access-token", res.data, { path: "/" });
       })
       .catch((err) => {
         console.log(err);

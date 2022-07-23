@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import NavBar from "../components/navbar";
 import Sentence from "../components/letterchange/row";
-import SplitterLayout from "react-splitter-layout";
-import "react-splitter-layout/lib/index.css";
+import { ReflexContainer, ReflexSplitter, ReflexElement } from "react-reflex";
 import axios from "axios";
 import Tutorial from "./tutorial";
+import Cookie from "universal-cookie";
 
 class LetterChange extends Component {
   state = {
@@ -16,8 +16,14 @@ class LetterChange extends Component {
   };
 
   componentDidMount() {
+    var cookie = new Cookie();
     axios
-      .get("http://localhost:8248/user/letterchange?exercise_id=1")
+      .get("http://localhost:8248/user/letterchange?exercise_id=1", {
+        headers: {
+          "x-access-token": cookie.get("x-access-token"),
+          "profile-access-token": cookie.get("profile-access-token"),
+        },
+      })
       .then((res) => {
         this.setState({
           exercise: res.data,
@@ -89,20 +95,6 @@ class LetterChange extends Component {
     this.setState({ dragging: false });
   };
 
-  renderSplitView = () => {
-    return (
-      <div className="my-iframe">
-        {this.state.dragging && <div className="my-iframe-overlay" />}
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem
-          nostrum consectetur molestias voluptas beatae deleniti, fugit, iure
-          non architecto tempora deserunt, ipsa nulla impedit reiciendis
-          temporibus ab totam iste laborum.
-        </p>
-      </div>
-    );
-  };
-
   render() {
     const listItems = this.state.exercise.map((item, index) => (
       <div key={index}>
@@ -115,65 +107,71 @@ class LetterChange extends Component {
         <br />
       </div>
     ));
+    const tutorial = this.state.viewTutorial ? <Tutorial /> : "";
     return (
       <React.Fragment>
         <NavBar />
-        <SplitterLayout
-          onDragStart={this.onDragStart}
-          onDragEnd={this.onDragEnd}
-        >
-          <div className="my-pane">
-            <div
-              className="container"
-              style={{ alignItems: "center", justifyContent: "center" }}
-            >
-              <h3>Change one Letter to make new words</h3>
-              <button style={{ float: "right" }} onClick={this.handleTutorial}>
-                Tutorial
-              </button>
-              <div>
-                <Tutorial />
+        <ReflexContainer orientation="vertical">
+          <ReflexElement className="left-pane">
+            <div className="pane-content">
+              <div
+                className="container"
+                style={{ alignItems: "center", justifyContent: "center" }}
+              >
+                <h3>Change one Letter to make new words</h3>
+                <button
+                  style={{ float: "right" }}
+                  onClick={this.handleTutorial}
+                >
+                  Tutorial
+                </button>
+                <div>{/* <Tutorial /> */}</div>
+                <br />
+                <br />
+                {listItems}
+              </div>
+              <br />
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <button onClick={this.handleSubmit}>Submit</button>
               </div>
               <br />
               <br />
-              {listItems}
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                {this.state.result === "correct" ? (
+                  <div>
+                    <h3>Correct!</h3>
+                    <br />
+                    <button>Next</button>
+                  </div>
+                ) : this.state.result === "wrong" ? (
+                  <div>
+                    <h3>Wrong!</h3>
+                    <br />
+                    <button>Try Again</button>
+                  </div>
+                ) : null}
+              </div>
             </div>
-            <br />
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <button onClick={this.handleSubmit}>Submit</button>
-            </div>
-            <br />
-            <br />
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              {this.state.result === "correct" ? (
-                <div>
-                  <h3>Correct!</h3>
-                  <br />
-                  <button>Next</button>
-                </div>
-              ) : this.state.result === "wrong" ? (
-                <div>
-                  <h3>Wrong!</h3>
-                  <br />
-                  <button>Try Again</button>
-                </div>
-              ) : null}
-            </div>
-          </div>
-          {this.state.viewTutorial ? this.renderSplitView() : null}
-        </SplitterLayout>
+          </ReflexElement>
+
+          <ReflexSplitter />
+
+          <ReflexElement className="right-pane" minSize="200" maxSize="800">
+            <div className="pane-content">{tutorial}</div>
+          </ReflexElement>
+        </ReflexContainer>
       </React.Fragment>
     );
   }

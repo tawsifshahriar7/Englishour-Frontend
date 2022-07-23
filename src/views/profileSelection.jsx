@@ -3,16 +3,18 @@ import "../styles/profileSelection.css";
 import axios from "axios";
 import { Navigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import Cookie from "universal-cookie";
 
 class Selection extends Component {
   state = { selectedProfile: null, list: [] };
 
   loadProfiles = async () => {
+    var cookie = new Cookie();
+    console.log(cookie.get("x-access-token"));
     axios
-      .get(
-        "http://localhost:8248/user/getProfiles?username=" +
-          localStorage.getItem("user")
-      )
+      .get("http://localhost:8248/user/getProfiles", {
+        headers: { "x-access-token": cookie.get("x-access-token") },
+      })
       .then((res) => {
         this.setState({ list: res.data });
       })
@@ -24,11 +26,22 @@ class Selection extends Component {
   }
 
   handleSelection = (e) => {
+    var cookie = new Cookie();
     this.setState({
       selectedProfile: e.target.id,
     });
-    console.log(e.target.id);
-    localStorage.setItem("profile", e.target.id);
+    // console.log(e.target.id);
+    // localStorage.setItem("profile", e.target.id);
+    axios
+      .get(
+        "http://localhost:8248/user/selectProfile?profile_id=" + e.target.id,
+        { headers: { "x-access-token": cookie.get("x-access-token") } }
+      )
+      .then((res) => {
+        console.log(res.data);
+        cookie.set("profile-access-token", res.data, { path: "/" });
+      })
+      .catch((err) => console.log(err));
   };
 
   render() {
