@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import NavBar from "../components/navbar";
 import Sentence from "../components/letterchange/row";
 import { ReflexContainer, ReflexSplitter, ReflexElement } from "react-reflex";
+import "react-reflex/styles.css";
 import axios from "axios";
 import Tutorial from "./tutorial";
 import Cookie from "universal-cookie";
@@ -55,8 +56,14 @@ class LetterChange extends Component {
       exercise_id: 1,
       submitted_answer: input,
     };
+    var cookie = new Cookie();
     axios
-      .post("http://localhost:8248/user/submitExercise", body)
+      .post("http://localhost:8248/user/submitExercise", body, {
+        headers: {
+          "x-access-token": cookie.get("x-access-token"),
+          "profile-access-token": cookie.get("profile-access-token"),
+        },
+      })
       .then((res) => {
         console.log(res);
         const len = res.data.length;
@@ -95,6 +102,24 @@ class LetterChange extends Component {
     this.setState({ dragging: false });
   };
 
+  renderTutorial = () => {
+    if (this.state.viewTutorial) {
+      return (
+        <ReflexElement
+          className="right-pane"
+          minSize="200"
+          maxSize="800"
+          onStartResize={this.onDragStart}
+          onStopResize={this.onDragEnd}
+        >
+          <div className="pane-content">
+            <Tutorial />
+          </div>
+        </ReflexElement>
+      );
+    }
+  };
+
   render() {
     const listItems = this.state.exercise.map((item, index) => (
       <div key={index}>
@@ -107,7 +132,6 @@ class LetterChange extends Component {
         <br />
       </div>
     ));
-    const tutorial = this.state.viewTutorial ? <Tutorial /> : "";
     return (
       <React.Fragment>
         <NavBar />
@@ -167,10 +191,7 @@ class LetterChange extends Component {
           </ReflexElement>
 
           <ReflexSplitter />
-
-          <ReflexElement className="right-pane" minSize="200" maxSize="800">
-            <div className="pane-content">{tutorial}</div>
-          </ReflexElement>
+          {this.renderTutorial()}
         </ReflexContainer>
       </React.Fragment>
     );

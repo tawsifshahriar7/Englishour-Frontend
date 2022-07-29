@@ -13,6 +13,8 @@ import Selection from "./views/profileSelection";
 import Register from "./views/registration";
 import CreateProfile from "./views/profileCreation";
 import Logout from "./views/logout";
+import Exercise from "./views/exercise";
+import ProfileUpdate from "./views/updateProfile";
 
 class App extends Component {
   render() {
@@ -23,6 +25,7 @@ class App extends Component {
           <Route path="home" element={<Home />} />
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
+          <Route path="exercise" element={<Exercise />} />
           <Route path="readcomplete" element={<ReadComplete />} />
           <Route path="letterchange" element={<LetterChange />} />
           <Route path="sentenceshuffle" element={<SentenceShuffle />} />
@@ -31,6 +34,7 @@ class App extends Component {
           <Route path="selection" element={<Selection />} />
           <Route path="logout" element={<Logout />} />
           <Route path="createprofile" element={<CreateProfile />} />
+          <Route path="updateprofile" element={<ProfileUpdate />} />
         </Routes>
       </BrowserRouter>
     );

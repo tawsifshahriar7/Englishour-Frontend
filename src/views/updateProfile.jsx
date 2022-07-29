@@ -1,12 +1,8 @@
 import React, { Component } from "react";
-import "../styles/loginStyle.css";
 import axios from "axios";
-import Cookie from "universal-cookie";
-import { Navigate } from "react-router-dom";
 
-class CreateProfile extends Component {
-  state = { profileCreated: false, error: null };
-
+class ProfileUpdate extends Component {
+  state = { profileUpdated: false, error: null };
   handlefirstNameChange = (e) => {
     this.setState({ firstName: e.target.value });
   };
@@ -22,9 +18,11 @@ class CreateProfile extends Component {
   handleclassChange = (e) => {
     this.setState({ Class: e.target.value });
   };
+  handleprofilePictureChange = (e) => {
+    this.setState({ profilePicture: e.target.value });
+  };
   handleSubmit = (e) => {
     e.preventDefault();
-    var cookie = new Cookie();
     const { firstName, lastName, dateOfBirth, institution, Class } = this.state;
     const body = {
       firstName: firstName,
@@ -34,11 +32,7 @@ class CreateProfile extends Component {
       Class: Class,
     };
     axios
-      .post("http://localhost:8248/user/createprofile", body, {
-        headers: {
-          "x-access-token": cookie.get("x-access-token"),
-        },
-      })
+      .post("http://localhost:8248/user/createprofile", body)
       .then((res) => {
         console.log(res);
         console.log(res.data);
@@ -49,18 +43,13 @@ class CreateProfile extends Component {
         this.setState({ error: err });
       });
   };
-
   render() {
     return (
       <React.Fragment>
-        {this.state.error && <p>{this.state.error.message}</p>}
-        {this.state.profileCreated && (
-          <Navigate to="/selection" replace={true} />
-        )}
         <div className="Auth-form-container">
           <form className="Auth-form">
             <div className="Auth-form-content">
-              <h3 className="Auth-form-title">Create Profile</h3>
+              <h3 className="Auth-form-title">Update Profile</h3>
               <div className="form-group mt-3">
                 <label>First name</label>
                 <input
@@ -105,13 +94,22 @@ class CreateProfile extends Component {
                   onChange={this.handleclassChange}
                 />
               </div>
+              <div className="form-group mt-3">
+                <label>Profile Picture</label>
+                <input
+                  type="file"
+                  className="form-control mt-1"
+                  placeholder="Enter Profile Picture"
+                  onChange={this.handleprofilePictureChange}
+                />
+              </div>
               <div className="d-grid gap-2 mt-3">
                 <button
                   type="submit"
                   className="btn btn-primary"
                   onClick={this.handleSubmit}
                 >
-                  Create
+                  Update
                 </button>
               </div>
             </div>
@@ -122,4 +120,4 @@ class CreateProfile extends Component {
   }
 }
 
-export default CreateProfile;
+export default ProfileUpdate;
