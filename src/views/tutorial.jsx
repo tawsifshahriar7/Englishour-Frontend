@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import Cookie from "universal-cookie";
+import ReactMarkdown from "react-markdown";
 
 class Tutorial extends Component {
   state = { tutorialData: null };
@@ -24,8 +25,7 @@ class Tutorial extends Component {
   render() {
     return (
       <div>
-        <h4>Tutorial</h4>
-        <p>{this.state.tutorialData}</p>
+        <ReactMarkdown>{this.state.tutorialData}</ReactMarkdown>
       </div>
     );
   }

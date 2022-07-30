@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import NavBar from "../components/navbar";
 import Container from "react-bootstrap/Container";
 import axios from "axios";
+import Cookie from "universal-cookie";
 
 class SentenceShuffle extends Component {
   state = {
@@ -13,11 +14,17 @@ class SentenceShuffle extends Component {
   dragOverItem = React.createRef();
 
   componentDidMount() {
+    var cookie = new Cookie();
     axios
-      .get("http://localhost:8248/user/sentenceshuffle?exercise_id=2")
+      .get("http://localhost:8248/user/sentenceshuffle?exercise_id=2", {
+        headers: {
+          "x-access-token": cookie.get("x-access-token"),
+          "profile-access-token": cookie.get("profile-access-token"),
+        },
+      })
       .then((res) => {
-        // console.log(res.data[0][0]);
-        this.setState({ list: res.data[0][0].shuffled_sentence.split(" ") });
+        console.log(res.data);
+        this.setState({ list: res.data[0].shuffled_sentence.split(" ") });
       })
       .catch((err) => {
         console.log(err);
@@ -26,12 +33,10 @@ class SentenceShuffle extends Component {
 
   dragStart = (e, position) => {
     this.dragItem.current = position;
-    console.log(e.target.innerHTML);
   };
 
   dragEnter = (e, position) => {
     this.dragOverItem.current = position;
-    console.log(e.target.innerHTML);
   };
 
   drop = (e) => {
@@ -50,15 +55,23 @@ class SentenceShuffle extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    console.log(this.state.submission);
+    var cookie = new Cookie();
     axios
-      .post("http://localhost:8248/user/submitExercise", {
-        exercise_id: 2,
-        submitted_answer: this.state.submission,
-      })
+      .post(
+        "http://localhost:8248/user/submitExercise",
+        {
+          exercise_id: 2,
+          submitted_answer: this.state.submission,
+        },
+        {
+          headers: {
+            "x-access-token": cookie.get("x-access-token"),
+            "profile-access-token": cookie.get("profile-access-token"),
+          },
+        }
+      )
       .then((res) => {
-        console.log(res.data);
-        this.setState({ result: res.data[0] });
+        this.setState({ result: res.data[0].result });
       })
       .catch((err) => {
         console.log(err);

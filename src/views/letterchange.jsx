@@ -11,6 +11,7 @@ class LetterChange extends Component {
   state = {
     exercise: [],
     input: [],
+    resultList: [],
     result: null,
     viewTutorial: false,
     dragging: false,
@@ -68,9 +69,14 @@ class LetterChange extends Component {
         console.log(res);
         const len = res.data.length;
         let count = 0;
+        let newResult = this.state.resultList;
         for (let i = 0; i < len; i++) {
           if (res.data[i] === true) {
             count++;
+
+            newResult[i] = "correct";
+          } else {
+            newResult[i] = "wrong";
           }
         }
         if (count === len) {
@@ -82,6 +88,7 @@ class LetterChange extends Component {
             result: "wrong",
           });
         }
+        this.setState({ resultList: newResult });
       })
       .catch((err) => {
         console.log(err);
@@ -127,6 +134,7 @@ class LetterChange extends Component {
           id={item[0].item_id}
           sentence={item[0].hint}
           answer={item[0].answer}
+          result={this.state.resultList[index]}
           handleChange={this.handleInput}
         />
         <br />

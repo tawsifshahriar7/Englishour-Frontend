@@ -19,6 +19,7 @@ function Sentence(props) {
               onChange={props.handleChange}
             />
           </Col>
+          <Col>{props.result}</Col>
         </Row>
       </Container>
     </React.Fragment>
