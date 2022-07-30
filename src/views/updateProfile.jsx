@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
+import Cookie from "universal-cookie";
+import { Navigate } from "react-router-dom";
 
 class ProfileUpdate extends Component {
   state = { profileUpdated: false, error: null };
@@ -23,6 +25,7 @@ class ProfileUpdate extends Component {
   };
   handleSubmit = (e) => {
     e.preventDefault();
+    var cookie = new Cookie();
     const { firstName, lastName, dateOfBirth, institution, Class } = this.state;
     const body = {
       firstName: firstName,
@@ -32,20 +35,23 @@ class ProfileUpdate extends Component {
       Class: Class,
     };
     axios
-      .post("http://localhost:8248/user/createprofile", body)
+      .post("http://localhost:8248/user/updateProfile", body, {
+        headers: {
+          "x-access-token": cookie.get("x-access-token"),
+          "profile-access-token": cookie.get("profile-access-token"),
+        },
+      })
       .then((res) => {
-        console.log(res);
-        console.log(res.data);
-        this.setState({ profileCreated: true });
+        this.setState({ profileUpdated: true });
       })
       .catch((err) => {
-        console.log(err);
         this.setState({ error: err });
       });
   };
   render() {
     return (
       <React.Fragment>
+        {this.state.profileUpdated ? <Navigate to="/profile" /> : null}
         <div className="Auth-form-container">
           <form className="Auth-form">
             <div className="Auth-form-content">

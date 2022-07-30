@@ -97,7 +97,7 @@ class Profile extends Component {
                 </div>
               </div>
             </div>
-            <Link to="/editprofile">
+            <Link to="/updateprofile">
               <button>Edit Profile</button>
             </Link>
           </div>
