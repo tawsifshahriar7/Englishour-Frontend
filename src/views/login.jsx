@@ -67,10 +67,10 @@ class Login extends Component {
                   Submit
                 </button>
               </div>
-              {/* <p className="forgot-password text-right mt-2">
-                Forgot <a href="#">password?</a>
+              <p className="forgot-password text-right mt-2">
+                Forgot <a href="/passwordchange">password?</a>
               </p>
-              <br /> */}
+              <br />
               <p className="text-right mt-2">
                 Don't have an Account? <a href="/register">Sign Up</a>
               </p>

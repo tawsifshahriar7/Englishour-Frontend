@@ -17,13 +17,28 @@ class Register extends Component {
   handleConfirmPasswordChange = (e) => {
     this.setState({ confirmPassword: e.target.value });
   };
+  handleSecretQuestionChange = (e) => {
+    this.setState({ secret_question: e.target.value });
+  };
+  handleSecretAnswerChange = (e) => {
+    this.setState({ secret_answer: e.target.value });
+  };
   handleSubmit = (e) => {
     e.preventDefault();
-    const { username, email, password, confirmPassword } = this.state;
+    const {
+      username,
+      email,
+      password,
+      confirmPassword,
+      secret_question,
+      secret_answer,
+    } = this.state;
     const body = {
       username: username,
       email: email,
       password: password,
+      secret_question: secret_question,
+      secret_answer: secret_answer,
     };
     if (password === confirmPassword) {
       axios
@@ -83,6 +98,24 @@ class Register extends Component {
                   className="form-control mt-1"
                   placeholder="Re-enter password"
                   onChange={this.handleConfirmPasswordChange}
+                />
+              </div>
+              <div className="form-group mt-3">
+                <label>Secret Question</label>
+                <input
+                  type="text"
+                  className="form-control mt-1"
+                  placeholder="Enter secret question"
+                  onChange={this.handleSecretQuestionChange}
+                />
+              </div>
+              <div className="form-group mt-3">
+                <label>Secret Answer</label>
+                <input
+                  type="text"
+                  className="form-control mt-1"
+                  placeholder="Enter secret answer"
+                  onChange={this.handleSecretAnswerChange}
                 />
               </div>
               <div className="d-grid gap-2 mt-3">

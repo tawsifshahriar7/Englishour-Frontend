@@ -15,6 +15,7 @@ import CreateProfile from "./views/profileCreation";
 import Logout from "./views/logout";
 import Exercise from "./views/exercise";
 import ProfileUpdate from "./views/updateProfile";
+import PasswordChange from "./views/passwordChange";
 
 class App extends Component {
   render() {
@@ -35,6 +36,7 @@ class App extends Component {
           <Route path="logout" element={<Logout />} />
           <Route path="createprofile" element={<CreateProfile />} />
           <Route path="updateprofile" element={<ProfileUpdate />} />
+          <Route path="passwordchange" element={<PasswordChange />} />
         </Routes>
       </BrowserRouter>
     );
