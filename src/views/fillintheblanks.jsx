@@ -7,9 +7,10 @@ import Cookie from "universal-cookie";
 import "../styles/fillinblank.css"
 
 class FillInTheBlanks extends Component {
+
   state = {
     clueList: ["Clue 1", "Clue 2", "Clue 3", "Clue 4", "Clue 5"],
-    sentenceList: [" Sentence 1 ", " Sentence 2 "," Sentence 3 "," Sentence 4 "," Sentence 5 ",],
+    sentenceList: [" Sentence 1 ", " Sentence 2 "," Sentence 3 "," Sentence 4 "," Sentence 5 "],
     submission: [],
     result: null,
   };
@@ -29,7 +30,7 @@ class FillInTheBlanks extends Component {
       })
       .then((res) => {
         console.log(res.data);
-        //this.setState({ list: res.data[0].shuffled_sentence.split(" ") });
+        this.setState({ list: res.data[0].shuffled_sentence.split(" ") });
       })
       .catch((err) => {
         console.log(err);
@@ -53,17 +54,25 @@ class FillInTheBlanks extends Component {
     var data = ev.dataTransfer.getData("Text");
     ev.target.parentNode.replaceChild(document.getElementById(data), ev.target);
     document.getElementById(data).className = "blankText";
+    
+    let  answers = [...this.state.submission];
+    let currentItem = this.dragItem.current + "#" +  this.dragOverItem.current;
+    answers.push(currentItem)
+    //console.log(answers);
+    this.setState({ submission: answers });
 
   }
 
   handleSubmit = (e) => {
     e.preventDefault();
+    console.log(this.state.submission)
+
     var cookie = new Cookie();
     axios
       .post(
         "http://localhost:8248/user/submitExercise",
         {
-          exercise_id: 2,
+          exercise_id: 4,
           submitted_answer: this.state.submission,
         },
         {
@@ -84,19 +93,16 @@ class FillInTheBlanks extends Component {
   render() {
     const clues = this.state.clueList.map((item, index) => (
 
-
       <span class="draggable" id={index} draggable onDragStart={(e) => this.drag(e,index)}>{item}</span>
-
-
-    ));
+    
+      ));
 
     const partialSentences = this.state.sentenceList.map((item, index) => (
 
       <span>
         {item}
-        <span droppable id={index} onDrop={(e) => this.drop(e,index)} onDragOver={(e) => this.dragOver(e,index)}> _________ </span>
+        <span droppable id={index} onDrop={(e) => this.drop(e)} onDragOver={(e) => this.dragOver(e,index)}> _________ </span>
       </span>
-
 
     ));
 
@@ -112,7 +118,6 @@ class FillInTheBlanks extends Component {
           <div
             style={{
               display: "flex",
-              flexDirection: "row",
               justifyContent: "center",
             }}
           >
