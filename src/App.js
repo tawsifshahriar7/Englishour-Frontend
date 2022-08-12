@@ -27,7 +27,7 @@ class App extends Component {
           <Route path="home" element={<Home />} />
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
-          <Route path="exercise" element={<Exercise />} />
+          <Route path="exercise/:topicId" element={<Exercise />} />
           <Route path="readcomplete" element={<ReadComplete />} />
           <Route path="letterchange" element={<LetterChange />} />
           <Route path="sentenceshuffle" element={<SentenceShuffle />} />
