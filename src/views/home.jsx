@@ -19,16 +19,10 @@ class Home extends Component {
     ],
   };
   handleSelect = (e) => {
-    let newlink = "";
-    if (e.target.id === 0) {
-      newlink = "/letterchange";
-    } else if (e.target.id === 1) {
-      newlink = "/sentenceshuffle";
-    }
     this.setState({
       selected: e.target.id,
       isSelected: true,
-      link: newlink,
+      link: "/exercise/1",
     });
   };
   render() {
@@ -44,11 +38,12 @@ class Home extends Component {
         </Col>
       </Row>
     ));
-    const link = "/letterchange";
     return (
       <React.Fragment>
-        {this.state.isSelected && <Navigate to={link} replace={true} />}
-        <NavBar isLoggedIn={this.props.isLoggedIn} />
+        {this.state.isSelected && (
+          <Navigate to={this.state.link} replace={true} />
+        )}
+        <NavBar />
         <Container>
           <Row>
             <Col className="shadow p-4 m-5 bg-white rounded">
