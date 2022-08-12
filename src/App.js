@@ -15,6 +15,8 @@ import CreateProfile from "./views/profileCreation";
 import Logout from "./views/logout";
 import Exercise from "./views/exercise";
 import ProfileUpdate from "./views/updateProfile";
+import PasswordChange from "./views/passwordChange";
+import FillInTheBlanks from "./views/fillintheblanks";
 
 class App extends Component {
   render() {
@@ -25,7 +27,7 @@ class App extends Component {
           <Route path="home" element={<Home />} />
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
-          <Route path="exercise" element={<Exercise />} />
+          <Route path="exercise/:topicId" element={<Exercise />} />
           <Route path="readcomplete" element={<ReadComplete />} />
           <Route path="letterchange" element={<LetterChange />} />
           <Route path="sentenceshuffle" element={<SentenceShuffle />} />
@@ -35,6 +37,8 @@ class App extends Component {
           <Route path="logout" element={<Logout />} />
           <Route path="createprofile" element={<CreateProfile />} />
           <Route path="updateprofile" element={<ProfileUpdate />} />
+          <Route path="passwordchange" element={<PasswordChange />} />
+          <Route path="fillintheblanks" element={<FillInTheBlanks />} />
         </Routes>
       </BrowserRouter>
     );
