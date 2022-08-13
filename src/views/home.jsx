@@ -7,6 +7,7 @@ import TopicIcon from "../components/home/topic";
 import { Navigate } from "react-router-dom";
 import axios from "axios";
 import Button from "react-bootstrap/Button";
+import { LineChart, Line, XAxis, YAxis, CartesianGrid } from "recharts";
 
 class Home extends Component {
   state = {
@@ -18,6 +19,16 @@ class Home extends Component {
     categoryList: [],
     selectedCategory: null,
   };
+
+  pdata = [
+    { day: 1, value: 0 },
+    { day: 2, value: 4 },
+    { day: 3, value: 7 },
+    { day: 4, value: 1 },
+    { day: 5, value: 5 },
+    { day: 6, value: 3 },
+    { day: 7, value: 2 },
+  ];
 
   componentDidMount() {
     axios
@@ -132,6 +143,12 @@ class Home extends Component {
             </Col>
             <Col className="shadow p-4 m-5 bg-white rounded d-flex justify-content-center">
               <h3>Stats</h3>
+              <LineChart width={600} height={300} data={this.pdata}>
+                <Line type="monotone" dataKey="value" stroke="#8884d8" />
+                <CartesianGrid stroke="#ccc" />
+                <XAxis dataKey="day" />
+                <YAxis />
+              </LineChart>
             </Col>
           </Row>
         </Container>

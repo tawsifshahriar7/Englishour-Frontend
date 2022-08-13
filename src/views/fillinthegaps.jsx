@@ -3,28 +3,26 @@ import NavBar from "../components/navbar";
 import Container from "react-bootstrap/Container";
 import axios from "axios";
 import Cookie from "universal-cookie";
-import { Navigate } from "react-router-dom";
-import "../styles/fillinblank.css"
+// import { Navigate } from "react-router-dom";
+import "../styles/fillinblank.css";
 
 class FillInTheGaps extends Component {
-
   state = {
-    clueList: [] ,
+    clueList: [],
     sentenceList: [],
     submission: [],
     result: null,
-    originalClueList: []
+    originalClueList: [],
   };
 
   dragItem = React.createRef();
   dragOverItem = React.createRef();
 
-
   componentDidMount() {
     var cookie = new Cookie();
     axios
       .get(
-        "http://localhost:8248/user/fillinthegaps?exercise_id=1", 
+        "http://localhost:8248/user/fillinthegaps?exercise_id=1",
         //+ this.props.exercise_id,
         {
           headers: {
@@ -34,44 +32,39 @@ class FillInTheGaps extends Component {
         }
       )
       .then((res) => {
-        console.log("pasage : "+res.data);
-        
+        console.log("pasage : " + res.data);
+
         // const len = res.data.length;
         // for (let i = 0; i < len; i++) {
         //   this.state.input.push("####");
         // }
-        
-        let s=res.data;
-        let v=[],w=[];
-         let g="";
 
- for(let i=0;i<s.length;i++){
-     
-    if(s[i]!=='(' && s[i]!==')'){
-        g+=s[i]; //console.log(s[i]);
-        
-    }
- else if(s[i]==='('){
-       v.push(g);
-            g="";
-    }
-else{
-     w.push(g); g="";
-    }
-    //console.log(g);
-    }
- 
-//console.log("v : "+v);
- 
- 
-//console.log("w :"+w);
-this.setState({
-  originalClueList: w,
-  sentenceList:v,
-  clueList: this.shuffle(w)
-});
-      
+        let s = res.data;
+        let v = [],
+          w = [];
+        let g = "";
 
+        for (let i = 0; i < s.length; i++) {
+          if (s[i] !== "(" && s[i] !== ")") {
+            g += s[i]; //console.log(s[i]);
+          } else if (s[i] === "(") {
+            v.push(g);
+            g = "";
+          } else {
+            w.push(g);
+            g = "";
+          }
+          //console.log(g);
+        }
+
+        //console.log("v : "+v);
+
+        //console.log("w :"+w);
+        this.setState({
+          originalClueList: w,
+          sentenceList: v,
+          clueList: this.shuffle(w),
+        });
       })
       .catch((err) => {
         console.log(err);
@@ -81,87 +74,79 @@ this.setState({
   dragOver = (ev, position) => {
     ev.preventDefault();
     this.dragOverItem.current = position;
-    console.log("drag over blank : ",position)
-  }
+    console.log("drag over blank : ", position);
+  };
 
   drag = (ev, position) => {
     ev.dataTransfer.setData("Text", ev.target.id);
     this.dragItem.current = position;
-    console.log("drag of clue : ",position)
-  }
+    console.log("drag of clue : ", position);
+  };
 
   drop = (ev) => {
-    console.log("dropped")
+    console.log("dropped");
     var data = ev.dataTransfer.getData("Text");
     ev.target.parentNode.replaceChild(document.getElementById(data), ev.target);
     document.getElementById(data).className = "blankText";
-    
-    let  answers = [...this.state.submission];
-    let currentItem = this.dragOverItem.current + "#" +  this.dragItem.current;
-    answers.push(currentItem)
+
+    let answers = [...this.state.submission];
+    let currentItem = this.dragOverItem.current + "#" + this.dragItem.current;
+    answers.push(currentItem);
     //console.log(answers);
     this.setState({ submission: answers });
+  };
 
-  }
-
-   shuffle = (originalArray)=> {
+  shuffle = (originalArray) => {
     var array = [].concat(originalArray);
-    var currentIndex = array.length, temporaryValue, randomIndex;
-  
+    var currentIndex = array.length,
+      temporaryValue,
+      randomIndex;
+
     // While there remain elements to shuffle...
     while (0 !== currentIndex) {
-  
       // Pick a remaining element...
       randomIndex = Math.floor(Math.random() * currentIndex);
       currentIndex -= 1;
-  
+
       // And swap it with the current element.
       temporaryValue = array[currentIndex];
       array[currentIndex] = array[randomIndex];
       array[randomIndex] = temporaryValue;
     }
-  
+
     return array;
-  }
+  };
 
-   
-  handleTryAgain =(e)=>{
-
+  handleTryAgain = (e) => {
     window.location.reload(true);
-  }
-
+  };
 
   handleSubmit = (e) => {
     e.preventDefault();
-    console.log(this.state.submission)
-    let count=0;
-    for(let i=0;i<this.state.originalClueList.length;i++){
-
+    console.log(this.state.submission);
+    let count = 0;
+    for (let i = 0; i < this.state.originalClueList.length; i++) {
       let text = this.state.submission[i];
       const myArray = text.split("#");
-      
-      console.log("expected :"+this.state.originalClueList[myArray[0]]);
-      console.log("found :"+this.state.clueList[myArray[1]]);
 
-      if(this.state.originalClueList[myArray[0]]===this.state.clueList[myArray[1]]){
+      console.log("expected :" + this.state.originalClueList[myArray[0]]);
+      console.log("found :" + this.state.clueList[myArray[1]]);
+
+      if (
+        this.state.originalClueList[myArray[0]] ===
+        this.state.clueList[myArray[1]]
+      ) {
         console.log("matched");
         count++;
-      }else {
+      } else {
         console.log("un-matched");
       }
-    
-      
     }
 
-    if(count===this.state.originalClueList.length){
+    if (count === this.state.originalClueList.length) {
       this.setState({ result: true });
-    }
-    else this.setState({ result: false });
+    } else this.setState({ result: false });
 
-
-
-
- 
     // var cookie = new Cookie();
     // axios
     //   .post(
@@ -185,21 +170,31 @@ this.setState({
     //   });
   };
 
-
   render() {
     const clues = this.state.clueList.map((item, index) => (
-
-      <span class="draggable" id={index} draggable onDragStart={(e) => this.drag(e,index)}>{item}</span>
-    
-      ));
+      <span
+        class="draggable"
+        id={index}
+        draggable
+        onDragStart={(e) => this.drag(e, index)}
+      >
+        {item}
+      </span>
+    ));
 
     const partialSentences = this.state.sentenceList.map((item, index) => (
-
       <span>
         {item}
-        <span droppable id={index} onDrop={(e) => this.drop(e)} onDragOver={(e) => this.dragOver(e,index)}> _________ </span>
+        <span
+          droppable
+          id={index}
+          onDrop={(e) => this.drop(e)}
+          onDragOver={(e) => this.dragOver(e, index)}
+        >
+          {" "}
+          _________{" "}
+        </span>
       </span>
-
     ));
 
     return (
@@ -222,11 +217,9 @@ this.setState({
           <br />
 
           <div align="center">
-
             <br />
             {partialSentences}
           </div>
-
 
           <br />
           <div
@@ -257,7 +250,9 @@ this.setState({
               <div>
                 <h3>Wrong!</h3>
                 <br />
-                <button  onClick={(event) => this.handleTryAgain(event)}>Try Again   </button>
+                <button onClick={(event) => this.handleTryAgain(event)}>
+                  Try Again{" "}
+                </button>
               </div>
             ) : null}
           </div>

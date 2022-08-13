@@ -34,7 +34,7 @@ class PasswordChange extends Component {
       password: password,
       confirm_password: confirm_password,
     };
-    if (password != confirm_password) {
+    if (password !== confirm_password) {
       this.setState({ errormsg: "Passwords don't match" });
       return;
     }
