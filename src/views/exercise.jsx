@@ -10,6 +10,7 @@ import ReadComplete from "./readcomplete";
 import Tutorial from "./tutorial";
 import { ReflexContainer, ReflexSplitter, ReflexElement } from "react-reflex";
 import { useParams } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 
 function Exercise() {
   const { topicId } = useParams();
@@ -24,6 +25,7 @@ class ExerciseView extends Component {
     viewTutorial: false,
     dragging: false,
     current_result: null,
+    isCompleted: false,
   };
 
   componentDidMount() {
@@ -42,16 +44,12 @@ class ExerciseView extends Component {
       .then((res) => {
         this.setState({
           exercise_list: res.data,
+          current_exercise_index: 0,
         });
       })
       .catch((err) => {
         console.log(err);
       });
-    this.setState({
-      exercise_list: [1, 2],
-      exercise_type: "changeletter",
-      current_exercise_index: 0,
-    });
   }
   onDragStart = (e) => {
     this.setState({ dragging: true });
@@ -83,11 +81,24 @@ class ExerciseView extends Component {
     });
   };
   handleNext = (e) => {
-    this.setState({
-      current_exercise_index: this.state.current_exercise_index + 1,
-      exercise_type: "groupwords",
-      current_result: null,
-    });
+    e.preventDefault();
+    if (
+      this.state.current_exercise_index ===
+      this.state.exercise_list.length - 1
+    ) {
+      this.setState({
+        isCompleted: true,
+      });
+    } else {
+      const newIndex =
+        (this.state.current_exercise_index + 1) %
+        this.state.exercise_list.length;
+      this.setState({
+        current_exercise_index: newIndex,
+        exercise_type: this.state.exercise_list[newIndex].exercise_type,
+        current_result: null,
+      });
+    }
   };
   setResult = (result) => {
     this.setState({ current_result: result });
@@ -116,55 +127,41 @@ class ExerciseView extends Component {
 
   render() {
     let exercise = null;
-    if (this.state.exercise_type === "changeletter") {
-      exercise = (
-        <LetterChange
-          exercise_id={
-            this.state.exercise_list[this.state.current_exercise_index]
-          }
-          publishResult={this.setResult}
-        />
-      );
-    } else if (this.state.exercise_type === "sentenceshuffle") {
-      exercise = (
-        <SentenceShuffle
-          exercise_id={
-            this.state.exercise_list[this.state.current_exercise_index]
-          }
-          publishResult={this.setResult}
-        />
-      );
-    } 
-    else if (this.state.exercise_type === "fillinthegaps") {
-      exercise = (
-        <FillInTheGaps
-          exercise_id={
-            this.state.exercise_list[this.state.current_exercise_index]
-          }
-          publishResult={this.setResult}
-        />
-      );
-    }else if (this.state.exercise_type === "groupwords") {
-      exercise = (
-        <GroupWords
-          exercise_id={
-            this.state.exercise_list[this.state.current_exercise_index]
-          }
-          publishResult={this.setResult}
-        />
-      );
-    } else if (this.state.exercise_type === "readcomplete") {
-      exercise = (
-        <ReadComplete
-          exercise_id={
-            this.state.exercise_list[this.state.current_exercise_index]
-          }
-          publishResult={this.setResult}
-        />
-      );
+    if (this.state.current_exercise_index != null) {
+      let item = this.state.exercise_list[this.state.current_exercise_index];
+      if (item.exercise_type === "changeletter") {
+        exercise = (
+          <LetterChange
+            exercise_id={item.exercise_id}
+            publishResult={this.setResult}
+          />
+        );
+      } else if (item.exercise_type === "sentenceshuffling") {
+        exercise = (
+          <SentenceShuffle
+            exercise_id={item.exercise_id}
+            publishResult={this.setResult}
+          />
+        );
+      } else if (item.exercise_type === "groupwords") {
+        exercise = (
+          <GroupWords
+            exercise_id={item.exercise_id}
+            publishResult={this.setResult}
+          />
+        );
+      } else if (item.exercise_type === "readcomplete") {
+        exercise = (
+          <ReadComplete
+            exercise_id={item.exercise_id}
+            publishResult={this.setResult}
+          />
+        );
+      }
     }
     return (
       <React.Fragment>
+        {this.state.isCompleted && <Navigate to="/" replace={true} />}
         <NavBar />
         <ReflexContainer orientation="vertical">
           <ReflexElement className="left-pane">
