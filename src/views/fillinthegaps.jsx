@@ -6,13 +6,14 @@ import Cookie from "universal-cookie";
 
 import "../styles/fillinblank.css"
 
-class FillInTheBlanks extends Component {
+class FillInTheGaps extends Component {
 
   state = {
-    clueList: ["Clue 1", "Clue 2", "Clue 3", "Clue 4", "Clue 5"],
-    sentenceList: [" Sentence 1 ", " Sentence 2 "," Sentence 3 "," Sentence 4 "," Sentence 5 "],
+    clueList: [] ,
+    sentenceList: [],
     submission: [],
     result: null,
+    originalClueList: []
   };
 
   dragItem = React.createRef();
@@ -22,15 +23,55 @@ class FillInTheBlanks extends Component {
   componentDidMount() {
     var cookie = new Cookie();
     axios
-      .get("http://localhost:8248/user/fillintheblanks?exercise_id=2", {
-        headers: {
-          "x-access-token": cookie.get("x-access-token"),
-          "profile-access-token": cookie.get("profile-access-token"),
-        },
-      })
+      .get(
+        "http://localhost:8248/user/fillinthegaps?exercise_id=1", 
+        //+ this.props.exercise_id,
+        {
+          headers: {
+            "x-access-token": cookie.get("x-access-token"),
+            "profile-access-token": cookie.get("profile-access-token"),
+          },
+        }
+      )
       .then((res) => {
-        console.log(res.data);
-        this.setState({ list: res.data[0].shuffled_sentence.split(" ") });
+        console.log("pasage : "+res.data);
+        
+        // const len = res.data.length;
+        // for (let i = 0; i < len; i++) {
+        //   this.state.input.push("####");
+        // }
+        
+        let s=res.data;
+        let v=[],w=[];
+         let g="";
+
+ for(let i=0;i<s.length;i++){
+     
+    if(s[i]!=='(' && s[i]!==')'){
+        g+=s[i]; //console.log(s[i]);
+        
+    }
+ else if(s[i]==='('){
+       v.push(g);
+            g="";
+    }
+else{
+     w.push(g); g="";
+    }
+    //console.log(g);
+    }
+ 
+//console.log("v : "+v);
+ 
+ 
+//console.log("w :"+w);
+this.setState({
+  originalClueList: w,
+  sentenceList:v,
+  clueList: this.shuffle(w)
+});
+      
+
       })
       .catch((err) => {
         console.log(err);
@@ -56,39 +97,93 @@ class FillInTheBlanks extends Component {
     document.getElementById(data).className = "blankText";
     
     let  answers = [...this.state.submission];
-    let currentItem = this.dragItem.current + "#" +  this.dragOverItem.current;
+    let currentItem = this.dragOverItem.current + "#" +  this.dragItem.current;
     answers.push(currentItem)
     //console.log(answers);
     this.setState({ submission: answers });
 
   }
 
+   shuffle = (originalArray)=> {
+    var array = [].concat(originalArray);
+    var currentIndex = array.length, temporaryValue, randomIndex;
+  
+    // While there remain elements to shuffle...
+    while (0 !== currentIndex) {
+  
+      // Pick a remaining element...
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex -= 1;
+  
+      // And swap it with the current element.
+      temporaryValue = array[currentIndex];
+      array[currentIndex] = array[randomIndex];
+      array[randomIndex] = temporaryValue;
+    }
+  
+    return array;
+  }
+
+
+
+
+
   handleSubmit = (e) => {
     e.preventDefault();
     console.log(this.state.submission)
+    let count=0;
+    for(let i=0;i<this.state.originalClueList.length;i++){
 
-    var cookie = new Cookie();
-    axios
-      .post(
-        "http://localhost:8248/user/submitExercise",
-        {
-          exercise_id: 4,
-          submitted_answer: this.state.submission,
-        },
-        {
-          headers: {
-            "x-access-token": cookie.get("x-access-token"),
-            "profile-access-token": cookie.get("profile-access-token"),
-          },
-        }
-      )
-      .then((res) => {
-        this.setState({ result: res.data[0].result });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+      let text = this.state.submission[i];
+      const myArray = text.split("#");
+      
+      console.log("expected :"+this.state.originalClueList[myArray[0]]);
+      console.log("found :"+this.state.clueList[myArray[1]]);
+
+      if(this.state.originalClueList[myArray[0]]===this.state.clueList[myArray[1]]){
+        console.log("matched");
+        count++;
+      }else {
+        console.log("un-matched");
+      }
+    
+      
+    }
+
+    if(count===this.state.originalClueList.length){
+      this.setState({ result: true });
+    }
+    else this.setState({ result: false });
+
+
+
+
+ 
+    // var cookie = new Cookie();
+    // axios
+    //   .post(
+    //     "http://localhost:8248/user/submitExercise",
+    //     {
+    //       exercise_id: 1,
+    //       submitted_answer: this.state.submission,
+    //     },
+    //     {
+    //       headers: {
+    //         "x-access-token": cookie.get("x-access-token"),
+    //         "profile-access-token": cookie.get("profile-access-token"),
+    //       },
+    //     }
+    //   )
+    //   .then((res) => {
+    //     this.setState({ result: res.data[0].result });
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
   };
+
+
+
 
   render() {
     const clues = this.state.clueList.map((item, index) => (
@@ -171,4 +266,4 @@ class FillInTheBlanks extends Component {
   }
 }
 
-export default FillInTheBlanks;
+export default FillInTheGaps;
