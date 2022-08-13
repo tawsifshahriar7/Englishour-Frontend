@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import NavBar from "../components/navbar";
 import Container from "react-bootstrap/Container";
 import axios from "axios";
 import Cookie from "universal-cookie";
@@ -8,7 +7,6 @@ class SentenceShuffle extends Component {
   state = {
     list: ["Word 1", "Word 2", "Word 3", "Word 4", "Word 5"],
     submission: [],
-    result: null,
   };
   dragItem = React.createRef();
   dragOverItem = React.createRef();
@@ -60,7 +58,7 @@ class SentenceShuffle extends Component {
       .post(
         "http://localhost:8248/user/submitExercise",
         {
-          exercise_id: 2,
+          exercise_id: this.props.exercise_id,
           submitted_answer: this.state.submission,
         },
         {
@@ -71,7 +69,8 @@ class SentenceShuffle extends Component {
         }
       )
       .then((res) => {
-        this.setState({ result: res.data[0].result });
+        let result = res.data[0].result ? "correct" : "wrong";
+        this.props.publishResult(result);
       })
       .catch((err) => {
         console.log(err);
@@ -100,7 +99,6 @@ class SentenceShuffle extends Component {
 
     return (
       <React.Fragment>
-        <NavBar />
         <Container>
           <h3 style={{ textAlign: "center" }}>
             Shuffle the words to make correct sentence
@@ -127,7 +125,7 @@ class SentenceShuffle extends Component {
           >
             <button onClick={this.handleSubmit}>Submit</button>
           </div>
-          <br />
+          {/* <br />
           <br />
           <div
             style={{
@@ -148,8 +146,8 @@ class SentenceShuffle extends Component {
                 <br />
                 <button>Try Again</button>
               </div>
-            ) : null}
-          </div>
+            ) : null} */}
+          {/* </div> */}
         </Container>
       </React.Fragment>
     );
