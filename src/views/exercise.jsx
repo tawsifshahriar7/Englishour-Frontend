@@ -143,6 +143,13 @@ class ExerciseView extends Component {
             publishResult={this.setResult}
           />
         );
+      } else if (item.exercise_type === "fillinthegaps") {
+        exercise = (
+          <FillInTheGaps
+            exercise_id={item.exercise_id}
+            publishResult={this.setResult}
+          />
+        );
       } else if (item.exercise_type === "groupwords") {
         exercise = (
           <GroupWords

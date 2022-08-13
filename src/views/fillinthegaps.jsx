@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import NavBar from "../components/navbar";
 import Container from "react-bootstrap/Container";
 import axios from "axios";
 import Cookie from "universal-cookie";
@@ -24,7 +23,7 @@ class FillInTheGaps extends Component {
     var cookie = new Cookie();
     axios
       .get(
-        "http://localhost:8248/user/fillinthegaps?exercise_id=", 
+        "http://localhost:8248/user/fillinthegaps?exercise_id="
         + this.props.exercise_id,
         {
           headers: {
@@ -139,7 +138,6 @@ this.setState({
       submission: this.state.submission,
       referenceList: this.state.originalClueList,
       shuffledList: this.state.clueList,
-      size: this.state.originalClueList.length
     };
 
     const body = {
@@ -156,25 +154,8 @@ this.setState({
       })
       .then((res) => {
         console.log("Response :"+res.data);
-
-        // const len = res.data.length;
-        // let count = 0;
-        // let newResult = this.state.resultList;
-        // for (let i = 0; i < len; i++) {
-        //   if (res.data[i] === true) {
-        //     count++;
-
-        //     newResult[i] = "correct";
-        //   } else {
-        //     newResult[i] = "wrong";
-        //   }
-        // }
-        // if (count === len) {
-        //   this.props.publishResult("correct");
-        // } else {
-        //   this.props.publishResult("wrong");
-        // }
-        // this.setState({ result: newResult });
+        this.setState({ result: res.data });
+        
       })
       .catch((err) => {
         console.log(err);
@@ -200,7 +181,7 @@ this.setState({
 
     return (
       <React.Fragment>
-        <NavBar />
+      
         <Container>
           <h3 style={{ textAlign: "center" }}>
             Fill in the Blanks to Complete the Paragraph
