@@ -3,7 +3,7 @@ import NavBar from "../components/navbar";
 import Container from "react-bootstrap/Container";
 import axios from "axios";
 import Cookie from "universal-cookie";
-
+import { Navigate } from "react-router-dom";
 import "../styles/fillinblank.css"
 
 class FillInTheGaps extends Component {
@@ -124,8 +124,11 @@ this.setState({
     return array;
   }
 
+   
+  handleTryAgain =(e)=>{
 
-
+    window.location.reload(true);
+  }
 
 
   handleSubmit = (e) => {
@@ -181,8 +184,6 @@ this.setState({
     //     console.log(err);
     //   });
   };
-
-
 
 
   render() {
@@ -256,7 +257,7 @@ this.setState({
               <div>
                 <h3>Wrong!</h3>
                 <br />
-                <button>Try Again</button>
+                <button  onClick={(event) => this.handleTryAgain(event)}>Try Again   </button>
               </div>
             ) : null}
           </div>
