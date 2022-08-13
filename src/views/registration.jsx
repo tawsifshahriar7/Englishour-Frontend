@@ -41,6 +41,7 @@ class Register extends Component {
       secret_answer: secret_answer,
     };
     if (password === confirmPassword) {
+      console.log(this.state);
       axios
         .post("http://localhost:8248/user/register", body)
         .then((res) => {
