@@ -4,6 +4,7 @@ import Cookie from "universal-cookie";
 import axios from "axios";
 import LetterChange from "./letterchange";
 import SentenceShuffle from "./sentenceshuffle";
+import FillInTheGaps from "./fillinthegaps";
 import GroupWords from "./groupwords";
 import ReadComplete from "./readcomplete";
 import Tutorial from "./tutorial";
@@ -138,6 +139,13 @@ class ExerciseView extends Component {
       } else if (item.exercise_type === "sentenceshuffling") {
         exercise = (
           <SentenceShuffle
+            exercise_id={item.exercise_id}
+            publishResult={this.setResult}
+          />
+        );
+      } else if (item.exercise_type === "fillinthegaps") {
+        exercise = (
+          <FillInTheGaps
             exercise_id={item.exercise_id}
             publishResult={this.setResult}
           />

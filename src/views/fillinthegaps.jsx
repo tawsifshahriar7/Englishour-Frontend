@@ -1,9 +1,8 @@
 import React, { Component } from "react";
-import NavBar from "../components/navbar";
 import Container from "react-bootstrap/Container";
 import axios from "axios";
 import Cookie from "universal-cookie";
-// import { Navigate } from "react-router-dom";
+
 import "../styles/fillinblank.css";
 
 class FillInTheGaps extends Component {
@@ -22,8 +21,8 @@ class FillInTheGaps extends Component {
     var cookie = new Cookie();
     axios
       .get(
-        "http://localhost:8248/user/fillinthegaps?exercise_id=1",
-        //+ this.props.exercise_id,
+        "http://localhost:8248/user/fillinthegaps?exercise_id=" +
+          this.props.exercise_id,
         {
           headers: {
             "x-access-token": cookie.get("x-access-token"),
@@ -123,51 +122,32 @@ class FillInTheGaps extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    console.log(this.state.submission);
-    let count = 0;
-    for (let i = 0; i < this.state.originalClueList.length; i++) {
-      let text = this.state.submission[i];
-      const myArray = text.split("#");
 
-      console.log("expected :" + this.state.originalClueList[myArray[0]]);
-      console.log("found :" + this.state.clueList[myArray[1]]);
+    const input = {
+      submission: this.state.submission,
+      referenceList: this.state.originalClueList,
+      shuffledList: this.state.clueList,
+    };
 
-      if (
-        this.state.originalClueList[myArray[0]] ===
-        this.state.clueList[myArray[1]]
-      ) {
-        console.log("matched");
-        count++;
-      } else {
-        console.log("un-matched");
-      }
-    }
-
-    if (count === this.state.originalClueList.length) {
-      this.setState({ result: true });
-    } else this.setState({ result: false });
-
-    // var cookie = new Cookie();
-    // axios
-    //   .post(
-    //     "http://localhost:8248/user/submitExercise",
-    //     {
-    //       exercise_id: 1,
-    //       submitted_answer: this.state.submission,
-    //     },
-    //     {
-    //       headers: {
-    //         "x-access-token": cookie.get("x-access-token"),
-    //         "profile-access-token": cookie.get("profile-access-token"),
-    //       },
-    //     }
-    //   )
-    //   .then((res) => {
-    //     this.setState({ result: res.data[0].result });
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
+    const body = {
+      exercise_id: this.props.exercise_id,
+      submitted_answer: input,
+    };
+    var cookie = new Cookie();
+    axios
+      .post("http://localhost:8248/user/submitExercise", body, {
+        headers: {
+          "x-access-token": cookie.get("x-access-token"),
+          "profile-access-token": cookie.get("profile-access-token"),
+        },
+      })
+      .then((res) => {
+        console.log("Response :" + res.data);
+        this.setState({ result: res.data });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   render() {
@@ -199,7 +179,6 @@ class FillInTheGaps extends Component {
 
     return (
       <React.Fragment>
-        <NavBar />
         <Container>
           <h3 style={{ textAlign: "center" }}>
             Fill in the Blanks to Complete the Paragraph
