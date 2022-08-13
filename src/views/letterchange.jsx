@@ -10,6 +10,7 @@ class LetterChange extends Component {
     input: [],
     resultList: [],
     viewTutorial: false,
+    isSubmitted: false,
   };
 
   componentDidMount() {
@@ -83,7 +84,7 @@ class LetterChange extends Component {
         } else {
           this.props.publishResult("wrong");
         }
-        this.setState({ resultList: newResult });
+        this.setState({ resultList: newResult, isSubmitted: true });
       })
       .catch((err) => {
         console.log(err);
@@ -123,7 +124,9 @@ class LetterChange extends Component {
               alignItems: "center",
             }}
           >
-            <button onClick={this.handleSubmit}>Submit</button>
+            {!this.state.isSubmitted ? (
+              <button onClick={this.handleSubmit}>Submit</button>
+            ) : null}
           </div>
         </div>
       </React.Fragment>

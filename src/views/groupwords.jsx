@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import "../styles/groupWord.css";
-import NavBar from "../components/navbar";
+import axios from "axios";
+import Cookie from "universal-cookie";
 
 class GroupWords extends Component {
   state = {
@@ -11,76 +12,139 @@ class GroupWords extends Component {
       { name: "Word 4", category: "Cat0" },
       { name: "Word 5", category: "Cat0" },
     ],
-    cat: ["Cat0", "Cat1", "Cat2", "Cat3"]
+    cat: ["Cat0", "Cat1", "Cat2", "Cat3"],
   };
 
-  onDragStart = (ev, id) => {
-    console.log('dragstart:',id);
-    ev.dataTransfer.setData("id", id);
+  componentDidMount() {
+    var cookie = new Cookie();
+    axios
+      .get("http://localhost:8248/user/groupwords?exercise_id=3", {
+        headers: {
+          "x-access-token": cookie.get("x-access-token"),
+          "profile-access-token": cookie.get("profile-access-token"),
+        },
+      })
+      .then((res) => {
+        let newList = [];
+        res.data.wordList.map((i) => {
+          newList.push({ name: i, category: res.data.categoryList[0] });
+        });
+        this.setState({ cat: res.data.categoryList, list: newList });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
+
+  onDragStart = (ev, id) => {
+    console.log("dragstart:", id);
+    ev.dataTransfer.setData("id", id);
+  };
 
   onDragOver = (ev) => {
     ev.preventDefault();
-  }
+  };
 
   onDrop = (ev, cat) => {
     let id = ev.dataTransfer.getData("id");
-    
+
     let items = this.state.list.filter((item) => {
-        if (item.name == id) {
-            item.category = cat;
-        }
-        return item;
+      if (item.name === id) {
+        item.category = cat;
+      }
+      return item;
     });
 
     this.setState({
-        list: [...items]
+      list: [...items],
     });
- }
+  };
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+    var cookie = new Cookie();
+    axios
+      .post(
+        "http://localhost:8248/user/submitExercise",
+        {
+          exercise_id: this.props.exercise_id,
+          submitted_answer: this.state.list,
+        },
+        {
+          headers: {
+            "x-access-token": cookie.get("x-access-token"),
+            "profile-access-token": cookie.get("profile-access-token"),
+          },
+        }
+      )
+      .then((res) => {
+        this.setState({ isSubmitted: true });
+        let result = res.data ? "correct" : "wrong";
+        this.props.publishResult(result);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   render() {
     let catItems = {};
 
     this.state.cat.map((c) => {
-        catItems[c] = [];
+      catItems[c] = [];
     });
 
     console.log(this.state);
 
     this.state.list.map((i) => {
-        catItems[i.category].push(
-            <div key={i.name}
-                 onDragStart = {(e) => this.onDragStart(e, i.name)}
-                 draggable
-                 className="draggable"
-                 style={{backgroundColor: "yellow"}}>
-                {i.name}
-            </div>
-        );
+      catItems[i.category].push(
+        <div
+          key={i.name}
+          onDragStart={(e) => this.onDragStart(e, i.name)}
+          draggable
+          className="draggable"
+          style={{ backgroundColor: "brown" }}
+        >
+          {i.name}
+        </div>
+      );
     });
-    console.log("finish")
+    console.log("finish");
 
     const catDivs = this.state.cat.map((c) => {
-        return (
-          <div className="droppable" 
-              onDragOver={(e)=>this.onDragOver(e)}
-              onDrop={(e)=>this.onDrop(e, c)}>
-              <span className="task-header">{c}</span>
-              {catItems[c]}
-          </div>
-        );
+      return (
+        <div
+          className="droppable"
+          onDragOver={(e) => this.onDragOver(e)}
+          onDrop={(e) => this.onDrop(e, c)}
+        >
+          <span className="task-header">{c}</span>
+          {catItems[c]}
+        </div>
+      );
     });
 
     return (
       <React.Fragment>
-        <NavBar />
         <div className="container-drag">
           <h2 className="header">Group Words</h2>
-          <div className="category-container">
-            {catDivs}
-          </div>
+          <div className="category-container">{catDivs}</div>
         </div>
-        <h1>GroupWords</h1>
+        <br />
+        <br />
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          {!this.state.isSubmitted ? (
+            <button onClick={this.handleSubmit}>Submit</button>
+          ) : null}
+        </div>
+        <br />
+        <br />
       </React.Fragment>
     );
   }

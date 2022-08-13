@@ -7,6 +7,7 @@ class SentenceShuffle extends Component {
   state = {
     list: ["Word 1", "Word 2", "Word 3", "Word 4", "Word 5"],
     submission: [],
+    isSubmitted: false,
   };
   dragItem = React.createRef();
   dragOverItem = React.createRef();
@@ -69,6 +70,7 @@ class SentenceShuffle extends Component {
         }
       )
       .then((res) => {
+        this.setState({ isSubmitted: true });
         let result = res.data[0].result ? "correct" : "wrong";
         this.props.publishResult(result);
       })
@@ -123,31 +125,10 @@ class SentenceShuffle extends Component {
               alignItems: "center",
             }}
           >
-            <button onClick={this.handleSubmit}>Submit</button>
+            {!this.state.isSubmitted ? (
+              <button onClick={this.handleSubmit}>Submit</button>
+            ) : null}
           </div>
-          {/* <br />
-          <br />
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            {this.state.result === true ? (
-              <div>
-                <h3>Correct!</h3>
-                <br />
-                <button>Next</button>
-              </div>
-            ) : this.state.result === false ? (
-              <div>
-                <h3>Wrong!</h3>
-                <br />
-                <button>Try Again</button>
-              </div>
-            ) : null} */}
-          {/* </div> */}
         </Container>
       </React.Fragment>
     );

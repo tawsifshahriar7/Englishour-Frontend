@@ -11,6 +11,7 @@ import Tutorial from "./tutorial";
 import { ReflexContainer, ReflexSplitter, ReflexElement } from "react-reflex";
 import { useParams } from "react-router-dom";
 import { Navigate } from "react-router-dom";
+import ProgressBar from "react-bootstrap/ProgressBar";
 
 function Exercise() {
   const { topicId } = useParams();
@@ -26,6 +27,7 @@ class ExerciseView extends Component {
     dragging: false,
     current_result: null,
     isCompleted: false,
+    now: 0,
   };
 
   componentDidMount() {
@@ -97,6 +99,7 @@ class ExerciseView extends Component {
         current_exercise_index: newIndex,
         exercise_type: this.state.exercise_list[newIndex].exercise_type,
         current_result: null,
+        now: (newIndex * 100) / this.state.exercise_list.length,
       });
     }
   };
@@ -170,6 +173,11 @@ class ExerciseView extends Component {
       <React.Fragment>
         {this.state.isCompleted && <Navigate to="/" replace={true} />}
         <NavBar />
+        <br />
+        <div className="container">
+          <ProgressBar now={this.state.now} />
+        </div>
+        <br />
         <ReflexContainer orientation="vertical">
           <ReflexElement className="left-pane">
             <div className="container">
