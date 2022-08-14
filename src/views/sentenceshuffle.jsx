@@ -15,12 +15,16 @@ class SentenceShuffle extends Component {
   componentDidMount() {
     var cookie = new Cookie();
     axios
-      .get("http://localhost:8248/user/sentenceshuffle?exercise_id=2", {
-        headers: {
-          "x-access-token": cookie.get("x-access-token"),
-          "profile-access-token": cookie.get("profile-access-token"),
-        },
-      })
+      .get(
+        "http://localhost:8248/user/sentenceshuffle?exercise_id=" +
+          this.props.exercise_id,
+        {
+          headers: {
+            "x-access-token": cookie.get("x-access-token"),
+            "profile-access-token": cookie.get("profile-access-token"),
+          },
+        }
+      )
       .then((res) => {
         console.log(res.data);
         this.setState({ list: res.data[0].shuffled_sentence.split(" ") });

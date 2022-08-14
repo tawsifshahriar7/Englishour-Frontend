@@ -144,6 +144,7 @@ class FillInTheGaps extends Component {
       .then((res) => {
         console.log("Response :" + res.data);
         this.setState({ result: res.data });
+        this.props.publishResult(res.data ? "correct" : "wrong");
       })
       .catch((err) => {
         console.log(err);
@@ -219,7 +220,7 @@ class FillInTheGaps extends Component {
               alignItems: "center",
             }}
           >
-            {this.state.result === true ? (
+            {/* {this.state.result === true ? (
               <div>
                 <h3>Correct!</h3>
                 <br />
@@ -233,7 +234,7 @@ class FillInTheGaps extends Component {
                   Try Again{" "}
                 </button>
               </div>
-            ) : null}
+            ) : null} */}
           </div>
         </Container>
       </React.Fragment>

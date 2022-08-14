@@ -21,6 +21,7 @@ function Exercise() {
 class ExerciseView extends Component {
   state = {
     exercise_list: [],
+    solved_status: [],
     current_exercise_index: null,
     exercise_type: null,
     viewTutorial: false,
@@ -44,9 +45,14 @@ class ExerciseView extends Component {
         }
       )
       .then((res) => {
+        let solvestatus = [];
+        for (let i = 0; i < res.data.length; i++) {
+          solvestatus[i] = false;
+        }
         this.setState({
           exercise_list: res.data,
           current_exercise_index: 0,
+          solved_status: solvestatus,
         });
       })
       .catch((err) => {
@@ -84,27 +90,48 @@ class ExerciseView extends Component {
   };
   handleNext = (e) => {
     e.preventDefault();
-    if (
-      this.state.current_exercise_index ===
-      this.state.exercise_list.length - 1
-    ) {
+    let completeStatus = true;
+    let nextUnsolvedIndex = this.state.current_exercise_index;
+    for (let i = 1; i <= this.state.exercise_list.length; i++) {
+      if (
+        this.state.solved_status[
+          (this.state.current_exercise_index + i) %
+            this.state.exercise_list.length
+        ] === false
+      ) {
+        completeStatus = false;
+        nextUnsolvedIndex =
+          (this.state.current_exercise_index + i) %
+          this.state.exercise_list.length;
+        break;
+      }
+    }
+    if (completeStatus === true) {
       this.setState({
         isCompleted: true,
       });
     } else {
-      const newIndex =
-        (this.state.current_exercise_index + 1) %
-        this.state.exercise_list.length;
+      const newIndex = nextUnsolvedIndex;
+      let solvedCount = 0;
+      for (let i = 0; i < this.state.solved_status.length; i++) {
+        if (this.state.solved_status[i] === true) {
+          solvedCount++;
+        }
+      }
       this.setState({
         current_exercise_index: newIndex,
         exercise_type: this.state.exercise_list[newIndex].exercise_type,
         current_result: null,
-        now: (newIndex * 100) / this.state.exercise_list.length,
+        now: (solvedCount * 100) / this.state.exercise_list.length,
       });
     }
   };
   setResult = (result) => {
-    this.setState({ current_result: result });
+    let newStatus = [...this.state.solved_status];
+    if (result === "correct") {
+      newStatus[this.state.current_exercise_index] = true;
+    }
+    this.setState({ current_result: result, solved_status: newStatus });
   };
   renderResult = () => {
     if (this.state.current_result === "correct") {
@@ -120,7 +147,7 @@ class ExerciseView extends Component {
         <div>
           <h3>Wrong!</h3>
           <br />
-          <button>Try Again</button>
+          <button onClick={this.handleNext}>Next</button>
         </div>
       );
     } else {
