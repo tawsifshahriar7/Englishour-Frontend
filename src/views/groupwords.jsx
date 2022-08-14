@@ -18,12 +18,16 @@ class GroupWords extends Component {
   componentDidMount() {
     var cookie = new Cookie();
     axios
-      .get("http://localhost:8248/user/groupwords?exercise_id=3", {
-        headers: {
-          "x-access-token": cookie.get("x-access-token"),
-          "profile-access-token": cookie.get("profile-access-token"),
-        },
-      })
+      .get(
+        "http://localhost:8248/user/groupwords?exercise_id=" +
+          this.props.exercise_id,
+        {
+          headers: {
+            "x-access-token": cookie.get("x-access-token"),
+            "profile-access-token": cookie.get("profile-access-token"),
+          },
+        }
+      )
       .then((res) => {
         let newList = [];
         res.data.wordList.map((i) => {

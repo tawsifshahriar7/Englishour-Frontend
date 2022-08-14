@@ -6,49 +6,75 @@ import Col from "react-bootstrap/Col";
 
 class ReadComplete extends Component {
   state = {
-    firstRow : ["swim", "play football", "play piano", "sing", "write"],
-    list : [
-       [
-          {type: "text", content: "Alex"},
-          {type: "blank", content: ""},
-          {type: "blank", content: ""},
-          {type: "input", content: ""},
-          {type: "blank", content: ""},
-          {type: "blank", content: ""}
-       ],
-       [
-          {type: "text", content: "Meera"},
-          {type: "input", content: ""},
-          {type: "blank", content: ""},
-          {type: "blank", content: ""},
-          {type: "input", content: ""},
-          {type: "blank", content: ""}
-       ],
-       [
-          {type: "text", content: "Lenny"},
-          {type: "blank", content: ""},
-          {type: "input", content: ""},
-          {type: "input", content: ""},
-          {type: "blank", content: ""},
-          {type: "blank", content: ""},
-       ]
+    firstRow: ["swim", "play football", "play piano", "sing", "write"],
+    list: [
+      [
+        { type: "text", content: "Alex" },
+        { type: "blank", content: "" },
+        { type: "blank", content: "" },
+        { type: "input", content: "" },
+        { type: "blank", content: "" },
+        { type: "blank", content: "" },
+      ],
+      [
+        { type: "text", content: "Meera" },
+        { type: "input", content: "" },
+        { type: "blank", content: "" },
+        { type: "blank", content: "" },
+        { type: "input", content: "" },
+        { type: "blank", content: "" },
+      ],
+      [
+        { type: "text", content: "Lenny" },
+        { type: "blank", content: "" },
+        { type: "input", content: "" },
+        { type: "input", content: "" },
+        { type: "blank", content: "" },
+        { type: "blank", content: "" },
+      ],
     ],
-    sentences : [
+    sentences: [
       "Alex likes to swim.",
       "Meera likes to play football.",
-      "Lenny likes to play piano."
-    ]
+      "Lenny likes to play piano.",
+    ],
   };
 
+  // componentDidMount() {
+  //   var cookie = new Cookie();
+  //   axios
+  //     .get("http://localhost:8248/user/groupwords?exercise_id=3", {
+  //       headers: {
+  //         "x-access-token": cookie.get("x-access-token"),
+  //         "profile-access-token": cookie.get("profile-access-token"),
+  //       },
+  //     })
+  //     .then((res) => {
+  //       let newList = [];
+  //       res.data.wordList.map((i) => {
+  //         newList.push({ name: i, category: res.data.categoryList[0] });
+  //       });
+  //       this.setState({ cat: res.data.categoryList, list: newList });
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // }
+
   render() {
-    let firstRowElements = [ <Col></Col> ];
+    let firstRowElements = [<Col></Col>];
 
     this.state.firstRow.map((item) => {
-      firstRowElements.push(<Col>{item}</Col>);
+      firstRowElements.push(
+        <Col>
+          <b>{item}</b>
+        </Col>
+      );
     });
 
     const rows = this.state.list.map((item, index) => {
-        return (
+      return (
+        <div>
           <Row>
             {item.map((item) => {
               if (item.type === "text") {
@@ -60,33 +86,72 @@ class ReadComplete extends Component {
                   </Col>
                 );
               } else if (item.type === "blank") {
-                return <Col></Col>;
+                return (
+                  <Col>
+                    <input type="text" id={index} disabled="disabled"></input>
+                  </Col>
+                );
               }
             })}
           </Row>
-        );
+          <br></br>
+        </div>
+      );
     });
 
     const sentenceList = this.state.sentences.map((item, index) => {
       return (
-        <Row>{index+1}. {item}</Row>
+        <Row>
+          {index + 1}. {item}
+        </Row>
       );
     });
 
     return (
       <React.Fragment>
         <NavBar />
-        <h1>ReadComplete</h1>
         <Container>
-          <Row>
-            {firstRowElements}
-          </Row>
+          <br />
+          <br />
+          <h1
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            Read and Complete
+          </h1>
+          <br />
+          <br />
+          <Row>{firstRowElements}</Row>
+          <br></br>
           {rows}
         </Container>
         <br></br>
-        <Container style={{ width: "50%", margin: "auto", borderStyle: "solid", borderWidth: "medium" }}>
+        <Container
+          style={{
+            width: "50%",
+            margin: "auto",
+            borderStyle: "solid",
+            borderWidth: "medium",
+          }}
+        >
           {sentenceList}
         </Container>
+        <br />
+        <br />
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <button>Submit</button>
+        </div>
+        <br />
+        <br />
       </React.Fragment>
     );
   }
