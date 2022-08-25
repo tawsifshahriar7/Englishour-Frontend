@@ -118,7 +118,7 @@ class GroupWords extends Component {
     const catDivs = this.state.cat.map((c) => {
       return (
         <div
-          className="droppable"
+          className="droppable category-container"
           onDragOver={(e) => this.onDragOver(e)}
           onDrop={(e) => this.onDrop(e, c)}
         >
@@ -133,7 +133,7 @@ class GroupWords extends Component {
         <div class="shadow-lg p-3 mt-10 mb-5 bg-white rounded">
         <div className="container-drag">
           <h2 className="header">Group Words</h2>
-          <div className="category-container">{catDivs}</div>
+          <div>{catDivs}</div>
         </div>
         <br />
         <br />
