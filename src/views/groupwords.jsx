@@ -118,7 +118,7 @@ class GroupWords extends Component {
     const catDivs = this.state.cat.map((c) => {
       return (
         <div
-          className="droppable category-container"
+          className="droppable"
           onDragOver={(e) => this.onDragOver(e)}
           onDrop={(e) => this.onDrop(e, c)}
         >
