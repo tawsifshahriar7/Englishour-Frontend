@@ -106,7 +106,7 @@ class SentenceShuffle extends Component {
     return (
       <React.Fragment>
         <Container>
-          <div class="shadow-lg p-3 mb-5 bg-white rounded">
+          <div class="shadow-lg p-3 mt-10 mb-5 bg-white rounded">
           <h3 style={{ textAlign: "center" }}>
             Shuffle the words to make correct sentence
           </h3>
