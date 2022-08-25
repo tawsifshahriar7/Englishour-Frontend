@@ -8,15 +8,17 @@ class Tutorial extends Component {
   componentDidMount() {
     var cookie = new Cookie();
     axios
-      .get("http://localhost:8248/user/getTutorial?topic_id=1", {
-        headers: {
-          "x-access-token": cookie.get("x-access-token"),
-          "profile-access-token": cookie.get("profile-access-token"),
-        },
-      })
+      .get(
+        "http://localhost:8248/user/getTutorial?topic_id=" + this.props.topicId,
+        {
+          headers: {
+            "x-access-token": cookie.get("x-access-token"),
+            "profile-access-token": cookie.get("profile-access-token"),
+          },
+        }
+      )
       .then((res) => {
-        this.setState({ tutorialData: res.data[0].content });
-        console.log(this.state.tutorialData);
+        this.setState({ tutorialData: res.data });
       })
       .catch((err) => {
         console.log(err);
