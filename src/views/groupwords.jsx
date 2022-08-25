@@ -130,6 +130,7 @@ class GroupWords extends Component {
 
     return (
       <React.Fragment>
+        <div class="shadow-lg p-3 mt-10 mb-5 bg-white rounded">
         <div className="container-drag">
           <h2 className="header">Group Words</h2>
           <div className="category-container">{catDivs}</div>
@@ -149,6 +150,7 @@ class GroupWords extends Component {
         </div>
         <br />
         <br />
+        </div>
       </React.Fragment>
     );
   }

@@ -110,6 +110,7 @@ class ReadComplete extends Component {
     return (
       <React.Fragment>
         <NavBar />
+        <div class="shadow-lg p-3 mt-10 mb-5 bg-white rounded">
         <Container>
           <br />
           <br />
@@ -152,6 +153,7 @@ class ReadComplete extends Component {
         </div>
         <br />
         <br />
+        </div>
       </React.Fragment>
     );
   }

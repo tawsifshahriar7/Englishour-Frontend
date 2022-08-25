@@ -106,6 +106,7 @@ class LetterChange extends Component {
     ));
     return (
       <React.Fragment>
+        <div class="shadow-lg p-3 mt-10 mb-5 bg-white rounded">
         <div className="pane-content">
           <div
             className="container"
@@ -128,6 +129,7 @@ class LetterChange extends Component {
               <button onClick={this.handleSubmit}>Submit</button>
             ) : null}
           </div>
+        </div>
         </div>
       </React.Fragment>
     );
