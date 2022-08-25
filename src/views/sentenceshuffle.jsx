@@ -106,6 +106,7 @@ class SentenceShuffle extends Component {
     return (
       <React.Fragment>
         <Container>
+          <div class="shadow-lg p-3 mb-5 bg-white rounded">
           <h3 style={{ textAlign: "center" }}>
             Shuffle the words to make correct sentence
           </h3>
@@ -132,6 +133,7 @@ class SentenceShuffle extends Component {
             {!this.state.isSubmitted ? (
               <button onClick={this.handleSubmit}>Submit</button>
             ) : null}
+          </div>
           </div>
         </Container>
       </React.Fragment>
