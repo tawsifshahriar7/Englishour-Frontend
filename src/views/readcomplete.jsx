@@ -40,26 +40,24 @@ class ReadComplete extends Component {
     ],
   };
 
-  // componentDidMount() {
-  //   var cookie = new Cookie();
-  //   axios
-  //     .get("http://localhost:8248/user/groupwords?exercise_id=3", {
-  //       headers: {
-  //         "x-access-token": cookie.get("x-access-token"),
-  //         "profile-access-token": cookie.get("profile-access-token"),
-  //       },
-  //     })
-  //     .then((res) => {
-  //       let newList = [];
-  //       res.data.wordList.map((i) => {
-  //         newList.push({ name: i, category: res.data.categoryList[0] });
-  //       });
-  //       this.setState({ cat: res.data.categoryList, list: newList });
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // }
+  componentDidMount() {
+    var cookie = new Cookie();
+    axios
+      .get("http://localhost:8248/user/readcomplete?exercise_id="+
+      this.props.exercise_id, 
+      {
+        headers: {
+          "x-access-token": cookie.get("x-access-token"),
+          "profile-access-token": cookie.get("profile-access-token"),
+        },
+      })
+      .then((res) => {
+        this.setState({ firstRow: res.data.rows[0], list: res.data.rows.slice(1), sentences: res.data.sentences});
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
 
   render() {
     let firstRowElements = [<Col></Col>];
