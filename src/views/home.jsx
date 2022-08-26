@@ -11,9 +11,7 @@ import Modal from 'react-bootstrap/Modal';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid } from "recharts";
 import trophy from "../img/trophy.png";
 
-function Home() {
-  const { state } = useLocation();
-  console.log(state);
+function Home() {  const { state } = useLocation();
   if(state===null){
     return <HomeView/>;
   }
@@ -31,7 +29,7 @@ class HomeView extends Component {
     list: [],
     categoryList: [],
     selectedCategory: null,
-    achievement: false,
+    achievement: true,
   };
 
   pdata = [
@@ -54,7 +52,7 @@ class HomeView extends Component {
         console.log(err);
       });
 
-      if(this.props.popup!==null){
+      if(this.props.popup!==undefined){
         this.setState({ achievement: this.state.data })
       }
   }
@@ -187,7 +185,7 @@ class HomeView extends Component {
               </div>
             </Modal.Title>
           </Modal.Header>
-          <Modal.Body>Exercise - Score</Modal.Body>
+          <Modal.Body>Topic Completed</Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={this.handleClose}>
               Close
