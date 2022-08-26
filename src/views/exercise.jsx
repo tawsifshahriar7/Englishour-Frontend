@@ -198,7 +198,7 @@ class ExerciseView extends Component {
     }
     return (
       <React.Fragment>
-        {this.state.isCompleted && <Navigate to="/" replace={true} />}
+        {this.state.isCompleted && <Navigate to="/" replace={true} state={{ data: true }} />}
         <NavBar />
         <br />
         <div className="container">

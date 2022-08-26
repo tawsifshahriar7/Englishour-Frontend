@@ -4,10 +4,12 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import TopicIcon from "../components/home/topic";
-import { Navigate } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import Button from "react-bootstrap/Button";
+import Modal from 'react-bootstrap/Modal';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid } from "recharts";
+import trophy from "../img/trophy.png";
 
 class Home extends Component {
   state = {
@@ -18,6 +20,7 @@ class Home extends Component {
     list: [],
     categoryList: [],
     selectedCategory: null,
+    achievement: false,
   };
 
   pdata = [
@@ -66,6 +69,8 @@ class Home extends Component {
         console.log(err);
       });
   };
+
+  handleClose = () => this.setState({ achievement: false });
 
   render() {
     const listItems = this.state.list.map((item) => (
@@ -152,6 +157,28 @@ class Home extends Component {
             </Col>
           </Row>
         </Container>
+        <Modal show={this.state.achievement} onHide={this.handleClose}>
+          <Modal.Header closeButton>
+            <Modal.Title>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+              }}
+              >
+                <img src={trophy} style={{ width: "40px", height: "40px"}}></img>
+                Achievement Unlocked
+              </div>
+            </Modal.Title>
+          </Modal.Header>
+          <Modal.Body>Exercise - Score</Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={this.handleClose}>
+              Close
+            </Button>
+          </Modal.Footer>
+        </Modal>
       </React.Fragment>
     );
   }
