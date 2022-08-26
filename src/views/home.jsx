@@ -11,7 +11,18 @@ import Modal from 'react-bootstrap/Modal';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid } from "recharts";
 import trophy from "../img/trophy.png";
 
-class Home extends Component {
+function Home() {
+  const { state } = useLocation();
+  console.log(state);
+  if(state===null){
+    return <HomeView/>;
+  }
+  else{
+    return <HomeView popup={ state.data }></HomeView>
+  }
+}
+
+class HomeView extends Component {
   state = {
     selected: null,
     isSelected: false,
@@ -42,6 +53,10 @@ class Home extends Component {
       .catch((err) => {
         console.log(err);
       });
+
+      if(this.props.popup!==null){
+        this.setState({ achievement: this.state.data })
+      }
   }
 
   handleSelect = (e) => {
