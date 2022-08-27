@@ -60,7 +60,7 @@ class ReadComplete extends Component {
   }
 
   render() {
-    let firstRowElements = [<Col></Col>];
+    let firstRowElements = [<Col></Col>]; 
 
     this.state.firstRow.map((item) => {
       firstRowElements.push(
