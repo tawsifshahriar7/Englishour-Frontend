@@ -19,6 +19,7 @@ class Profile extends Component {
       class: "",
       profile_pic: "",
       current_level: "",
+      entryTest: null,
     },
   };
 

@@ -18,6 +18,7 @@ import ProfileUpdate from "./views/updateProfile";
 import PasswordChange from "./views/passwordChange";
 import FillInTheGaps from "./views/fillinthegaps";
 import Test from "./views/test";
+import EntryTest from "./views/entry_test";
 
 class App extends Component {
   render() {
@@ -41,6 +42,7 @@ class App extends Component {
           <Route path="passwordchange" element={<PasswordChange />} />
           <Route path="fillinthegaps" element={<FillInTheGaps />} />
           <Route path="test" element={<Test />} />
+          <Route path="entrytest" element={<EntryTest />} />
         </Routes>
       </BrowserRouter>
     );

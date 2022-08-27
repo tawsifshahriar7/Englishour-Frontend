@@ -1,8 +1,9 @@
 import React, { Component } from "react";
-import NavBar from "../components/navbar";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import Cookie from "universal-cookie";
+import axios from "axios";
 
 class ReadComplete extends Component {
   state = {
@@ -43,16 +44,22 @@ class ReadComplete extends Component {
   componentDidMount() {
     var cookie = new Cookie();
     axios
-      .get("http://localhost:8248/user/readcomplete?exercise_id="+
-      this.props.exercise_id, 
-      {
-        headers: {
-          "x-access-token": cookie.get("x-access-token"),
-          "profile-access-token": cookie.get("profile-access-token"),
-        },
-      })
+      .get(
+        "http://localhost:8248/user/readcomplete?exercise_id=" +
+          this.props.exercise_id,
+        {
+          headers: {
+            "x-access-token": cookie.get("x-access-token"),
+            "profile-access-token": cookie.get("profile-access-token"),
+          },
+        }
+      )
       .then((res) => {
-        this.setState({ firstRow: res.data.rows[0], list: res.data.rows.slice(1), sentences: res.data.sentences});
+        this.setState({
+          firstRow: res.data.rows[0],
+          list: res.data.rows.slice(1),
+          sentences: res.data.sentences,
+        });
       })
       .catch((err) => {
         console.log(err);
@@ -107,50 +114,49 @@ class ReadComplete extends Component {
 
     return (
       <React.Fragment>
-        <NavBar />
         <div class="shadow-lg p-3 mt-10 mb-5 bg-white rounded">
-        <Container>
+          <Container>
+            <br />
+            <br />
+            <h1
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              Read and Complete
+            </h1>
+            <br />
+            <br />
+            <Row>{firstRowElements}</Row>
+            <br></br>
+            {rows}
+          </Container>
+          <br></br>
+          <Container
+            style={{
+              width: "50%",
+              margin: "auto",
+              borderStyle: "solid",
+              borderWidth: "medium",
+            }}
+          >
+            {sentenceList}
+          </Container>
           <br />
           <br />
-          <h1
+          <div
             style={{
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
             }}
           >
-            Read and Complete
-          </h1>
+            <button>Submit</button>
+          </div>
           <br />
           <br />
-          <Row>{firstRowElements}</Row>
-          <br></br>
-          {rows}
-        </Container>
-        <br></br>
-        <Container
-          style={{
-            width: "50%",
-            margin: "auto",
-            borderStyle: "solid",
-            borderWidth: "medium",
-          }}
-        >
-          {sentenceList}
-        </Container>
-        <br />
-        <br />
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <button>Submit</button>
-        </div>
-        <br />
-        <br />
         </div>
       </React.Fragment>
     );
