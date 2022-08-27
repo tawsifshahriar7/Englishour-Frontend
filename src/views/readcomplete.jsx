@@ -115,14 +115,14 @@ class ReadComplete extends Component {
                 if (cell === "blank") {
                     return (
                       <Col>
-                        <input type="text" id={index} disabled="disabled"></input>
+                        <input type="text" id={index} disabled="disabled" style={{width: "50px"}}></input>
                       </Col>
                     );
                   }
                   else{
                     return (
                       <Col>
-                        <input type="text" name="input" id={index*this.state.ncols+i} onChange={this.handleInput}/>
+                        <input type="text" name="input" id={index*this.state.ncols+i} style={{width: "50px"}} onChange={this.handleInput}/>
                       </Col>
                     );
                   }
