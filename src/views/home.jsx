@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import NavBar from "../components/navbar";
-import Footer from "../components/footer";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -171,7 +170,6 @@ class HomeView extends Component {
             </Col>
           </Row>
         </Container>
-        <Footer />
         <Modal show={this.state.achievement} onHide={this.handleClose}>
           <Modal.Header closeButton>
             <Modal.Title>
