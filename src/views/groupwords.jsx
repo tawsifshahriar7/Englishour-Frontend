@@ -106,8 +106,7 @@ class GroupWords extends Component {
           key={i.name}
           onDragStart={(e) => this.onDragStart(e, i.name)}
           draggable
-          className="draggable"
-          style={{ backgroundColor: "brown" }}
+          className="draggable shadow rounded"
         >
           {i.name}
         </div>
