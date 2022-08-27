@@ -9,10 +9,12 @@ import axios from "axios";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid } from "recharts";
+import { BarChart, Bar } from "recharts";
 import trophy from "../img/trophy.png";
 import Footer from "../components/footer/footer";
 import Background from "../img/test_bg.gif";
 import Cookie from "universal-cookie";
+import { Legend } from "chart.js";
 
 function Home() {
   const { state } = useLocation();
@@ -187,12 +189,18 @@ class HomeView extends Component {
               </Col>
               <Col className="shadow p-4 m-5 bg-white rounded d-flex justify-content-center">
                 <h3>Stats</h3>
-                <LineChart width={600} height={300} data={this.state.pdata}>
+                {/* <LineChart width={600} height={300} data={this.state.pdata}>
                   <Line type="monotone" dataKey="value" stroke="#8884d8" />
                   <CartesianGrid stroke="#ccc" />
                   <XAxis dataKey="day" />
                   <YAxis />
-                </LineChart>
+                </LineChart> */}
+                <BarChart width={400} height={400} data={this.state.pdata}>
+                  <XAxis dataKey="day" />
+                  <YAxis />
+                  <Legend />
+                  <Bar dataKey="value" fill="#8884d8" />
+                </BarChart>
               </Col>
             </Row>
           </Container>
