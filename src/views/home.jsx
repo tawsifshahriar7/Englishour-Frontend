@@ -10,6 +10,7 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid } from "recharts";
 import trophy from "../img/trophy.png";
+import Footer from "../components/footer/footer";
 
 function Home() {
   const { state } = useLocation();
@@ -29,7 +30,7 @@ class HomeView extends Component {
     list: [],
     categoryList: [],
     selectedCategory: null,
-    achievement: true,
+    achievement: false,
   };
 
   pdata = [
@@ -170,6 +171,7 @@ class HomeView extends Component {
             </Col>
           </Row>
         </Container>
+        <Footer/>
         <Modal show={this.state.achievement} onHide={this.handleClose}>
           <Modal.Header closeButton>
             <Modal.Title>
