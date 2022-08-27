@@ -16,6 +16,7 @@ class FillInTheGaps extends Component {
 
   dragItem = React.createRef();
   dragOverItem = React.createRef();
+  remainingStr= "";
 
   componentDidMount() {
     var cookie = new Cookie();
@@ -55,6 +56,8 @@ class FillInTheGaps extends Component {
           }
           //console.log(g);
         }
+        if(g!=="")
+        this.remainingStr = g;
 
         //console.log("v : "+v);
 
@@ -198,9 +201,9 @@ class FillInTheGaps extends Component {
 
           <div align="center">
             <br />
-            {partialSentences}
+            {partialSentences}  {this.remainingStr} 
           </div>
-
+         
           <br />
           <div
             style={{

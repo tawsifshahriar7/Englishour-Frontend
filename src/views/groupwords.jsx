@@ -12,7 +12,7 @@ class GroupWords extends Component {
       { name: "Word 4", category: "Cat0" },
       { name: "Word 5", category: "Cat0" },
     ],
-    cat: ["Cat0", "Cat1", "Cat2", "Cat3"],
+    cat: ["Words", "Cat1", "Cat2", "Cat3"],
   };
 
   componentDidMount() {
@@ -122,7 +122,7 @@ class GroupWords extends Component {
           onDragOver={(e) => this.onDragOver(e)}
           onDrop={(e) => this.onDrop(e, c)}
         >
-          <span className="task-header">{c}</span>
+          <div className="task-header">{c}</div>
           {catItems[c]}
         </div>
       );
