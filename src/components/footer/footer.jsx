@@ -1,13 +1,13 @@
 import React from "react";
-import logo from "../../logo.png";
+import logo from "../../img/book_logo.png";
 
-const Footer = () => <footer className=" shadow page-footer font-small blue pt-4">
+const Footer = () => <footer className="shadow bg-black text-white page-footer font-small blue pt-4">
     <div className="container-fluid text-center text-md-left">
         <div className="row">
             <div className="col-md-6 mt-md-0 mt-3">
             <a href="/" className="text-dark text-decoration-none">
-              <img alt="logo" src={logo} width="30px" />
-              <h5 className="text-uppercase">Englishour</h5>
+              <img alt="logo" src={logo} width="50px" />
+              <h5 className="text-uppercase text-white">Englishour</h5>
             </a>
                 <p>A fun and creative way of learning English</p>
             </div>
