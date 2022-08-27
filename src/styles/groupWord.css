@@ -18,10 +18,11 @@
   }
   
   .task-header {
-    float: left;
+    display: inline-block;
     background-color: skyblue;
+    border-style: outset;
     width: 100px;
-    height: 55px;
+    height: 60px;
   }
   
   .droppable {
