@@ -35,7 +35,7 @@ class ReadComplete extends Component {
           ncols: res.data.no_cols,
           firstRow: res.data.first_row,
           list: res.data.rows,
-          sentences: res.data.sentences,
+          sentences: res.data.sentenceList,
         });
 
         let result_list = [];
