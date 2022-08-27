@@ -36,7 +36,7 @@ class ReadComplete extends Component {
           firstRow: res.data.first_row,
           list: res.data.rows,
           resultList: res.data.rows,
-          sentences: res.data.sentences,
+          sentences: res.data.sentenceList,
         });
       })
       .catch((err) => {
@@ -48,7 +48,8 @@ class ReadComplete extends Component {
     const id = e.target.id;
     const value = e.target.value;
     const result_list = this.state.resultList;
-    result_list[Math.floor(id/this.state.ncols)][id%this.state.ncols] = value;
+    result_list[Math.floor(id / this.state.ncols)][id % this.state.ncols] =
+      value;
     this.setState({
       resultList: result_list,
     });
@@ -96,26 +97,29 @@ class ReadComplete extends Component {
       return (
         <div>
           <Row>
-            {item.map((cell,i) => {
-              if(i===0){
+            {item.map((cell, i) => {
+              if (i === 0) {
                 return <Col>{cell}</Col>;
-              }
-              else{
+              } else {
                 if (cell.type === "blank") {
-                    return (
-                      <Col>
-                        <input type="text" id={index} disabled="disabled"></input>
-                      </Col>
-                    );
-                  }
-                  else{
-                    return (
-                      <Col>
-                        <input type="text" name="input" id={index*this.state.ncols+i} onChange={this.handleInput}/>
-                      </Col>
-                    );
-                  }
-                } 
+                  return (
+                    <Col>
+                      <input type="text" id={index} disabled="disabled"></input>
+                    </Col>
+                  );
+                } else {
+                  return (
+                    <Col>
+                      <input
+                        type="text"
+                        name="input"
+                        id={index * this.state.ncols + i}
+                        onChange={this.handleInput}
+                      />
+                    </Col>
+                  );
+                }
+              }
             })}
           </Row>
           <br></br>
