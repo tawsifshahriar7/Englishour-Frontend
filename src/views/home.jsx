@@ -10,6 +10,7 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid } from "recharts";
 import trophy from "../img/trophy.png";
+import Background from "../img/test_bg.gif";
 
 function Home() {
   const { state } = useLocation();
@@ -130,72 +131,81 @@ class HomeView extends Component {
     ) : null;
 
     return (
-      <React.Fragment>
-        {this.state.isSelected && (
-          <Navigate to={this.state.link} replace={true} />
-        )}
-        <NavBar />
-        <Container>
-          <Row>
-            <Col className="shadow p-4 m-5 bg-white rounded">
-              <Container>
-                <Row className="m-4">
-                  <Col className="d-flex justify-content-center">
-                    <h3>
-                      {this.state.categorySelected ? "Topics" : "Categories"}
-                    </h3>
-                  </Col>
-                </Row>
-                {this.state.categorySelected ? listItems : categoryItems}
-              </Container>
-              {categoryChange}
-              {!this.state.categorySelected ? (
-                <Row className="m-4">
-                  <Col className="d-flex justify-content-center">
-                    <Button variant="primary" size="lg" active>
-                      Take Test
-                    </Button>
-                  </Col>
-                </Row>
-              ) : null}
-            </Col>
-            <Col className="shadow p-4 m-5 bg-white rounded d-flex justify-content-center">
-              <h3>Stats</h3>
-              <LineChart width={600} height={300} data={this.pdata}>
-                <Line type="monotone" dataKey="value" stroke="#8884d8" />
-                <CartesianGrid stroke="#ccc" />
-                <XAxis dataKey="day" />
-                <YAxis />
-              </LineChart>
-            </Col>
-          </Row>
-        </Container>
-        <Modal show={this.state.achievement} onHide={this.handleClose}>
-          <Modal.Header closeButton>
-            <Modal.Title>
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                <img
-                  src={trophy}
-                  style={{ width: "40px", height: "40px" }}
-                ></img>
-                Achievement Unlocked
-              </div>
-            </Modal.Title>
-          </Modal.Header>
-          <Modal.Body>Topic Completed</Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={this.handleClose}>
-              Close
-            </Button>
-          </Modal.Footer>
-        </Modal>
-      </React.Fragment>
+      <div
+        style={{
+          background: `url(${Background})`,
+          backgroundPosition: "center",
+          width: "100%",
+          height: "100%",
+        }}
+      >
+        <React.Fragment>
+          {this.state.isSelected && (
+            <Navigate to={this.state.link} replace={true} />
+          )}
+          <NavBar />
+          <Container>
+            <Row>
+              <Col className="shadow p-4 m-5 bg-white rounded">
+                <Container>
+                  <Row className="m-4">
+                    <Col className="d-flex justify-content-center">
+                      <h3>
+                        {this.state.categorySelected ? "Topics" : "Categories"}
+                      </h3>
+                    </Col>
+                  </Row>
+                  {this.state.categorySelected ? listItems : categoryItems}
+                </Container>
+                {categoryChange}
+                {!this.state.categorySelected ? (
+                  <Row className="m-4">
+                    <Col className="d-flex justify-content-center">
+                      <Button variant="primary" size="lg" active>
+                        Take Test
+                      </Button>
+                    </Col>
+                  </Row>
+                ) : null}
+              </Col>
+              <Col className="shadow p-4 m-5 bg-white rounded d-flex justify-content-center">
+                <h3>Stats</h3>
+                <LineChart width={600} height={300} data={this.pdata}>
+                  <Line type="monotone" dataKey="value" stroke="#8884d8" />
+                  <CartesianGrid stroke="#ccc" />
+                  <XAxis dataKey="day" />
+                  <YAxis />
+                </LineChart>
+              </Col>
+            </Row>
+          </Container>
+          <Modal show={this.state.achievement} onHide={this.handleClose}>
+            <Modal.Header closeButton>
+              <Modal.Title>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <img
+                    src={trophy}
+                    style={{ width: "40px", height: "40px" }}
+                  ></img>
+                  Achievement Unlocked
+                </div>
+              </Modal.Title>
+            </Modal.Header>
+            <Modal.Body>Topic Completed</Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={this.handleClose}>
+                Close
+              </Button>
+            </Modal.Footer>
+          </Modal>
+        </React.Fragment>
+      </div>
     );
   }
 }
