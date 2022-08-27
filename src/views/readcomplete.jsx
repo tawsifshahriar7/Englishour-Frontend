@@ -2,8 +2,8 @@ import React, { Component } from "react";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import Cookie from "universal-cookie";
 import axios from "axios";
+import Cookie from "universal-cookie";
 
 class ReadComplete extends Component {
   state = {
@@ -67,7 +67,7 @@ class ReadComplete extends Component {
   }
 
   render() {
-    let firstRowElements = [<Col></Col>]; 
+    let firstRowElements = [<Col></Col>];
 
     this.state.firstRow.map((item) => {
       firstRowElements.push(
