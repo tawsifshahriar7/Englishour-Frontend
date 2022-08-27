@@ -8,7 +8,6 @@ import Cookie from "universal-cookie";
 import Button from "react-bootstrap/Button";
 import { lazy } from "react";
 import axios from "axios";
-const images = require.context("../images", true);
 
 class Profile extends Component {
   // id = localStorage.getItem("profile");
@@ -71,8 +70,6 @@ class Profile extends Component {
   };
 
   render() {
-    const sampleImage =
-      "https://image.shutterstock.com/image-vector/sample-red-square-grunge-stamp-260nw-338250266.jpg";
     return (
       <React.Fragment>
         <NavBar isLoggedIn={this.props.isLoggedIn} />
@@ -83,7 +80,7 @@ class Profile extends Component {
                 <br />
                 <br />
                 <img
-                  src={sampleImage}
+                  src={this.state.info.profile_picture}
                   alt="profile"
                   className="profile-pic"
                   height={100}
