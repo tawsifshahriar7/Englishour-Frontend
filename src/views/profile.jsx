@@ -6,9 +6,12 @@ import avatar from "../avatar.jpg";
 import { Link } from "react-router-dom";
 import Cookie from "universal-cookie";
 import Button from "react-bootstrap/Button";
+import { lazy } from "react";
+import axios from "axios";
+const images = require.context("../images", true);
 
 class Profile extends Component {
-  id = localStorage.getItem("profile");
+  // id = localStorage.getItem("profile");
 
   state = {
     info: {
@@ -18,36 +21,35 @@ class Profile extends Component {
       dateofBirth: "",
       institution: "",
       class: "",
-      profile_pic: "",
+      profile_picture: "",
       current_level: "",
       entryTest: null,
     },
   };
 
   componentDidMount() {
-    const getInfo = async (id) => {
-      var cookie = new Cookie();
-      await fetch(`http://localhost:8248/user/profile`, {
+    var cookie = new Cookie();
+    axios
+      .get(`http://localhost:8248/user/profile`, {
         headers: {
           "x-access-token": cookie.get("x-access-token"),
           "profile-access-token": cookie.get("profile-access-token"),
         },
       })
-        .then((res) => res.json())
-        .then((data) => {
-          this.setState({ info: data });
-          console.log(this.state.info);
-          if (this.state.info.profile_pic === "") {
-            let new_info = this.state.info;
-            new_info.profile_pic = avatar;
-            this.setState({
-              info: new_info,
-            });
-          }
-        })
-        .catch((err) => console.error(err));
-    };
-    getInfo(this.id);
+      .then((res) => {
+        this.setState({ info: res.data });
+        console.log(res.data);
+        // if (this.state.info.profile_picture === "") {
+        //   let new_info = this.state.info;
+        //   new_info.profile_picture = "../avatar.jpg";
+        //   this.setState({
+        //     info: new_info,
+        //   });
+        // }
+        // const myImage = lazy(() => import(this.state.info.profile_picture));
+        // this.setState({ pic: myImage });
+      })
+      .catch((err) => console.error(err));
   }
 
   handleChange = async (e) => {
@@ -69,6 +71,8 @@ class Profile extends Component {
   };
 
   render() {
+    const sampleImage =
+      "https://image.shutterstock.com/image-vector/sample-red-square-grunge-stamp-260nw-338250266.jpg";
     return (
       <React.Fragment>
         <NavBar isLoggedIn={this.props.isLoggedIn} />
@@ -79,20 +83,20 @@ class Profile extends Component {
                 <br />
                 <br />
                 <img
-                  src={avatar}
+                  src={sampleImage}
                   alt="profile"
                   className="profile-pic"
                   height={100}
                   width={100}
+                  onError={(e) => {
+                    e.target.src = avatar;
+                  }}
                 />
                 <div className="profile-info">
                   <h2>
                     {this.state.info.first_name} {this.state.info.last_name}
                   </h2>
-                  <h6>
-                    Date of Birth:{" "}
-                    {this.state.info.dateofBirth.substring(0, 10)}
-                  </h6>
+                  <h6>Date of Birth: {this.state.info.dateofBirth}</h6>
                   <h6>Institution: {this.state.info.institution}</h6>
                   <h6>Class: {this.state.info.class}</h6>
                   <h6>Current Level: {this.state.info.current_level}</h6>
