@@ -7,38 +7,13 @@ import Cookie from "universal-cookie";
 
 class ReadComplete extends Component {
   state = {
-    firstRow: ["swim", "play football", "play piano", "sing", "write"],
-    list: [
-      [
-        { type: "text", content: "Alex" },
-        { type: "blank", content: "" },
-        { type: "blank", content: "" },
-        { type: "input", content: "" },
-        { type: "blank", content: "" },
-        { type: "blank", content: "" },
-      ],
-      [
-        { type: "text", content: "Meera" },
-        { type: "input", content: "" },
-        { type: "blank", content: "" },
-        { type: "blank", content: "" },
-        { type: "input", content: "" },
-        { type: "blank", content: "" },
-      ],
-      [
-        { type: "text", content: "Lenny" },
-        { type: "blank", content: "" },
-        { type: "input", content: "" },
-        { type: "input", content: "" },
-        { type: "blank", content: "" },
-        { type: "blank", content: "" },
-      ],
-    ],
-    sentences: [
-      "Alex likes to swim.",
-      "Meera likes to play football.",
-      "Lenny likes to play piano.",
-    ],
+    nrows: 0,
+    ncols: 0,
+    firstRow: [],
+    list: [],
+    resultList: [],
+    sentences: [],
+    isSubmitted: false,
   };
 
   componentDidMount() {
@@ -56,8 +31,11 @@ class ReadComplete extends Component {
       )
       .then((res) => {
         this.setState({
-          firstRow: res.data.rows[0],
-          list: res.data.rows.slice(1),
+          nrows: res.data.no_rows,
+          ncols: res.data.no_cols,
+          firstRow: res.data.first_row,
+          list: res.data.rows,
+          resultList: res.data.rows,
           sentences: res.data.sentences,
         });
       })
@@ -65,6 +43,43 @@ class ReadComplete extends Component {
         console.log(err);
       });
   }
+
+  handleInput = (e) => {
+    const id = e.target.id;
+    const value = e.target.value;
+    const result_list = this.state.resultList;
+    result_list[Math.floor(id/this.state.ncols)][id%this.state.ncols] = value;
+    this.setState({
+      resultList: result_list,
+    });
+  };
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+    var cookie = new Cookie();
+    axios
+      .post(
+        "http://localhost:8248/user/submitExercise",
+        {
+          exercise_id: this.props.exercise_id,
+          submitted_answer: this.state.resultList,
+        },
+        {
+          headers: {
+            "x-access-token": cookie.get("x-access-token"),
+            "profile-access-token": cookie.get("profile-access-token"),
+          },
+        }
+      )
+      .then((res) => {
+        this.setState({ isSubmitted: true });
+        let result = res.data ? "correct" : "wrong";
+        this.props.publishResult(result);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   render() {
     let firstRowElements = [<Col></Col>];
@@ -81,22 +96,21 @@ class ReadComplete extends Component {
       return (
         <div>
           <Row>
-            {item.map((item) => {
-              if (item.type === "text") {
-                return <Col>{item.content}</Col>;
-              } else if (item.type === "input") {
-                return (
-                  <Col>
-                    <input type="text" name="input" id={index} />
-                  </Col>
-                );
-              } else if (item.type === "blank") {
+            {item.map((cell,i) => {
+              if (cell === "blank") {
                 return (
                   <Col>
                     <input type="text" id={index} disabled="disabled"></input>
                   </Col>
                 );
               }
+              else {
+                return (
+                  <Col>
+                    <input type="text" name="input" id={index*this.state.ncols+i} onChange={this.handleInput}/>
+                  </Col>
+                );
+              } 
             })}
           </Row>
           <br></br>
@@ -153,7 +167,9 @@ class ReadComplete extends Component {
               alignItems: "center",
             }}
           >
-            <button>Submit</button>
+            {!this.state.isSubmitted ? (
+              <button onClick={this.handleSubmit}>Submit</button>
+            ) : null}
           </div>
           <br />
           <br />
