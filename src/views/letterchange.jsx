@@ -30,10 +30,11 @@ class LetterChange extends Component {
         this.setState({
           exercise: res.data,
         });
-        const len = res.data.length;
-        for (let i = 0; i < len; i++) {
-          this.state.input.push("####");
-        }
+        // const len = res.data.length;
+        // console.log(len);
+        // for (let i = 0; i < len; i++) {
+        //   this.state.input.push("####");
+        // }
       })
       .catch((err) => {
         console.log(err);
@@ -53,6 +54,12 @@ class LetterChange extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
     const input = this.state.input;
+    console.log(input);
+    if (input.length === 0) {
+      for (let i = 0; i < this.state.exercise.length; i++) {
+        input.push("####");
+      }
+    }
     const body = {
       exercise_id: this.props.exercise_id,
       submitted_answer: input,
@@ -95,7 +102,7 @@ class LetterChange extends Component {
     const listItems = this.state.exercise.map((item, index) => (
       <div key={index}>
         <Sentence
-          id={item[0].item_id}
+          id={index + 1}
           sentence={item[0].hint}
           answer={item[0].answer}
           result={this.state.resultList[index]}
@@ -107,29 +114,29 @@ class LetterChange extends Component {
     return (
       <React.Fragment>
         <div class="shadow-lg p-3 mt-10 mb-5 bg-white rounded">
-        <div className="pane-content">
-          <div
-            className="container"
-            style={{ alignItems: "center", justifyContent: "center" }}
-          >
-            <h3>Change one Letter to make new words</h3>
+          <div className="pane-content">
+            <div
+              className="container"
+              style={{ alignItems: "center", justifyContent: "center" }}
+            >
+              <h3>Change one Letter to make new words</h3>
+              <br />
+              <br />
+              {listItems}
+            </div>
             <br />
-            <br />
-            {listItems}
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              {!this.state.isSubmitted ? (
+                <button onClick={this.handleSubmit}>Submit</button>
+              ) : null}
+            </div>
           </div>
-          <br />
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            {!this.state.isSubmitted ? (
-              <button onClick={this.handleSubmit}>Submit</button>
-            ) : null}
-          </div>
-        </div>
         </div>
       </React.Fragment>
     );
