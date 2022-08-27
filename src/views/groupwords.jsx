@@ -6,11 +6,11 @@ import Cookie from "universal-cookie";
 class GroupWords extends Component {
   state = {
     list: [
-      { name: "Word 1", category: "Cat0" },
-      { name: "Word 2", category: "Cat0" },
-      { name: "Word 3", category: "Cat0" },
-      { name: "Word 4", category: "Cat0" },
-      { name: "Word 5", category: "Cat0" },
+      { name: "Word 1", category: "Words" },
+      { name: "Word 2", category: "Words" },
+      { name: "Word 3", category: "Words" },
+      { name: "Word 4", category: "Words" },
+      { name: "Word 5", category: "Words" },
     ],
     cat: ["Words", "Cat1", "Cat2", "Cat3"],
   };
