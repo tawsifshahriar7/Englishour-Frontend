@@ -5,6 +5,7 @@ import Container from "react-bootstrap/esm/Container";
 import avatar from "../avatar.jpg";
 import { Link } from "react-router-dom";
 import Cookie from "universal-cookie";
+import Button from "react-bootstrap/Button";
 
 class Profile extends Component {
   id = localStorage.getItem("profile");
@@ -101,6 +102,12 @@ class Profile extends Component {
             <Link to="/updateprofile">
               <button>Edit Profile</button>
             </Link>
+            <br />
+            {!this.state.info.entryTest ? (
+              <Link to="/entrytest">
+                <Button variant="dark">Take Entry Test</Button>
+              </Link>
+            ) : null}
           </div>
           <br />
           <br />

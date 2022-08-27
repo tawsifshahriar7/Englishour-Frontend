@@ -6,11 +6,11 @@ import Cookie from "universal-cookie";
 class GroupWords extends Component {
   state = {
     list: [
-      { name: "Word 1", category: "Cat0" },
-      { name: "Word 2", category: "Cat0" },
-      { name: "Word 3", category: "Cat0" },
-      { name: "Word 4", category: "Cat0" },
-      { name: "Word 5", category: "Cat0" },
+      { name: "Word 1", category: "Words" },
+      { name: "Word 2", category: "Words" },
+      { name: "Word 3", category: "Words" },
+      { name: "Word 4", category: "Words" },
+      { name: "Word 5", category: "Words" },
     ],
     cat: ["Words", "Cat1", "Cat2", "Cat3"],
   };
@@ -131,25 +131,25 @@ class GroupWords extends Component {
     return (
       <React.Fragment>
         <div class="shadow-lg p-3 mt-10 mb-5 bg-white rounded">
-        <div className="container-drag">
-          <h2 className="header">Group Words</h2>
-          <div>{catDivs}</div>
-        </div>
-        <br />
-        <br />
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          {!this.state.isSubmitted ? (
-            <button onClick={this.handleSubmit}>Submit</button>
-          ) : null}
-        </div>
-        <br />
-        <br />
+          <div className="container-drag">
+            <h2 className="header">Group Words</h2>
+            <div>{catDivs}</div>
+          </div>
+          <br />
+          <br />
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            {!this.state.isSubmitted ? (
+              <button onClick={this.handleSubmit}>Submit</button>
+            ) : null}
+          </div>
+          <br />
+          <br />
         </div>
       </React.Fragment>
     );
