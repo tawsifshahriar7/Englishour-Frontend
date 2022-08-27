@@ -12,6 +12,7 @@ import { ReflexContainer, ReflexSplitter, ReflexElement } from "react-reflex";
 import { useParams } from "react-router-dom";
 import { Navigate } from "react-router-dom";
 import ProgressBar from "react-bootstrap/ProgressBar";
+import "../styles/footerStyle.css";
 
 function Exercise() {
   const { topicId } = useParams();
@@ -136,7 +137,7 @@ class ExerciseView extends Component {
   renderResult = () => {
     if (this.state.current_result === "correct") {
       return (
-        <div>
+        <div className="footer-correct">
           <h3>Correct!</h3>
           <br />
           <button onClick={this.handleNext}>Next</button>
@@ -144,7 +145,7 @@ class ExerciseView extends Component {
       );
     } else if (this.state.current_result === "wrong") {
       return (
-        <div>
+        <div className="footer-wrong">
           <h3>Wrong!</h3>
           <br />
           <button onClick={this.handleNext}>Next</button>
