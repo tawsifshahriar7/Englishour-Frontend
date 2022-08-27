@@ -7,11 +7,12 @@ import SentenceShuffle from "./sentenceshuffle";
 import FillInTheGaps from "./fillinthegaps";
 import GroupWords from "./groupwords";
 import ReadComplete from "./readcomplete";
-import Tutorial from "./tutorial";
+// import Tutorial from "./tutorial";
 import { ReflexContainer, ReflexSplitter, ReflexElement } from "react-reflex";
 import { useParams } from "react-router-dom";
 import { Navigate } from "react-router-dom";
 import ProgressBar from "react-bootstrap/ProgressBar";
+import Review from "./review";
 
 function Test() {
   const { topicId } = useParams();
@@ -34,16 +35,12 @@ class TestView extends Component {
   componentDidMount() {
     var cookie = new Cookie();
     axios
-      .get(
-        "http://localhost:8248/user/getExerciseList?topic_id=" +
-          this.props.topicId,
-        {
-          headers: {
-            "x-access-token": cookie.get("x-access-token"),
-            "profile-access-token": cookie.get("profile-access-token"),
-          },
-        }
-      )
+      .get("http://localhost:8248/user/getTestQuestions", {
+        headers: {
+          "x-access-token": cookie.get("x-access-token"),
+          "profile-access-token": cookie.get("profile-access-token"),
+        },
+      })
       .then((res) => {
         let solvestatus = [];
         for (let i = 0; i < res.data.length; i++) {
@@ -66,63 +63,42 @@ class TestView extends Component {
   onDragEnd = (e) => {
     this.setState({ dragging: false });
   };
-  renderTutorial = () => {
-    if (this.state.viewTutorial) {
-      return (
-        <ReflexElement
-          className="right-pane"
-          minSize="200"
-          maxSize="800"
-          onStartResize={this.onDragStart}
-          onStopResize={this.onDragEnd}
-        >
-          <div className="pane-content">
-            <Tutorial topicId={this.props.topicId} />
-          </div>
-        </ReflexElement>
-      );
-    }
-  };
-  handleTutorial = (e) => {
-    this.setState({
-      viewTutorial: !this.state.viewTutorial,
-    });
-  };
+  // renderTutorial = () => {
+  //   if (this.state.viewTutorial) {
+  //     return (
+  //       <ReflexElement
+  //         className="right-pane"
+  //         minSize="200"
+  //         maxSize="800"
+  //         onStartResize={this.onDragStart}
+  //         onStopResize={this.onDragEnd}
+  //       >
+  //         <div className="pane-content">
+  //           <Tutorial topicId={this.props.topicId} />
+  //         </div>
+  //       </ReflexElement>
+  //     );
+  //   }
+  // };
+  // handleTutorial = (e) => {
+  //   this.setState({
+  //     viewTutorial: !this.state.viewTutorial,
+  //   });
+  // };
   handleNext = (e) => {
     e.preventDefault();
-    let completeStatus = true;
-    let nextUnsolvedIndex = this.state.current_exercise_index;
-    for (let i = 1; i <= this.state.exercise_list.length; i++) {
-      if (
-        this.state.solved_status[
-          (this.state.current_exercise_index + i) %
-            this.state.exercise_list.length
-        ] === false
-      ) {
-        completeStatus = false;
-        nextUnsolvedIndex =
-          (this.state.current_exercise_index + i) %
-          this.state.exercise_list.length;
-        break;
-      }
-    }
-    if (completeStatus === true) {
+    if (
+      this.state.current_exercise_index ===
+      this.state.exercise_list.length - 1
+    ) {
       this.setState({
         isCompleted: true,
+        current_result: null,
       });
     } else {
-      const newIndex = nextUnsolvedIndex;
-      let solvedCount = 0;
-      for (let i = 0; i < this.state.solved_status.length; i++) {
-        if (this.state.solved_status[i] === true) {
-          solvedCount++;
-        }
-      }
       this.setState({
-        current_exercise_index: newIndex,
-        exercise_type: this.state.exercise_list[newIndex].exercise_type,
+        current_exercise_index: this.state.current_exercise_index + 1,
         current_result: null,
-        now: (solvedCount * 100) / this.state.exercise_list.length,
       });
     }
   };
@@ -131,22 +107,28 @@ class TestView extends Component {
     if (result === "correct") {
       newStatus[this.state.current_exercise_index] = true;
     }
+    console.log(result);
     this.setState({ current_result: result, solved_status: newStatus });
+    // this.handleNext(null);
+    if (
+      this.state.current_exercise_index ===
+      this.state.exercise_list.length - 1
+    ) {
+      this.setState({
+        isCompleted: true,
+        current_result: null,
+      });
+    } else {
+      this.setState({
+        current_exercise_index: this.state.current_exercise_index + 1,
+        current_result: null,
+      });
+    }
   };
   renderResult = () => {
-    if (this.state.current_result === "correct") {
+    if (this.state.current_result != null) {
       return (
         <div>
-          <h3>Correct!</h3>
-          <br />
-          <button onClick={this.handleNext}>Next</button>
-        </div>
-      );
-    } else if (this.state.current_result === "wrong") {
-      return (
-        <div>
-          <h3>Wrong!</h3>
-          <br />
           <button onClick={this.handleNext}>Next</button>
         </div>
       );
@@ -196,38 +178,46 @@ class TestView extends Component {
         );
       }
     }
+    if (this.state.isCompleted) {
+      exercise = <Review />;
+    }
     return (
       <React.Fragment>
-        {this.state.isCompleted && <Navigate to="/" replace={true} />}
+        {/* {this.state.isCompleted && <Navigate to="/" replace={true} />} */}
         <NavBar />
         <br />
         <div className="container">
-          <ProgressBar now={this.state.now} />
+          <ProgressBar
+            now={
+              (100 * this.state.current_exercise_index) /
+              this.state.exercise_list.length
+            }
+          />
         </div>
         <br />
-        <ReflexContainer orientation="vertical">
-          <ReflexElement className="left-pane">
-            <div className="container">
-              <button style={{ float: "right" }} onClick={this.handleTutorial}>
-                Tutorial
-              </button>
-            </div>
-            <div className="container">{exercise}</div>
-            <br />
-            <br />
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              {this.renderResult()}
-            </div>
-          </ReflexElement>
-          <ReflexSplitter />
-          {this.renderTutorial()}
-        </ReflexContainer>
+        {/* <ReflexContainer orientation="vertical"> */}
+        {/* <ReflexElement className="left-pane"> */}
+        {/* <div className="container">
+          <button style={{ float: "right" }} onClick={this.handleTutorial}>
+            Tutorial
+          </button>
+        </div> */}
+        <div className="container">{exercise}</div>
+        <br />
+        <br />
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          {this.renderResult()}
+        </div>
+        {/* </ReflexElement> */}
+        {/* <ReflexSplitter /> */}
+        {/* {this.renderTutorial()} */}
+        {/* </ReflexContainer> */}
       </React.Fragment>
     );
   }
