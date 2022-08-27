@@ -132,25 +132,25 @@ class GroupWords extends Component {
     return (
       <React.Fragment>
         <div class="shadow-lg p-3 mt-10 mb-5 bg-white rounded">
-        <div className="container-drag">
-          <h2 className="header">Group Words</h2>
-          <div>{catDivs}</div>
-        </div>
-        <br />
-        <br />
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          {!this.state.isSubmitted ? (
-            <button onClick={this.handleSubmit}>Submit</button>
-          ) : null}
-        </div>
-        <br />
-        <br />
+          <div className="container-drag">
+            <h2 className="header">Group Words</h2>
+            <div>{catDivs}</div>
+          </div>
+          <br />
+          <br />
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            {!this.state.isSubmitted ? (
+              <button onClick={this.handleSubmit}>Submit</button>
+            ) : null}
+          </div>
+          <br />
+          <br />
         </div>
       </React.Fragment>
     );

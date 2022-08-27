@@ -13,12 +13,12 @@ import { useParams } from "react-router-dom";
 import { Navigate } from "react-router-dom";
 import ProgressBar from "react-bootstrap/ProgressBar";
 
-function Test() {
+function EntryTest() {
   const { topicId } = useParams();
-  return <TestView topicId={topicId} />;
+  return <EntryTestView topicId={topicId} />;
 }
 
-class TestView extends Component {
+class EntryTestView extends Component {
   state = {
     exercise_list: [],
     solved_status: [],
@@ -233,4 +233,4 @@ class TestView extends Component {
   }
 }
 
-export default Test;
+export default EntryTest;

@@ -7,16 +7,16 @@ import TopicIcon from "../components/home/topic";
 import { Navigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import Button from "react-bootstrap/Button";
-import Modal from 'react-bootstrap/Modal';
+import Modal from "react-bootstrap/Modal";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid } from "recharts";
 import trophy from "../img/trophy.png";
 
-function Home() {  const { state } = useLocation();
-  if(state===null){
-    return <HomeView/>;
-  }
-  else{
-    return <HomeView popup={ state.data }></HomeView>
+function Home() {
+  const { state } = useLocation();
+  if (state === null) {
+    return <HomeView />;
+  } else {
+    return <HomeView popup={state.data}></HomeView>;
   }
 }
 
@@ -52,9 +52,9 @@ class HomeView extends Component {
         console.log(err);
       });
 
-      if(this.props.popup!==undefined){
-        this.setState({ achievement: this.state.data })
-      }
+    if (this.props.popup !== undefined) {
+      this.setState({ achievement: this.state.data });
+    }
   }
 
   handleSelect = (e) => {
@@ -178,9 +178,12 @@ class HomeView extends Component {
                   display: "flex",
                   justifyContent: "center",
                   alignItems: "center",
-              }}
+                }}
               >
-                <img src={trophy} style={{ width: "40px", height: "40px"}}></img>
+                <img
+                  src={trophy}
+                  style={{ width: "40px", height: "40px" }}
+                ></img>
                 Achievement Unlocked
               </div>
             </Modal.Title>
