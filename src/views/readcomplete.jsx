@@ -38,6 +38,18 @@ class ReadComplete extends Component {
           resultList: res.data.rows,
           sentences: res.data.sentenceList,
         });
+
+        let result_list = [];
+        for (let i = 1; i < this.state.nrows; i++) {
+          let row = [];
+          row.push(this.state.list[i][0]);
+          for (let j = 1; j < this.state.ncols; j++) {
+            row.push("blank");
+          }
+          result_list.push(row);
+        }
+
+        this.setState({ resultList: result_list });
       })
       .catch((err) => {
         console.log(err);
