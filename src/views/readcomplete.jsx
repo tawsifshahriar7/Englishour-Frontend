@@ -35,9 +35,20 @@ class ReadComplete extends Component {
           ncols: res.data.no_cols,
           firstRow: res.data.first_row,
           list: res.data.rows,
-          resultList: res.data.rows,
           sentences: res.data.sentences,
         });
+
+        let result_list = [];
+        for (let i = 1; i < this.state.nrows; i++) {
+          let row = [];
+          row.push(this.state.list[i][0]);
+          for (let j = 1; j < this.state.ncols; j++) {
+            row.push("blank");
+          }
+          result_list.push(row);
+        }
+
+        this.setState({ resultList: result_list });
       })
       .catch((err) => {
         console.log(err);
@@ -101,7 +112,7 @@ class ReadComplete extends Component {
                 return <Col>{cell}</Col>;
               }
               else{
-                if (cell.type === "blank") {
+                if (cell === "blank") {
                     return (
                       <Col>
                         <input type="text" id={index} disabled="disabled"></input>
