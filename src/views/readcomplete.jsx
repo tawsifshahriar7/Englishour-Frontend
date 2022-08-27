@@ -97,20 +97,25 @@ class ReadComplete extends Component {
         <div>
           <Row>
             {item.map((cell,i) => {
-              if (cell === "blank") {
-                return (
-                  <Col>
-                    <input type="text" id={index} disabled="disabled"></input>
-                  </Col>
-                );
+              if(i===0){
+                return <Col>{cell}</Col>;
               }
-              else {
-                return (
-                  <Col>
-                    <input type="text" name="input" id={index*this.state.ncols+i} onChange={this.handleInput}/>
-                  </Col>
-                );
-              } 
+              else{
+                if (cell.type === "blank") {
+                    return (
+                      <Col>
+                        <input type="text" id={index} disabled="disabled"></input>
+                      </Col>
+                    );
+                  }
+                  else{
+                    return (
+                      <Col>
+                        <input type="text" name="input" id={index*this.state.ncols+i} onChange={this.handleInput}/>
+                      </Col>
+                    );
+                  }
+                } 
             })}
           </Row>
           <br></br>
