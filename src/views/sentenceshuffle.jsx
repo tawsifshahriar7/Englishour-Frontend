@@ -6,7 +6,7 @@ import Cookie from "universal-cookie";
 class SentenceShuffle extends Component {
   state = {
     list: ["Word 1", "Word 2", "Word 3", "Word 4", "Word 5"],
-    submission: [],
+    submission: ["Word 1", "Word 2", "Word 3", "Word 4", "Word 5"],
     isSubmitted: false,
   };
   dragItem = React.createRef();
@@ -27,7 +27,8 @@ class SentenceShuffle extends Component {
       )
       .then((res) => {
         console.log(res.data);
-        this.setState({ list: res.data[0].shuffled_sentence.split(" ") });
+        let processedData = res.data[0].shuffled_sentence.split(" ");
+        this.setState({ list: processedData, submission: processedData });
       })
       .catch((err) => {
         console.log(err);
@@ -107,33 +108,33 @@ class SentenceShuffle extends Component {
       <React.Fragment>
         <Container>
           <div class="shadow-lg p-3 mt-10 mb-5 bg-white rounded">
-          <h3 style={{ textAlign: "center" }}>
-            Shuffle the words to make correct sentence
-          </h3>
-          <br />
-          <br />
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "center",
-            }}
-          >
-            {listItems}
-          </div>
-          <br />
-          <br />
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            {!this.state.isSubmitted ? (
-              <button onClick={this.handleSubmit}>Submit</button>
-            ) : null}
-          </div>
+            <h3 style={{ textAlign: "center" }}>
+              Shuffle the words to make correct sentence
+            </h3>
+            <br />
+            <br />
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "center",
+              }}
+            >
+              {listItems}
+            </div>
+            <br />
+            <br />
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              {!this.state.isSubmitted ? (
+                <button onClick={this.handleSubmit}>Submit</button>
+              ) : null}
+            </div>
           </div>
         </Container>
       </React.Fragment>
