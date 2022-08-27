@@ -33,9 +33,9 @@ class ReadComplete extends Component {
         this.setState({
           nrows: res.data.no_rows,
           ncols: res.data.no_cols,
-          firstRow: res.data.rows[0],
-          list: res.data.rows.slice(1),
-          resultList: res.data.rows.slice(1),
+          firstRow: res.data.first_row,
+          list: res.data.rows,
+          resultList: res.data.rows,
           sentences: res.data.sentences,
         });
       })
@@ -48,7 +48,7 @@ class ReadComplete extends Component {
     const id = e.target.id;
     const value = e.target.value;
     const result_list = this.state.resultList;
-    result_list[Math.floor(id/this.state.ncols)][id%this.state.ncols] = { type: "input", content: value };
+    result_list[Math.floor(id/this.state.ncols)][id%this.state.ncols] = value;
     this.setState({
       resultList: result_list,
     });
@@ -97,13 +97,7 @@ class ReadComplete extends Component {
         <div>
           <Row>
             {item.map((cell,i) => {
-              if (cell.type === "input") {
-                return (
-                  <Col>
-                    <input type="text" name="input" id={index*this.state.ncols+i} onChange={this.handleInput}/>
-                  </Col>
-                );
-              } else if (cell.type === "blank") {
+              if (cell === "blank") {
                 return (
                   <Col>
                     <input type="text" id={index} disabled="disabled"></input>
@@ -111,7 +105,11 @@ class ReadComplete extends Component {
                 );
               }
               else {
-                return <Col>{cell.content}</Col>;
+                return (
+                  <Col>
+                    <input type="text" name="input" id={index*this.state.ncols+i} onChange={this.handleInput}/>
+                  </Col>
+                );
               } 
             })}
           </Row>
