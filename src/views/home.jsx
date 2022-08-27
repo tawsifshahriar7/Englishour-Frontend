@@ -15,6 +15,7 @@ import Footer from "../components/footer/footer";
 import Background from "../img/test_bg.gif";
 import Cookie from "universal-cookie";
 import { Legend } from "chart.js";
+import { Link } from "react-router-dom";
 
 function Home() {
   const { state } = useLocation();
@@ -180,9 +181,11 @@ class HomeView extends Component {
                 {!this.state.categorySelected ? (
                   <Row className="m-4">
                     <Col className="d-flex justify-content-center">
-                      <Button variant="primary" size="lg" active>
-                        Take Test
-                      </Button>
+                      <Link to="/test">
+                        <Button variant="primary" size="lg" active>
+                          Take Test
+                        </Button>
+                      </Link>
                     </Col>
                   </Row>
                 ) : null}

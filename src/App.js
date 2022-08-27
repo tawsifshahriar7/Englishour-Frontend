@@ -19,6 +19,7 @@ import PasswordChange from "./views/passwordChange";
 import FillInTheGaps from "./views/fillinthegaps";
 import Test from "./views/test";
 import EntryTest from "./views/entry_test";
+import Review from "./views/review";
 
 class App extends Component {
   render() {
@@ -43,6 +44,7 @@ class App extends Component {
           <Route path="fillinthegaps" element={<FillInTheGaps />} />
           <Route path="test" element={<Test />} />
           <Route path="entrytest" element={<EntryTest />} />
+          <Route path="review" element={<Review />} />
         </Routes>
       </BrowserRouter>
     );
