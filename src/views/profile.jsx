@@ -8,6 +8,7 @@ import Cookie from "universal-cookie";
 import Button from "react-bootstrap/Button";
 import { lazy } from "react";
 import axios from "axios";
+import Background from "../img/simple_bg.jpg";
 
 class Profile extends Component {
   // id = localStorage.getItem("profile");
@@ -99,8 +100,17 @@ class Profile extends Component {
       "/" +
       dateObj.getFullYear();
     return (
+      <div
+        style={{
+          background: `url(${Background})`,
+          backgroundPosition: "center",
+          width: "100%",
+          height: "100vh",
+        }}
+      >
       <React.Fragment>
         <NavBar isLoggedIn={this.props.isLoggedIn} />
+        <div class="shadow-lg p-3 mt-10 mb-5 bg-white rounded">
         <Container>
           <div className="profile-container">
             <div className="profile-header">
@@ -160,7 +170,9 @@ class Profile extends Component {
             </ul>
           </div>
         </Container>
+        </div>
       </React.Fragment>
+      </div>
     );
   }
 }

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import "../styles/loginStyle.css";
 import axios from "axios";
 import { Navigate } from "react-router-dom";
+import Background from "../img/simple_bg.jpg";
 
 class Register extends Component {
   state = { registered: false, error: null };
@@ -58,6 +59,14 @@ class Register extends Component {
   render() {
     let { registered, error } = this.state;
     return (
+      <div
+        style={{
+          background: `url(${Background})`,
+          backgroundPosition: "center",
+          width: "100%",
+          height: "100vh",
+        }}
+      >
       <React.Fragment>
         {error && <p>{error.message}</p>}
         {registered && <Navigate to="/login" replace={true} />}
@@ -132,6 +141,7 @@ class Register extends Component {
           </form>
         </div>
       </React.Fragment>
+      </div>
     );
   }
 }
