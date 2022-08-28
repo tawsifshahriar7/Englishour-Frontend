@@ -30,6 +30,7 @@ class ExerciseView extends Component {
     current_result: null,
     isCompleted: false,
     now: 0,
+    achievement: false,
   };
 
   componentDidMount() {
@@ -108,8 +109,28 @@ class ExerciseView extends Component {
       }
     }
     if (completeStatus === true) {
-      this.setState({
-        isCompleted: true,
+      var cookie = new Cookie();
+    axios
+      .post(
+        "http://localhost:8248/user/setAchievement",
+        {
+          topicId: this.props.topicId,
+        },
+        {
+          headers: {
+            "x-access-token": cookie.get("x-access-token"),
+            "profile-access-token": cookie.get("profile-access-token"),
+          },
+        }
+      )
+      .then((res) => {
+          this.setState({
+              isCompleted: true,
+              achievement: true,
+          });
+      })
+      .catch((err) => {
+        console.log(err);
       });
     } else {
       const newIndex = nextUnsolvedIndex;
@@ -199,7 +220,7 @@ class ExerciseView extends Component {
     }
     return (
       <React.Fragment>
-        {this.state.isCompleted && <Navigate to="/" replace={true} state={{ data: true }} />}
+        {this.state.isCompleted && <Navigate to={"/home/" + this.state.achievement} replace={true}/>}
         <NavBar />
         <br />
         <div className="container">

@@ -28,6 +28,7 @@ class App extends Component {
         <Routes>
           <Route path="/" element={<Landing />} />
           <Route path="home" element={<Home />} />
+          <Route path="home/:flag" element={<Home />} />
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
           <Route path="exercise/:topicId" element={<Exercise />} />

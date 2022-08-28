@@ -70,6 +70,8 @@ class Profile extends Component {
   };
 
   render() {
+    let dateObj = new Date(this.state.info.dateofBirth);
+    let dateString = dateObj.getDate() + "/" + (dateObj.getMonth() + 1) + "/" + dateObj.getFullYear();
     return (
       <React.Fragment>
         <NavBar isLoggedIn={this.props.isLoggedIn} />
@@ -93,7 +95,7 @@ class Profile extends Component {
                   <h2>
                     {this.state.info.first_name} {this.state.info.last_name}
                   </h2>
-                  <h6>Date of Birth: {this.state.info.dateofBirth}</h6>
+                  <h6>Date of Birth: {dateString}</h6>
                   <h6>Institution: {this.state.info.institution}</h6>
                   <h6>Class: {this.state.info.class}</h6>
                   <h6>Current Level: {this.state.info.current_level}</h6>

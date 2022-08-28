@@ -16,14 +16,12 @@ import Background from "../img/simple_bg.jpg";
 import Cookie from "universal-cookie";
 import { Legend } from "chart.js";
 import { Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 function Home() {
-  const { state } = useLocation();
-  if (state === null) {
-    return <HomeView />;
-  } else {
-    return <HomeView popup={state.data}></HomeView>;
-  }
+  const { flag } = useParams();
+  console.log(flag);
+  return <HomeView popup={flag} />;
 }
 
 class HomeView extends Component {
@@ -74,7 +72,9 @@ class HomeView extends Component {
       });
 
     if (this.props.popup !== undefined) {
-      this.setState({ achievement: this.state.data });
+      if(this.props.popup === "true"){
+        this.setState({ achievement: true });
+      }
     }
   }
 
