@@ -23,6 +23,7 @@ class Profile extends Component {
       profile_picture: "",
       current_level: "",
       entryTest: null,
+      achievements: [null],
     },
   };
 
@@ -47,6 +48,21 @@ class Profile extends Component {
         // }
         // const myImage = lazy(() => import(this.state.info.profile_picture));
         // this.setState({ pic: myImage });
+        axios
+          .get(`http://localhost:8248/user/getAchievement`, {
+            headers: {
+              "x-access-token": cookie.get("x-access-token"),
+              "profile-access-token": cookie.get("profile-access-token"),
+            },
+          })
+          .then((res) => {
+            this.setState({ achievements: [...res.data] });
+            // console.log(res.data[0].topic_name);
+            console.log(this.state.achievements);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       })
       .catch((err) => console.error(err));
   }
@@ -70,8 +86,18 @@ class Profile extends Component {
   };
 
   render() {
+    // let achievementList = this.state.achievements.map((i) => {
+    //   return i;
+    // });
+    // console.log(achievementList);
+
     let dateObj = new Date(this.state.info.dateofBirth);
-    let dateString = dateObj.getDate() + "/" + (dateObj.getMonth() + 1) + "/" + dateObj.getFullYear();
+    let dateString =
+      dateObj.getDate() +
+      "/" +
+      (dateObj.getMonth() + 1) +
+      "/" +
+      dateObj.getFullYear();
     return (
       <React.Fragment>
         <NavBar isLoggedIn={this.props.isLoggedIn} />
@@ -125,6 +151,9 @@ class Profile extends Component {
           >
             <h3>Achievements</h3>
             <ul>
+              <li>
+                <h6>Completed {this.state.achievements}</h6>
+              </li>
               <li>
                 <h6>Created Profile</h6>
               </li>
