@@ -88,10 +88,7 @@ class TestView extends Component {
   handleNext = (e) => {
     e.preventDefault();
     const newIndex = this.state.current_exercise_index + 1;
-    if (
-      this.state.current_exercise_index ===
-      this.state.exercise_list.length - 1
-    ) {
+    if (this.state.current_exercise_index === this.state.exercise_list.length) {
       this.setState({
         isCompleted: true,
         // current_result: null,
@@ -139,56 +136,58 @@ class TestView extends Component {
 
   render() {
     let exercise = null;
-    if (this.state.current_exercise_index != null) {
-      let item = this.state.exercise_list[this.state.current_exercise_index];
-      if (item.exercise_type === "changeletter") {
-        exercise = (
-          <LetterChange
-            key={item.exercise_id}
-            exercise_id={item.exercise_id}
-            publishResult={this.setResult}
-          />
-        );
-      } else if (item.exercise_type === "sentenceshuffling") {
-        exercise = (
-          <SentenceShuffle
-            key={item.exercise_id}
-            exercise_id={item.exercise_id}
-            publishResult={this.setResult}
-          />
-        );
-      } else if (item.exercise_type === "fillinthegaps") {
-        exercise = (
-          <FillInTheGaps
-            key={item.exercise_id}
-            exercise_id={item.exercise_id}
-            publishResult={this.setResult}
-          />
-        );
-      } else if (item.exercise_type === "groupwords") {
-        exercise = (
-          <GroupWords
-            key={item.exercise_id}
-            exercise_id={item.exercise_id}
-            publishResult={this.setResult}
-          />
-        );
-      } else if (item.exercise_type === "readcomplete") {
-        exercise = (
-          <ReadComplete
-            key={item.exercise_id}
-            exercise_id={item.exercise_id}
-            publishResult={this.setResult}
-          />
-        );
+    if (this.state.current_exercise_index === this.state.exercise_list.length) {
+      exercise = <Review list={this.state.solved_status} />;
+    } else {
+      if (this.state.current_exercise_index != null) {
+        let item = this.state.exercise_list[this.state.current_exercise_index];
+        if (item.exercise_type === "changeletter") {
+          exercise = (
+            <LetterChange
+              key={item.exercise_id}
+              exercise_id={item.exercise_id}
+              publishResult={this.setResult}
+            />
+          );
+        } else if (item.exercise_type === "sentenceshuffling") {
+          exercise = (
+            <SentenceShuffle
+              key={item.exercise_id}
+              exercise_id={item.exercise_id}
+              publishResult={this.setResult}
+            />
+          );
+        } else if (item.exercise_type === "fillinthegaps") {
+          exercise = (
+            <FillInTheGaps
+              key={item.exercise_id}
+              exercise_id={item.exercise_id}
+              publishResult={this.setResult}
+            />
+          );
+        } else if (item.exercise_type === "groupwords") {
+          exercise = (
+            <GroupWords
+              key={item.exercise_id}
+              exercise_id={item.exercise_id}
+              publishResult={this.setResult}
+            />
+          );
+        } else if (item.exercise_type === "readcomplete") {
+          exercise = (
+            <ReadComplete
+              key={item.exercise_id}
+              exercise_id={item.exercise_id}
+              publishResult={this.setResult}
+            />
+          );
+        }
       }
     }
-    if (this.state.isCompleted) {
-      exercise = <Review list={this.state.solved_status} />;
-    }
+
     return (
       <React.Fragment>
-        {/* {this.state.isCompleted && <Navigate to="/" replace={true} />} */}
+        {this.state.isCompleted && <Navigate to="/" replace={true} />}
         <NavBar />
         <br />
         <div className="container">

@@ -1,13 +1,20 @@
 import React, { Component } from "react";
 
-import PropTypes from 'prop-types';
-import CircularProgress from '@mui/material/CircularProgress';
-import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
+import PropTypes from "prop-types";
+import CircularProgress from "@mui/material/CircularProgress";
+import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
 
 function CircularProgressWithLabel(props) {
   return (
-    <Box sx={{ position: 'relative', display: 'inline-flex', fontWeight: 'bold', fontSize: 16 }}>
+    <Box
+      sx={{
+        position: "relative",
+        display: "inline-flex",
+        fontWeight: "bold",
+        fontSize: 16,
+      }}
+    >
       <CircularProgress size={300} variant="determinate" {...props} />
       <Box
         sx={{
@@ -15,13 +22,18 @@ function CircularProgressWithLabel(props) {
           left: 0,
           bottom: 0,
           right: 0,
-          position: 'absolute',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
+          position: "absolute",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
         }}
       >
-        <Typography variant="caption" component="div" color="text.secondary">
+        <Typography
+          variant="caption"
+          component="div"
+          color="text.secondary"
+          style={{ fontWeight: "bold", fontSize: 20 }}
+        >
           {`${Math.round(props.value)}/100`}
         </Typography>
       </Box>
@@ -38,36 +50,34 @@ CircularProgressWithLabel.propTypes = {
   value: PropTypes.number.isRequired,
 };
 
-
-
 class Review extends Component {
   state = {};
 
   componentDidMount() {
     let score = 0;
-    for(let i=0;i<this.props.list.length;i++){
-      if(this.props.list[i] === true){
+    for (let i = 0; i < this.props.list.length; i++) {
+      if (this.props.list[i] === true) {
         score++;
       }
     }
 
-    this.setState({score: score*100/this.props.list.length});
+    this.setState({ score: (score * 100) / this.props.list.length });
   }
 
   render() {
     return (
-    <React.Fragment>
-      <h3>Review</h3>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <CircularProgressWithLabel value={this.state.score} />
-      </div>
-    </React.Fragment>
+      <React.Fragment>
+        <h3>Review</h3>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <CircularProgressWithLabel value={this.state.score} />
+        </div>
+      </React.Fragment>
     );
   }
 }

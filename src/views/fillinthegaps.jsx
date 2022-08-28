@@ -12,11 +12,12 @@ class FillInTheGaps extends Component {
     submission: [],
     result: null,
     originalClueList: [],
+    isSubmitted: false,
   };
 
   dragItem = React.createRef();
   dragOverItem = React.createRef();
-  remainingStr= "";
+  remainingStr = "";
 
   componentDidMount() {
     var cookie = new Cookie();
@@ -56,8 +57,7 @@ class FillInTheGaps extends Component {
           }
           //console.log(g);
         }
-        if(g!=="")
-        this.remainingStr = g;
+        if (g !== "") this.remainingStr = g;
 
         //console.log("v : "+v);
 
@@ -146,7 +146,7 @@ class FillInTheGaps extends Component {
       })
       .then((res) => {
         console.log("Response :" + res.data);
-        this.setState({ result: res.data });
+        this.setState({ result: res.data, isSubmitted: true });
         this.props.publishResult(res.data ? "correct" : "wrong");
       })
       .catch((err) => {
@@ -183,46 +183,49 @@ class FillInTheGaps extends Component {
 
     return (
       <React.Fragment>
-        <Container>
-          <h3 style={{ textAlign: "center" }}>
-            Fill in the Blanks to Complete the Paragraph
-          </h3>
-          <br />
-          <br />
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-            }}
-          >
-            {clues}
-          </div>
-          <br />
-
-          <div align="center">
+        <div class="shadow-lg p-3 mt-10 mb-5 bg-white rounded">
+          <Container>
+            <h3 style={{ textAlign: "center" }}>
+              Fill in the Blanks to Complete the Paragraph
+            </h3>
             <br />
-            {partialSentences}  {this.remainingStr} 
-          </div>
-         
-          <br />
-          <div
+            <br />
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+              }}
+            >
+              {clues}
+            </div>
+            <br />
+
+            <div align="center">
+              <br />
+              {partialSentences} {this.remainingStr}
+            </div>
+
+            <br />
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              {!this.state.isSubmitted ? (
+                <button onClick={this.handleSubmit}>Submit</button>
+              ) : null}
+            </div>
+            <br />
+            <br />
+            {/* <div
             style={{
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
             }}
-          >
-            <button onClick={this.handleSubmit}>Submit</button>
-          </div>
-          <br />
-          <br />
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
+          > */}
             {/* {this.state.result === true ? (
               <div>
                 <h3>Correct!</h3>
@@ -238,8 +241,9 @@ class FillInTheGaps extends Component {
                 </button>
               </div>
             ) : null} */}
-          </div>
-        </Container>
+            {/* </div> */}
+          </Container>
+        </div>
       </React.Fragment>
     );
   }
