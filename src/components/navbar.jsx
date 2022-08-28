@@ -133,7 +133,7 @@ class NavBar extends Component {
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="ms-auto">
               {search}
-              {notifications}
+              {/* {notifications} */}
               {profile}
               <Nav.Link href={this.state.isLoggedIn ? "/logout" : "/login"}>
                 {this.state.isLoggedIn ? "Logout" : "Login"}

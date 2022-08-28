@@ -100,7 +100,7 @@ class ProfileUpdate extends Component {
                   onChange={this.handleclassChange}
                 />
               </div>
-              <div className="form-group mt-3">
+              {/* <div className="form-group mt-3">
                 <label>Profile Picture</label>
                 <input
                   type="file"
@@ -108,7 +108,7 @@ class ProfileUpdate extends Component {
                   placeholder="Enter Profile Picture"
                   onChange={this.handleprofilePictureChange}
                 />
-              </div>
+              </div> */}
               <div className="d-grid gap-2 mt-3">
                 <button
                   type="submit"
