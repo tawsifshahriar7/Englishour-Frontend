@@ -17,9 +17,11 @@ function Sentence(props) {
               name="input"
               id={props.id}
               onChange={props.handleChange}
+              disabled={props.id === 1}
+              value={props.id === 1 ? props.answer : null}
             />
           </Col>
-          <Col>{props.result}</Col>
+          {/* <Col>{props.result}</Col> */}
         </Row>
       </Container>
     </React.Fragment>

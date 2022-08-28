@@ -53,8 +53,13 @@ class LetterChange extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    const input = this.state.input;
-    // console.log(input);
+    // const input = this.state.input;
+    const input = [this.state.exercise[0][0].answer];
+    for (let i = 1; i < this.state.input.length; i++) {
+      input.push(this.state.input[i]);
+    }
+    // input.unshift(this.state.exercise[0][0].answer);
+    console.log(input);
     // if (input.length === 0) {
     //   for (let i = 0; i < this.state.exercise.length; i++) {
     //     input.push("####");
