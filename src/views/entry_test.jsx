@@ -57,18 +57,15 @@ class EntryTestView extends Component {
 
   handleNext = (e) => {
     e.preventDefault();
-    if (
-      this.state.current_exercise_index ===
-      this.state.exercise_list.length - 1
-    ) {
+    if (this.state.current_exercise_index === this.state.exercise_list.length) {
       this.setState({
         isCompleted: true,
-        current_result: null,
+        // current_result: null,
       });
     } else {
       this.setState({
         current_exercise_index: this.state.current_exercise_index + 1,
-        current_result: null,
+        // current_result: null,
       });
     }
   };
@@ -110,55 +107,58 @@ class EntryTestView extends Component {
 
   render() {
     let exercise = null;
-    if (this.state.current_exercise_index != null) {
-      let item = this.state.exercise_list[this.state.current_exercise_index];
-      if (item.exercise_type === "changeletter") {
-        exercise = (
-          <LetterChange
-            key={item.exercise_id}
-            exercise_id={item.exercise_id}
-            publishResult={this.setResult}
-          />
-        );
-      } else if (item.exercise_type === "sentenceshuffling") {
-        exercise = (
-          <SentenceShuffle
-            key={item.exercise_id}
-            exercise_id={item.exercise_id}
-            publishResult={this.setResult}
-          />
-        );
-      } else if (item.exercise_type === "fillinthegaps") {
-        exercise = (
-          <FillInTheGaps
-            key={item.exercise_id}
-            exercise_id={item.exercise_id}
-            publishResult={this.setResult}
-          />
-        );
-      } else if (item.exercise_type === "groupwords") {
-        exercise = (
-          <GroupWords
-            key={item.exercise_id}
-            exercise_id={item.exercise_id}
-            publishResult={this.setResult}
-          />
-        );
-      } else if (item.exercise_type === "readcomplete") {
-        exercise = (
-          <ReadComplete
-            key={item.exercise_id}
-            exercise_id={item.exercise_id}
-            publishResult={this.setResult}
-          />
-        );
+    if (this.state.current_exercise_index === this.state.exercise_list.length) {
+      exercise = <EntryTestReview list={this.state.solved_status} />;
+    } else {
+      if (this.state.current_exercise_index != null) {
+        let item = this.state.exercise_list[this.state.current_exercise_index];
+        if (item.exercise_type === "changeletter") {
+          exercise = (
+            <LetterChange
+              key={item.exercise_id}
+              exercise_id={item.exercise_id}
+              publishResult={this.setResult}
+            />
+          );
+        } else if (item.exercise_type === "sentenceshuffling") {
+          exercise = (
+            <SentenceShuffle
+              key={item.exercise_id}
+              exercise_id={item.exercise_id}
+              publishResult={this.setResult}
+            />
+          );
+        } else if (item.exercise_type === "fillinthegaps") {
+          exercise = (
+            <FillInTheGaps
+              key={item.exercise_id}
+              exercise_id={item.exercise_id}
+              publishResult={this.setResult}
+            />
+          );
+        } else if (item.exercise_type === "groupwords") {
+          exercise = (
+            <GroupWords
+              key={item.exercise_id}
+              exercise_id={item.exercise_id}
+              publishResult={this.setResult}
+            />
+          );
+        } else if (item.exercise_type === "readcomplete") {
+          exercise = (
+            <ReadComplete
+              key={item.exercise_id}
+              exercise_id={item.exercise_id}
+              publishResult={this.setResult}
+            />
+          );
+        }
       }
     }
-    if (this.state.isCompleted) {
-      exercise = <EntryTestReview result={this.state.solved_status} />;
-    }
+
     return (
       <React.Fragment>
+        {this.state.isCompleted && <Navigate to="/" replace={true} />}
         <NavBar />
         <br />
         <div className="container">
@@ -166,7 +166,7 @@ class EntryTestView extends Component {
             <ProgressBar
               now={
                 (100 * this.state.current_exercise_index) /
-                (this.state.exercise_list.length - 1)
+                this.state.exercise_list.length
               }
             />
           ) : null}
