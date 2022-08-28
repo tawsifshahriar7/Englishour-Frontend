@@ -8,7 +8,7 @@ import Box from '@mui/material/Box';
 function CircularProgressWithLabel(props) {
   return (
     <Box sx={{ position: 'relative', display: 'inline-flex' }}>
-      <CircularProgress variant="determinate" {...props} />
+      <CircularProgress size={100} variant="determinate" {...props} />
       <Box
         sx={{
           top: 0,
@@ -58,7 +58,15 @@ class Review extends Component {
     return (
     <React.Fragment>
       <h3>Review</h3>
-      <CircularProgressWithLabel value={this.state.score} />
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <CircularProgressWithLabel value={this.state.score} />
+      </div>
     </React.Fragment>
     );
   }
