@@ -104,6 +104,7 @@ class Profile extends Component {
               <button>Edit Profile</button>
             </Link>
             <br />
+            <br />
             {!this.state.info.entryTest ? (
               <Link to="/entrytest">
                 <Button variant="dark">Take Entry Test</Button>

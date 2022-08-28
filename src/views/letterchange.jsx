@@ -30,11 +30,11 @@ class LetterChange extends Component {
         this.setState({
           exercise: res.data,
         });
-        // const len = res.data.length;
-        // console.log(len);
-        // for (let i = 0; i < len; i++) {
-        //   this.state.input.push("####");
-        // }
+        const len = res.data.length;
+        console.log(len);
+        for (let i = 0; i < len; i++) {
+          this.state.input.push("####");
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -54,12 +54,12 @@ class LetterChange extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
     const input = this.state.input;
-    console.log(input);
-    if (input.length === 0) {
-      for (let i = 0; i < this.state.exercise.length; i++) {
-        input.push("####");
-      }
-    }
+    // console.log(input);
+    // if (input.length === 0) {
+    //   for (let i = 0; i < this.state.exercise.length; i++) {
+    //     input.push("####");
+    //   }
+    // }
     const body = {
       exercise_id: this.props.exercise_id,
       submitted_answer: input,

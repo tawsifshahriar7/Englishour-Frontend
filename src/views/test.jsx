@@ -87,19 +87,21 @@ class TestView extends Component {
   // };
   handleNext = (e) => {
     e.preventDefault();
+    const newIndex = this.state.current_exercise_index + 1;
     if (
       this.state.current_exercise_index ===
       this.state.exercise_list.length - 1
     ) {
       this.setState({
         isCompleted: true,
-        current_result: null,
+        // current_result: null,
       });
     } else {
       this.setState({
-        current_exercise_index: this.state.current_exercise_index + 1,
-        current_result: null,
+        current_exercise_index: newIndex,
+        // current_result: null,
       });
+      console.log(this.state.exercise_list[this.state.current_exercise_index]);
     }
   };
   setResult = (result) => {
@@ -107,34 +109,29 @@ class TestView extends Component {
     if (result === "correct") {
       newStatus[this.state.current_exercise_index] = true;
     }
-    console.log(result);
-    this.setState({ current_result: result, solved_status: newStatus });
-    // this.handleNext(null);
-    if (
-      this.state.current_exercise_index ===
-      this.state.exercise_list.length - 1
-    ) {
-      this.setState({
-        isCompleted: true,
-        current_result: null,
-      });
-    } else {
-      this.setState({
-        current_exercise_index: this.state.current_exercise_index + 1,
-        current_result: null,
-      });
-    }
+    // console.log(newStatus);
+    // if (
+    //   this.state.current_exercise_index ===
+    //   this.state.exercise_list.length - 1
+    // ) {
+    //   this.setState({
+    //     isCompleted: true,
+    //     current_exercise_index: null,
+    //     solved_status: newStatus,
+    //   });
+    // } else {
+    //   this.setState({
+    //     current_exercise_index: this.state.current_exercise_index + 1,
+    //     solved_status: newStatus,
+    //   });
+    // }
   };
   renderResult = () => {
-    if (this.state.current_result != null) {
-      return (
-        <div>
-          <button onClick={this.handleNext}>Next</button>
-        </div>
-      );
-    } else {
-      return null;
-    }
+    return (
+      <div>
+        <button onClick={this.handleNext}>Next</button>
+      </div>
+    );
   };
 
   render() {
@@ -144,6 +141,7 @@ class TestView extends Component {
       if (item.exercise_type === "changeletter") {
         exercise = (
           <LetterChange
+            key={item.exercise_id}
             exercise_id={item.exercise_id}
             publishResult={this.setResult}
           />
@@ -151,6 +149,7 @@ class TestView extends Component {
       } else if (item.exercise_type === "sentenceshuffling") {
         exercise = (
           <SentenceShuffle
+            key={item.exercise_id}
             exercise_id={item.exercise_id}
             publishResult={this.setResult}
           />
@@ -158,6 +157,7 @@ class TestView extends Component {
       } else if (item.exercise_type === "fillinthegaps") {
         exercise = (
           <FillInTheGaps
+            key={item.exercise_id}
             exercise_id={item.exercise_id}
             publishResult={this.setResult}
           />
@@ -165,6 +165,7 @@ class TestView extends Component {
       } else if (item.exercise_type === "groupwords") {
         exercise = (
           <GroupWords
+            key={item.exercise_id}
             exercise_id={item.exercise_id}
             publishResult={this.setResult}
           />
@@ -172,6 +173,7 @@ class TestView extends Component {
       } else if (item.exercise_type === "readcomplete") {
         exercise = (
           <ReadComplete
+            key={item.exercise_id}
             exercise_id={item.exercise_id}
             publishResult={this.setResult}
           />
@@ -187,12 +189,14 @@ class TestView extends Component {
         <NavBar />
         <br />
         <div className="container">
-          <ProgressBar
-            now={
-              (100 * this.state.current_exercise_index) /
-              this.state.exercise_list.length
-            }
-          />
+          {this.state.current_exercise_index != null ? (
+            <ProgressBar
+              now={
+                (100 * this.state.current_exercise_index) /
+                this.state.exercise_list.length
+              }
+            />
+          ) : null}
         </div>
         <br />
         {/* <ReflexContainer orientation="vertical"> */}
