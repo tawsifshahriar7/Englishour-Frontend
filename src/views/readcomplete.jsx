@@ -41,7 +41,7 @@ class ReadComplete extends Component {
         let result_list = [];
         for (let i = 1; i < this.state.nrows; i++) {
           let row = [];
-          row.push(this.state.list[i-1][0]);
+          row.push(this.state.list[i - 1][0]);
           for (let j = 1; j <= this.state.ncols; j++) {
             row.push("blank");
           }
@@ -69,6 +69,7 @@ class ReadComplete extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
     var cookie = new Cookie();
+    console.log(this.state.resultList);
     axios
       .post(
         "http://localhost:8248/user/submitExercise",
@@ -115,7 +116,12 @@ class ReadComplete extends Component {
                 if (cell === "blank") {
                   return (
                     <Col>
-                      <input type="text" id={index} disabled="disabled" style={{width: "50px"}}></input>
+                      <input
+                        type="text"
+                        id={index}
+                        disabled="disabled"
+                        style={{ width: "50px" }}
+                      ></input>
                     </Col>
                   );
                 } else {
@@ -125,7 +131,7 @@ class ReadComplete extends Component {
                         type="text"
                         name="input"
                         id={index * this.state.ncols + i}
-                        style={{width: "50px"}}
+                        style={{ width: "50px" }}
                         onChange={this.handleInput}
                       />
                     </Col>
