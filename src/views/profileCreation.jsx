@@ -3,6 +3,7 @@ import "../styles/loginStyle.css";
 import axios from "axios";
 import Cookie from "universal-cookie";
 import { Navigate } from "react-router-dom";
+import Background from "../img/simple_bg.jpg";
 
 class CreateProfile extends Component {
   state = { profileCreated: false, error: null };
@@ -52,6 +53,14 @@ class CreateProfile extends Component {
 
   render() {
     return (
+      <div
+        style={{
+          background: `url(${Background})`,
+          backgroundPosition: "center",
+          width: "100%",
+          height: "100vh",
+        }}
+      >
       <React.Fragment>
         {this.state.error && <p>{this.state.error.message}</p>}
         {this.state.profileCreated && (
@@ -118,6 +127,7 @@ class CreateProfile extends Component {
           </form>
         </div>
       </React.Fragment>
+      </div>
     );
   }
 }

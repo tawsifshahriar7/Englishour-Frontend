@@ -13,6 +13,7 @@ import { useParams } from "react-router-dom";
 import { Navigate } from "react-router-dom";
 import ProgressBar from "react-bootstrap/ProgressBar";
 import "../styles/footerStyle.css";
+import Background from "../img/simple_bg.jpg";
 
 function Exercise() {
   const { topicId } = useParams();
@@ -219,6 +220,14 @@ class ExerciseView extends Component {
       }
     }
     return (
+      <div
+        style={{
+          background: `url(${Background})`,
+          backgroundPosition: "center",
+          width: "100%",
+          height: "100vh",
+        }}
+      >
       <React.Fragment>
         {this.state.isCompleted && <Navigate to={"/home/" + this.state.achievement} replace={true}/>}
         <NavBar />
@@ -251,6 +260,7 @@ class ExerciseView extends Component {
           {this.renderTutorial()}
         </ReflexContainer>
       </React.Fragment>
+      </div>
     );
   }
 }

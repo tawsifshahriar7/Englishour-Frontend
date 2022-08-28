@@ -3,6 +3,7 @@ import "../styles/loginStyle.css";
 import axios from "axios";
 import { Navigate } from "react-router-dom";
 import Cookie from "universal-cookie";
+import Background from "../img/simple_bg.jpg";
 
 class Login extends Component {
   state = { loggedIn: false, error: null };
@@ -33,6 +34,14 @@ class Login extends Component {
   };
   render() {
     return (
+      <div
+        style={{
+          background: `url(${Background})`,
+          backgroundPosition: "center",
+          width: "100%",
+          height: "100vh",
+        }}
+      >
       <React.Fragment>
         {this.state.error && <p>{this.state.error.message}</p>}
         {this.state.loggedIn && <Navigate to="/selection" replace={true} />}
@@ -78,6 +87,7 @@ class Login extends Component {
           </form>
         </div>
       </React.Fragment>
+      </div>
     );
   }
 }

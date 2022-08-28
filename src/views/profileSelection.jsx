@@ -4,6 +4,7 @@ import axios from "axios";
 import { Navigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import Cookie from "universal-cookie";
+import Background from "../img/simple_bg.jpg";
 
 class Selection extends Component {
   state = { selectedProfile: null, list: [] };
@@ -61,6 +62,14 @@ class Selection extends Component {
     ));
 
     return (
+      <div
+        style={{
+          background: `url(${Background})`,
+          backgroundPosition: "center",
+          width: "100%",
+          height: "100vh",
+        }}
+      >
       <React.Fragment>
         {this.state.selectedProfile && <Navigate to="/home" replace={true} />}
         <br />
@@ -90,6 +99,7 @@ class Selection extends Component {
           </Link>
         </div>
       </React.Fragment>
+      </div>
     );
   }
 }

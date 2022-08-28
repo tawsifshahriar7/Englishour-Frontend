@@ -67,6 +67,7 @@ class EntryTestReview extends Component {
   render() {
     return (
       <React.Fragment>
+        <div class="shadow-lg p-3 mt-10 mb-5 bg-white rounded">
         <h3>Entry Test Review</h3>
         <div
           style={{
@@ -76,6 +77,7 @@ class EntryTestReview extends Component {
           }}
         >
           <CircularProgressWithLabel value={this.state.score} />
+        </div>
         </div>
       </React.Fragment>
     );
