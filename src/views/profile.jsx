@@ -24,8 +24,8 @@ class Profile extends Component {
       profile_picture: "",
       current_level: "",
       entryTest: null,
-      achievements: [null],
     },
+    achievements: [],
   };
 
   componentDidMount() {
@@ -57,9 +57,7 @@ class Profile extends Component {
             },
           })
           .then((res) => {
-            this.setState({ achievements: [...res.data] });
-            // console.log(res.data[0].topic_name);
-            console.log(this.state.achievements);
+            this.setState({ achievements: res.data });
           })
           .catch((err) => {
             console.log(err);
@@ -87,11 +85,10 @@ class Profile extends Component {
   };
 
   render() {
-    // let achievementList = this.state.achievements.map((i) => {
-    //   return i;
-    // });
-    // console.log(achievementList);
-
+    const achievementList = this.state.achievements.map((i) => {
+      return <h6>Completed {i}</h6>
+    });
+    
     let dateObj = new Date(this.state.info.dateofBirth);
     let dateString =
       dateObj.getDate() +
@@ -162,7 +159,7 @@ class Profile extends Component {
             <h3>Achievements</h3>
             <ul>
               <li>
-                <h6>Completed {this.state.achievements}</h6>
+                {achievementList}
               </li>
               <li>
                 <h6>Created Profile</h6>
