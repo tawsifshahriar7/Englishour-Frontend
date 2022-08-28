@@ -4,6 +4,9 @@ import PropTypes from "prop-types";
 import CircularProgress from "@mui/material/CircularProgress";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
+import { Button } from "react-bootstrap";
+import axios from "axios";
+import Cookie from "universal-cookie";
 
 function CircularProgressWithLabel(props) {
   return (
@@ -51,7 +54,7 @@ CircularProgressWithLabel.propTypes = {
 };
 
 class EntryTestReview extends Component {
-  state = {};
+  state = { update: null };
 
   componentDidMount() {
     let score = 0;
@@ -60,9 +63,88 @@ class EntryTestReview extends Component {
         score++;
       }
     }
+    let answerList = [];
+    for (let i = 0; i < this.props.list.length; i++) {
+      if (this.props.list[i] === true) {
+        answerList.push("correct");
+      } else {
+        answerList.push("wrong");
+      }
+    }
+    var cookie = new Cookie();
+    axios
+      .post(
+        "http://localhost:8248/user/entryTestSubmission",
+        { results: answerList },
+        {
+          headers: {
+            "x-access-token": cookie.get("x-access-token"),
+            "profile-access-token": cookie.get("profile-access-token"),
+          },
+        }
+      )
+      .then((res) => {
+        console.log(res);
+        this.setState({
+          msg: res.data.suggested_level,
+          score: (score * 100) / this.props.list.length,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
 
-    this.setState({ score: (score * 100) / this.props.list.length });
+    // this.setState({ score: (score * 100) / this.props.list.length });
   }
+
+  handleSelection = (e) => {
+    const selectedLevel = this.state.msg;
+    var cookie = new Cookie();
+    axios
+      .post(
+        "http://localhost:8248/user/setSuggestedLevel",
+        { selectedLevel: selectedLevel },
+        {
+          headers: {
+            "x-access-token": cookie.get("x-access-token"),
+            "profile-access-token": cookie.get("profile-access-token"),
+          },
+        }
+      )
+      .then((res) => {
+        console.log(res);
+        this.setState({
+          update: res.data.message,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  handleRejection = (e) => {
+    // const selectedLevel = this.state.msg;
+    var cookie = new Cookie();
+    axios
+      .post(
+        "http://localhost:8248/user/setSuggestedLevel",
+        { selectedLevel: 1 },
+        {
+          headers: {
+            "x-access-token": cookie.get("x-access-token"),
+            "profile-access-token": cookie.get("profile-access-token"),
+          },
+        }
+      )
+      .then((res) => {
+        console.log(res);
+        this.setState({
+          update: res.data.message,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   render() {
     return (
@@ -77,6 +159,55 @@ class EntryTestReview extends Component {
         >
           <CircularProgressWithLabel value={this.state.score} />
         </div>
+        <br />
+        <br />
+        <h5
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          Suggested Level: {this.state.msg}
+        </h5>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            padding: "10px",
+          }}
+        >
+          <div
+            style={{
+              padding: "10px",
+            }}
+          >
+            <button onClick={this.handleSelection}>
+              Select Suggested Level
+            </button>
+          </div>
+          <div
+            style={{
+              padding: "10px",
+            }}
+          >
+            <button onClick={this.handleRejection}>
+              Reject Suggested Level
+            </button>
+          </div>
+        </div>
+        <br />
+        <h6
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            padding: "10px",
+          }}
+        >
+          {this.state.update}
+        </h6>
       </React.Fragment>
     );
   }

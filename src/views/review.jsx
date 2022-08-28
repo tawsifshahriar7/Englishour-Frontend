@@ -4,6 +4,8 @@ import PropTypes from "prop-types";
 import CircularProgress from "@mui/material/CircularProgress";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
+import axios from "axios";
+import Cookie from "universal-cookie";
 
 function CircularProgressWithLabel(props) {
   return (
@@ -51,7 +53,7 @@ CircularProgressWithLabel.propTypes = {
 };
 
 class Review extends Component {
-  state = {};
+  state = { msg: null };
 
   componentDidMount() {
     let score = 0;
@@ -60,8 +62,36 @@ class Review extends Component {
         score++;
       }
     }
-
-    this.setState({ score: (score * 100) / this.props.list.length });
+    let answerList = [];
+    for (let i = 0; i < this.props.list.length; i++) {
+      if (this.props.list[i] === true) {
+        answerList.push("correct");
+      } else {
+        answerList.push("wrong");
+      }
+    }
+    var cookie = new Cookie();
+    axios
+      .post(
+        "http://localhost:8248/user/testSubmission",
+        { results: answerList },
+        {
+          headers: {
+            "x-access-token": cookie.get("x-access-token"),
+            "profile-access-token": cookie.get("profile-access-token"),
+          },
+        }
+      )
+      .then((res) => {
+        console.log(res);
+        this.setState({
+          msg: res.data.message,
+          score: (score * 100) / this.props.list.length,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   render() {
@@ -77,6 +107,17 @@ class Review extends Component {
         >
           <CircularProgressWithLabel value={this.state.score} />
         </div>
+        <br />
+        <br />
+        <h5
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          {this.state.msg}
+        </h5>
       </React.Fragment>
     );
   }
