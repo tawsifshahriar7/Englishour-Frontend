@@ -109,10 +109,6 @@ class ExerciseView extends Component {
       }
     }
     if (completeStatus === true) {
-      this.setState({
-        isCompleted: true,
-      });
-
       var cookie = new Cookie();
     axios
       .post(
@@ -128,11 +124,10 @@ class ExerciseView extends Component {
         }
       )
       .then((res) => {
-        if(res.data.message === "Topic added"){
-            this.setState({
-                achievement: true,
-            });
-        }
+          this.setState({
+              isCompleted: true,
+              achievement: true,
+          });
       })
       .catch((err) => {
         console.log(err);
@@ -225,7 +220,7 @@ class ExerciseView extends Component {
     }
     return (
       <React.Fragment>
-        {this.state.isCompleted && <Navigate to="/" replace={true} state={{ data: this.state.achievement }} />}
+        {this.state.isCompleted && <Navigate to={"/home/" + this.state.achievement} replace={true}/>}
         <NavBar />
         <br />
         <div className="container">
