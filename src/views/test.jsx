@@ -109,6 +109,9 @@ class TestView extends Component {
     if (result === "correct") {
       newStatus[this.state.current_exercise_index] = true;
     }
+    this.setState({
+      solved_status: newStatus,
+    });
     // console.log(newStatus);
     // if (
     //   this.state.current_exercise_index ===
@@ -181,7 +184,7 @@ class TestView extends Component {
       }
     }
     if (this.state.isCompleted) {
-      exercise = <Review />;
+      exercise = <Review list={this.state.solved_status} />;
     }
     return (
       <React.Fragment>
