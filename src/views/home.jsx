@@ -12,7 +12,7 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid } from "recharts";
 import { BarChart, Bar } from "recharts";
 import trophy from "../img/trophy.png";
 import Footer from "../components/footer/footer";
-import Background from "../img/test_bg.gif";
+import Background from "../img/simple_bg.jpg";
 import Cookie from "universal-cookie";
 import { Legend } from "chart.js";
 import { Link } from "react-router-dom";
