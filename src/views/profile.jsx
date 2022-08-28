@@ -105,47 +105,47 @@ class Profile extends Component {
           height: "100vh",
         }}
       >
-      <React.Fragment>
-        <NavBar isLoggedIn={this.props.isLoggedIn} />
-        <div class="shadow-lg p-3 mt-10 mb-5 bg-white rounded">
-        <Container>
-          <div className="profile-container">
-            <div className="profile-header">
-              <div className="profile-header-left">
-                <br />
-                <br />
-                <img
-                  src={this.state.info.profile_picture}
-                  alt="profile"
-                  className="profile-pic"
-                  height={100}
-                  width={100}
-                  onError={(e) => {
-                    e.target.src = avatar;
-                  }}
-                />
-                <div className="profile-info">
-                  <h2>
-                    {this.state.info.first_name} {this.state.info.last_name}
-                  </h2>
-                  <h6>Date of Birth: {dateString}</h6>
-                  <h6>Institution: {this.state.info.institution}</h6>
-                  <h6>Class: {this.state.info.class}</h6>
-                  <h6>Current Level: {this.state.info.current_level}</h6>
+        <React.Fragment>
+          <NavBar isLoggedIn={this.props.isLoggedIn} />
+          <div class="shadow-lg p-3 mt-10 mb-5 bg-white rounded">
+            <Container>
+              <div className="profile-container">
+                <div className="profile-header">
+                  <div className="profile-header-left">
+                    <br />
+                    <br />
+                    <img
+                      src={this.state.info.profile_picture}
+                      alt="profile"
+                      className="profile-pic"
+                      height={100}
+                      width={100}
+                      onError={(e) => {
+                        e.target.src = avatar;
+                      }}
+                    />
+                    <div className="profile-info">
+                      <h2>
+                        {this.state.info.first_name} {this.state.info.last_name}
+                      </h2>
+                      <h6>Date of Birth: {dateString}</h6>
+                      <h6>Institution: {this.state.info.institution}</h6>
+                      <h6>Class: {this.state.info.class}</h6>
+                      <h6>Current Level: {this.state.info.current_level}</h6>
+                    </div>
+                  </div>
                 </div>
+                <Link to="/updateprofile">
+                  <button>Edit Profile</button>
+                </Link>
+                <br />
+                <br />
+                {!this.state.info.entryTest ? (
+                  <Link to="/entrytest">
+                    <Button variant="dark">Take Entry Test</Button>
+                  </Link>
+                ) : null}
               </div>
-            </div>
-            <Link to="/updateprofile">
-              <button>Edit Profile</button>
-            </Link>
-            <br />
-            <br />
-            {!this.state.info.entryTest ? (
-              <Link to="/entrytest">
-                <Button variant="dark">Take Entry Test</Button>
-              </Link>
-            ) : null}
-          </div>
           <br />
           <br />
           <div
